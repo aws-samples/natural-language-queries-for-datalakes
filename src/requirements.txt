@@ -1,6 +1,6 @@
 streamlit==1.33.0
 boto3==1.33.11
 streamlit-cognito-auth==1.2.0
-faiss-cpu==1.7.4
+faiss-cpu==1.8.0
 sqlalchemy==2.0.21
 langchain==0.1.16
