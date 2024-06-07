@@ -58,8 +58,19 @@ tracking cookies.
 Start by pressing the **Index Business Data Catalog** button. This needs to be 
 done only once.
 
-5. Ask a question to Data Genie. Try for example "List 5 products and the name
+5. Ask a question to Data Genie, for example "List 5 products and the name
 of their supplier".
+
+Example questions that you can ask:
+
+* For Northwhind database:
+  * List 5 products and the name of their supplier
+  * List 5 customers who bought products from suppliers in France. Give their names, which product and qty ordered
+  * What are the top three categories in terms of number of orders?
+* For Chinook database:
+  * What albums contain songs which title contains the word free? Give album name, song name and who is the singer.
+  * Which are the top 3 songs, present in the greatest number of playlists?
+  * What is the shortest song? What is its duration? Who is the artist?
 
 #### Running Data Genie from the Command Line
 
