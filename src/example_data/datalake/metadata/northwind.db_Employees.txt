@@ -1,0 +1,22 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="Employees">
+- Description: Information about employees of the company.
+- Data:
+-- LastName: Last name of the employee
+-- FirstName: First name of the employee
+-- Title: Job title of the employee
+-- TitleOfCourtesy: Courtesy title (e.g., Mr., Mrs.) for the employee
+-- BirthDate: Date of birth of the employee
+-- HireDate: Date when the employee was hired
+-- Address: Street address of the employee
+-- City: City where the employee lives
+-- Region: Regional area where the employee lives
+-- PostalCode: Postal code of the employee's address
+-- Country: Country where the employee lives
+-- HomePhone: Home phone number of the employee
+-- Extension: Phone extension number of the employee
+-- Photo: Binary image data of the employee's photo
+-- Notes: Additional notes or comments about the employee
+-- PhotoPath: File path to the employee's photo
+- Relationships:
+-- (Employees.ReportsTo → Employees.EmployeeID) - Table containing information about the employee's manager
+</METADATA>

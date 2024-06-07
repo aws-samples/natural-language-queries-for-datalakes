@@ -1,0 +1,7 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="Territories">
+- Description: Geographic territories for sales and distribution.
+- Data:
+-- TerritoryDescription: Description of the geographic territory
+- Relationships:
+-- (Territories.RegionID → Regions.RegionID) - Table containing region information
+</METADATA>

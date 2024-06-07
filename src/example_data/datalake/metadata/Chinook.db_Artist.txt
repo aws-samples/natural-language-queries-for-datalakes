@@ -1,0 +1,5 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="Artist">
+- Description: Contains information about music artists.
+- Data:
+-- Name: The name of the artist
+</METADATA>

@@ -1,0 +1,6 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="CustomerDemographics">
+- Description: Types of customer demographics.
+- Data:
+-- CustomerTypeID: Unique identifier for the customer demographic type
+-- CustomerDesc: Description of the customer demographic type
+</METADATA>

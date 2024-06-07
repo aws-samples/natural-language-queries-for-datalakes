@@ -1,0 +1,8 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="EmployeeTerritories">
+- Description: Mapping table between employees and territories they are responsible for.
+- Data:
+-- (No business data columns)
+- Relationships:
+-- (EmployeeTerritories.EmployeeID → Employees.EmployeeID) - Table containing employee information
+-- (EmployeeTerritories.TerritoryID → Territories.TerritoryID) - Table containing territory information
+</METADATA>

@@ -1,0 +1,15 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="Suppliers">
+- Description: Information about suppliers of products.
+- Data:
+-- CompanyName: Name of the supplier company
+-- ContactName: Name of the contact person at the supplier
+-- ContactTitle: Job title of the contact person
+-- Address: Street address of the supplier
+-- City: City where the supplier is located
+-- Region: Regional area where the supplier is located
+-- PostalCode: Postal code of the supplier's address
+-- Country: Country where the supplier is located
+-- Phone: Phone number of the supplier
+-- Fax: Fax number of the supplier
+-- HomePage: Website URL of the supplier
+</METADATA>

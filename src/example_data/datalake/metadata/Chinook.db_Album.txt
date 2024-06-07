@@ -1,0 +1,8 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="Album">
+- Description: Contains information about music albums.
+- Data:
+-- Title: The name or title of the album
+-- ArtistId: The unique identifier of the artist who created the album
+- Relationships:
+-- (Album.ArtistId → Artist.ArtistId) - Table containing information about the artists
+</METADATA>

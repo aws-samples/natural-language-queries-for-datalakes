@@ -1,0 +1,5 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="Genre">
+- Description: Contains information about music genres.
+- Data:
+-- Name: The name of the music genre
+</METADATA>

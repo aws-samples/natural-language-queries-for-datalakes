@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="InvoiceLine">
+- Description: Contains information about the individual items or tracks included in an invoice.
+- Data:
+-- InvoiceId: The unique identifier of the invoice
+-- TrackId: The unique identifier of the track or item purchased
+-- UnitPrice: The price of a single unit of the track
+-- Quantity: The quantity of the track purchased
+- Relationships:
+-- (InvoiceLine.InvoiceId → Invoice.InvoiceId) - Table containing information about invoices
+-- (InvoiceLine.TrackId → Track.TrackId) - Table containing information about tracks or items
+</METADATA>

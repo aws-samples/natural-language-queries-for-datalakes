@@ -1,0 +1,8 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="CustomerCustomerDemo">
+- Description: Mapping table between customers and customer demographics.
+- Data:
+-- (No business data columns)
+- Relationships:
+-- (CustomerCustomerDemo.CustomerID → Customers.CustomerID) - Table containing customer information
+-- (CustomerCustomerDemo.CustomerTypeID → CustomerDemographics.CustomerTypeID) - Table containing customer demographic information
+</METADATA>

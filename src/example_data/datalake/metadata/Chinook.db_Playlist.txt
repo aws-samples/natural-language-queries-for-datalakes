@@ -1,0 +1,5 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="Playlist">
+- Description: Contains information about playlists of music tracks.
+- Data:
+-- Name: The name of the playlist
+</METADATA>

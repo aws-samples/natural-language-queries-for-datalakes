@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="Invoice">
+- Description: Contains information about customer invoices or orders.
+- Data:
+-- CustomerId: The unique identifier of the customer who placed the order
+-- InvoiceDate: The date the invoice was created
+-- BillingAddress: The billing address for the invoice
+-- BillingCity: The city of the billing address
+-- BillingState: The state or province of the billing address
+-- BillingCountry: The country of the billing address
+-- BillingPostalCode: The postal code or zip code of the billing address
+-- Total: The total amount of the invoice
+- Relationships:
+-- (Invoice.CustomerId → Customer.CustomerId) - Table containing information about customers
+</METADATA>

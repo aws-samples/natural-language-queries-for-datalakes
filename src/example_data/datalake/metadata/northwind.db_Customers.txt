@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="Customers">
+- Description: Information about customers who purchase products.
+- Data:
+-- CompanyName: Name of the customer's company
+-- ContactName: Name of the contact person at the customer's company
+-- ContactTitle: Job title of the contact person
+-- Address: Street address of the customer
+-- City: City where the customer is located
+-- Region: Regional area where the customer is located
+-- PostalCode: Postal code of the customer's address
+-- Country: Country where the customer is located
+-- Phone: Phone number of the customer
+-- Fax: Fax number of the customer
+</METADATA>

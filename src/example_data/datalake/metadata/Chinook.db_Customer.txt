@@ -1,0 +1,18 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="Customer">
+- Description: Contains information about customers who purchase music.
+- Data:
+-- FirstName: The first name of the customer
+-- LastName: The last name of the customer
+-- Company: The company name, if the customer is a business
+-- Address: The street address of the customer
+-- City: The city where the customer is located
+-- State: The state or province where the customer is located
+-- Country: The country where the customer is located
+-- PostalCode: The postal code or zip code of the customer's address
+-- Phone: The phone number of the customer
+-- Fax: The fax number of the customer
+-- Email: The email address of the customer
+-- SupportRepId: The unique identifier of the employee who provides support to the customer
+- Relationships:
+-- (Customer.SupportRepId → Employee.EmployeeId) - Table containing information about employees
+</METADATA>

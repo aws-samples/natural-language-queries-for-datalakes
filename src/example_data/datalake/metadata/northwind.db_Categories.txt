@@ -1,0 +1,7 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="Categories">
+- Description: Categories for grouping and classifying products.
+- Data:
+-- CategoryName: Name of the product category
+-- Description: Detailed description of the product category
+-- Picture: Binary image data representing the category
+</METADATA>

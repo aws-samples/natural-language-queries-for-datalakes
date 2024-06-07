@@ -1,0 +1,16 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="Track">
+- Description: Contains information about individual music tracks or items.
+- Data:
+-- Name: The name or title of the track
+-- AlbumId: The unique identifier of the album the track belongs to
+-- MediaTypeId: The unique identifier of the media type of the track
+-- GenreId: The unique identifier of the genre of the track
+-- Composer: The name of the composer of the track
+-- Milliseconds: The duration of the track in milliseconds
+-- Bytes: The file size of the track in bytes
+-- UnitPrice: The price of a single unit of the track
+- Relationships:
+-- (Track.AlbumId → Album.AlbumId) - Table containing information about albums
+-- (Track.GenreId → Genre.GenreId) - Table containing information about genres
+-- (Track.MediaTypeId → MediaType.MediaTypeId) - Table containing information about media types
+</METADATA>

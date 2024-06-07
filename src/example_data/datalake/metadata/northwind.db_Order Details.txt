@@ -1,0 +1,10 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="Order Details">
+- Description: Details of products ordered, including quantities and prices.
+- Data:
+-- UnitPrice: Price per unit of the product
+-- Quantity: Quantity of the product ordered
+-- Discount: Discount percentage applied to the product
+- Relationships:
+-- (Order Details.OrderID → Orders.OrderID) - Table containing order information
+-- (Order Details.ProductID → Products.ProductID) - Table containing product information
+</METADATA>

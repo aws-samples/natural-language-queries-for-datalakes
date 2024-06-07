@@ -1,0 +1,6 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="Shippers">
+- Description: Information about shipping companies used for order deliveries.
+- Data:
+-- CompanyName: Name of the shipping company
+-- Phone: Phone number of the shipping company
+</METADATA>

@@ -1,0 +1,21 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="Orders">
+- Description: Information about customer orders.
+- Data:
+-- CustomerID: Unique identifier of the customer who placed the order
+-- EmployeeID: Unique identifier of the employee who processed the order
+-- OrderDate: Date when the order was placed
+-- RequiredDate: Date when the order is required to be delivered
+-- ShippedDate: Date when the order was shipped
+-- ShipVia: Unique identifier of the shipper used for the order
+-- Freight: Shipping cost for the order
+-- ShipName: Name of the recipient for the shipment
+-- ShipAddress: Street address for the shipment
+-- ShipCity: City for the shipment
+-- ShipRegion: Regional area for the shipment
+-- ShipPostalCode: Postal code for the shipment
+-- ShipCountry: Country for the shipment
+- Relationships:
+-- (Orders.EmployeeID → Employees.EmployeeID) - Table containing employee information
+-- (Orders.CustomerID → Customers.CustomerID) - Table containing customer information
+-- (Orders.ShipVia → Shippers.ShipperID) - Table containing shipper information
+</METADATA>

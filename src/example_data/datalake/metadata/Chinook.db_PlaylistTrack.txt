@@ -1,0 +1,9 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="PlaylistTrack">
+- Description: Contains information about the tracks included in a playlist.
+- Data:
+-- PlaylistId: The unique identifier of the playlist
+-- TrackId: The unique identifier of the track included in the playlist
+- Relationships:
+-- (PlaylistTrack.PlaylistId → Playlist.PlaylistId) - Table containing information about playlists
+-- (PlaylistTrack.TrackId → Track.TrackId) - Table containing information about tracks
+</METADATA>

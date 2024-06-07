@@ -1,0 +1,20 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="Employee">
+- Description: Contains information about employees of the company.
+- Data:
+-- LastName: The last name of the employee
+-- FirstName: The first name of the employee
+-- Title: The job title of the employee
+-- ReportsTo: The unique identifier of the employee's manager
+-- BirthDate: The date of birth of the employee
+-- HireDate: The date the employee was hired
+-- Address: The street address of the employee
+-- City: The city where the employee is located
+-- State: The state or province where the employee is located
+-- Country: The country where the employee is located
+-- PostalCode: The postal code or zip code of the employee's address
+-- Phone: The phone number of the employee
+-- Fax: The fax number of the employee
+-- Email: The email address of the employee
+- Relationships:
+-- (Employee.ReportsTo → Employee.EmployeeId) - Self-referencing relationship for employee hierarchy
+</METADATA>

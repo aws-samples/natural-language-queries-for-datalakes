@@ -1,0 +1,12 @@
+*.pyc
+__pycache__
+.ipynb_checkpoints
+dependencies
+tmp
+database
+sandbox.py
+.env
+deploy.sh
+.venv/
+cdk.out
+.DS_Store

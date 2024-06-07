@@ -1,0 +1,5 @@
+<METADATA CHANNEL="sqlite" DATABASE="Chinook.db" TABLE="MediaType">
+- Description: Contains information about different types of media formats.
+- Data:
+-- Name: The name of the media type (e.g., MPEG audio file, AAC audio file)
+</METADATA>

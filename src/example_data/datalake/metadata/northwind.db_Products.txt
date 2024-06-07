@@ -1,0 +1,16 @@
+<METADATA CHANNEL="sqlite" DATABASE="northwind.db" TABLE="Products">
+- Description: Information about products sold by the company.
+- Data:
+-- ProductName: Name of the product
+-- SupplierID: Unique identifier of the supplier for the product
+-- CategoryID: Unique identifier of the category for the product
+-- QuantityPerUnit: Quantity per unit of measurement for the product
+-- UnitPrice: Price per unit of the product
+-- UnitsInStock: Current quantity of the product in stock
+-- UnitsOnOrder: Quantity of the product currently on order
+-- ReorderLevel: Minimum quantity of the product to trigger a reorder
+-- Discontinued: Flag indicating whether the product is discontinued (1) or not (0)
+- Relationships:
+-- (Products.CategoryID → Categories.CategoryID) - Table containing category information
+-- (Products.SupplierID → Suppliers.SupplierID) - Table containing supplier information
+</METADATA>
