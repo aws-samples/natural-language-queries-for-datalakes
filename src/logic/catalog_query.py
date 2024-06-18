@@ -1,8 +1,10 @@
+import ast
 import os 
 import json
 import boto3
-from langchain_community.document_loaders import TextLoader, DirectoryLoader
+import pathlib
 from langchain_community.vectorstores import FAISS
+from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain.indexes.vectorstore import VectorStoreIndexWrapper
 from utils.bcolors import Bcolors
 from logic.config import dgConfig
@@ -88,148 +90,218 @@ class CatalogQuery():
         s = s.replace("</database>", "")
         s = s.replace("<tables>", "- Tables: **")
         s = s.replace("</tables>", "**")
-        s = s.replace("<additional_required_tables>", "- Additional required tables: ")
-        s = s.replace("</additional_required_tables>", "")
-        s = s.replace("<need_more_info>", "- Need more info: ")
-        s = s.replace("</need_more_info>", "")
         s = s.replace("<explanation>", "\n##### Explanation: \n")
         s = s.replace("</explanation>", "\n")
+        s = s.replace("\n---", "")
 
         return s
+       
+    def _split_question_for_table_search(self, query, display_response="", message_placeholder=None):
+        prompt = f"""You are a data anlytics expert.
+Given an input question, we want to generate a SQL query to answer this question.
+But before doing that, we want to find the required tables. We may need to perform some joins, so we need to find all the tables that are needed.
+We are going to perform a vector search in the data catalog to find the tables.
+Your task is to create an comprehensive list of questions that we will ask to the data catalog.
+Each question must be about a table that you think will be needed.
+Each question must contain enough context, because our data catalog could contain similar tables in different databases for different contexts.
 
-    def _recursive_table_selection(self, query, display_response="", message_placeholder=None, str_data_catalog="", tables=[], database="", depth=0):
-        MAX_DEPTH = 5
-        if depth >= MAX_DEPTH:
-            # If we reach the maximum depth, stop the recursion
-            channel, database, tables, formatted_metadata, display_text = None, None, None, None, display_response
-        else:
-            # Max depth not reached, continue the recursion
-            if str_data_catalog == "":
-                # If we don't have a string data catalog in input, create one by getting the data catalog for each table
-                catalog_for_each_table = [self.find_relevant_metadata(f"DATABASE=\"{database}\" TABLE=\"{table}\"", k=1) for table in tables]
-                docs_only = [docs for docs, score in catalog_for_each_table]
-                formatted_metadata = [self._format_metadata(doc) for doc in docs_only]
-                str_data_catalog = "\n\n".join(formatted_metadata)
-            
-            prompt = f"""\n\nHuman: Given an input question, we want to generate a SQL query to answer this question.
-            But before doing that, we want to find the required tables. We have already pre-selected some tables that may be needed.
-            Your task is to select, amongst these tables, the ones that are needed to answer the question, and the ones that may be missing.
-            If you do not have enough information about the database schema, give the best answer, try to guess which additional tables would be required, and tell that you need more info.
-    
-            Business data catalog information about the pre-selected table are given in <tabledesc> tags.
-            The input question is given in <question> tags.
-            
-            <tabledesc>{str_data_catalog}</tabledesc>
-            <question>{query}</question>
-            
-            Give your answer in the following format:
-            <answer><channel>postgresql</channel><database>database name</database><tables>["table_1", "table_2", and so on...]</tables>
-            <additional_required_tables>["required table 1", "required table 2", and so on...]</additional_required_tables>
-            <need_more_info>YES or NO</need_more_info>
-            <explanation>explanation of your answer</explanation></answer>
-                  
-            \n\nAssistant:
-            """
-    
-            print("\nPrompt for join tables search:")
-            print(Bcolors.OKGREEN + prompt + Bcolors.ENDC)
-            
-            header = f"### Step 1.b: Join tables search - Iteration {depth}\n"
-            
-            previous_display = display_response
-            def concatenate_texts(s):
-                return previous_display + header + s
-    
-            def callback(completion):
-                s = self._format_output(completion)
-                if message_placeholder is not None:
-                    message_placeholder.markdown(concatenate_texts(s) + "▌")
-    
-            generated_text = self.language_model.invoke_with_stream_callback(prompt, callback)
-    
-            display_text = concatenate_texts(self._format_output(generated_text))
+<question>{query}</question>
+
+Give your answer in the following format:
+<answer>
+Your first question here
+---
+Your second question here
+---
+Your third question here
+...
+</answer>
+        """
+
+        print("\nPrompt for question split:")
+        print(Bcolors.OKGREEN + prompt + Bcolors.ENDC)
         
-            answer = generated_text.split("<answer>")[1].split("</answer>")[0]
-            if "--NA--" not in answer:
-                channel = answer.split("<channel>")[1].split("</channel>")[0]
-                database = answer.split("<database>")[1].split("</database>")[0]
-                new_tables = json.loads(answer.split("<tables>")[1].split("</tables>")[0])
-                additional_required_tables = json.loads(answer.split("<additional_required_tables>")[1].split("</additional_required_tables>")[0])
-                need_more_info = answer.split("<need_more_info>")[1].split("</need_more_info>")[0]
-                explanation = answer.split("<explanation>")[1].split("</explanation>")[0]
+        header = f"### Step 1.b: Split question for table search\n\n"
+        
+        previous_display = display_response
+        def concatenate_texts(s):
+            return previous_display + header + s
+
+        def callback(completion):
+            s = self._format_output(completion)
+            if message_placeholder is not None:
+                message_placeholder.markdown(concatenate_texts(s) + "▌")
+
+        generated_text = self.language_model.invoke_with_stream_callback(prompt, callback)
+
+        display_text = concatenate_texts(self._format_output(generated_text))
     
-                # Check if we have found the answer
-                # Conditions: tables found are equal to the tables given in input (recursion has converged), and no ask for more info from the LLM
-                if set(tables) == set(new_tables) and need_more_info == "NO":
-                    print("Answer found!")
-                    print("Channel: ", channel)
-                    print("Database: ", database)
-                    print("Tables: ", tables)
-                    print("Need more info: ", need_more_info)
-                    print("Explanation: ", explanation)
-                else:
-                    # New recursion
-                    return self._recursive_table_selection(
-                        query,
-                        display_response=display_text,
-                        message_placeholder=message_placeholder,
-                        str_data_catalog="",
-                        tables=new_tables + additional_required_tables,
-                        database=database,
-                        depth=depth + 1
-                    )
-            else:
-                channel, database, tables, formatted_metadata = None, None, None, None
-            return {
-                'channel': channel,
-                'database': database,
-                'table': new_tables,
-                'document': formatted_metadata,
-                'display_response': display_text,
-            }
-      
+        answer = generated_text.split("<answer>")[1].split("</answer>")[0]
+        question_list = answer.split("---")
+        # Trim question_list and remove empty questions
+        question_list = [question.strip() for question in question_list if question.strip()]
+        return question_list, display_text
+    
+    def _get_channel_name_from_metadata_document(self, document):
+        """
+        Get the channel name from the metadata document.
+        """
+        channel_name = document.split("CHANNEL=\"")[1].split("\"")[0]
+        return channel_name
+
+    def _get_database_name_from_metadata_document(self, document):
+        """
+        Get the database name from the metadata document.
+        """
+        database_name = document.split("DATABASE=\"")[1].split("\"")[0]
+        return database_name    
+
+    def _get_table_name_from_metadata_document(self, document):
+        """
+        Get the table name from the metadata document.
+        """
+        table_name = document.split("TABLE=\"")[1].split("\"")[0]
+        return table_name    
+
+    def _find_database_from_question(self, query):
+        """
+        Find the database from the question.
+        """
+        
+        relevant_metadata, scores = self.find_relevant_metadata(query, k=1)
+
+        # Extract database name, knowing that it is in the relevant_metadata string in the following format: <DATABASE=\"{database}\" TABLE=\"{table}\"...
+        database = self._get_database_name_from_metadata_document(relevant_metadata[0].page_content)
+
+        return database
+
+    def _vectorsearch_from_questions(self, query, question_list, database, display_response="", message_placeholder=None):
+        """
+        Perform vector search on the list of questions to find the tables.
+        """
+        result_list = []
+
+        header = f"### Step 1.c: Table search\n\n"
+        display = display_response + header
+
+        # Add original query to question list
+        question_list.append(query)
+
+        # Query vector database for each question
+        for question in question_list:
+            # Add database name to the question
+            extended_question = f"DATABASE={database}\n Question: {question}"
+
+            result, _ = self.find_relevant_metadata(extended_question, k=3)
+            new_display = "**For question:** " + question + "\\\n"
+            new_display += "**Potential tables are:** "
+
+            table_names_list = []
+            for r in result:
+                document = r.page_content
+                result_list.append(document)
+                table_names_list.append(self._get_table_name_from_metadata_document(document))
+            
+            new_display += ", ".join(table_names_list) + "."
+
+            print(new_display)
+
+            display += new_display + "\n\n"
+
+            if message_placeholder is not None:
+                message_placeholder.markdown(display + "▌")
+
+        result_set = set(result_list)
+        return result_set, display
+
+
+    def _get_tables_list(self, datacatalog_documents, display_response="", message_placeholder=None):
+
+        # Get database name
+        database = self._get_database_name_from_metadata_document(list(datacatalog_documents)[0])
+
+        # Get list of tables
+        required_tables = [self._get_table_name_from_metadata_document(document) for document in datacatalog_documents]
+
+        # display result
+        header = f"#### Database and list of tables found\n\n"
+        display = display_response + header
+        new_display = f"Database: {database}\\\n"
+        new_display += f"List of tables: {required_tables}\n\n"
+        print(new_display)
+        display += new_display
+        if message_placeholder:
+            message_placeholder.markdown(display + "▌")
+    
+        return required_tables, display
+   
     #define a function that infers the channel/database/table and sets the database for querying
     def query_catalog(self, query, message_placeholder=None):
-        
-        # This new version of query_catalog is implemented only with LLM
-        # TODO: replace it with vector search / graph search
-        
+
         print()
         print("******************* STEP 1.a *********************")
         print("*                                                *")
-        print("*         Catalog Query | Vector search          *")
+        print("*                  Catalog Query                 *")
+        print("*             Find relevant database             *")
         print("*                                                *")
         print("**************************************************")
         print()
         
-        relevant_metadata, scores = self.find_relevant_metadata(query)
-        formatted_relevant_metadata = self._format_metadata(relevant_metadata)
+        # Split the question into multiple questions
+        database = self._find_database_from_question(query)
         
-        print("Relevant metadata documents:\n")
-        for i, elt in enumerate(relevant_metadata):
-            print("Proximity score: ", scores[i])
-            print(elt.page_content)
-            print()
+        print("\nDatabase found: ", database)
 
         display_response = f"""### Step 1.a - Table search
-**Table description documents retrieved by the vector search:** \n\n```\n{formatted_relevant_metadata}\n```\n\n"""
-        
+**Database found:** \n\n```\n{database}\n```\n\n"""
         if message_placeholder is not None:
             message_placeholder.markdown(display_response + "▌")
-
 
         print()
         print("******************* STEP 1.b *********************")
         print("*                                                *")
-        print("*         Catalog Query | Join tables search     *")
+        print("*                  Catalog Query                 *")
+        print("*         Split question for table search        *")
         print("*                                                *")
         print("**************************************************")
         print()
+        
+        # Split the question into multiple questions
+        question_list, display_response = self._split_question_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
 
-        return self._recursive_table_selection(
-            query,
-            display_response=display_response,
-            message_placeholder=message_placeholder,
-            str_data_catalog=formatted_relevant_metadata,
-            tables=[]
-        )
+        print("Question list: ")
+        print(question_list)
+
+        print()
+        print("******************* STEP 1.c *********************")
+        print("*                                                *")
+        print("*                  Catalog Query                 *")
+        print("*         Vector search to find tables           *")
+        print("*                                                *")
+        print("**************************************************")
+        print()
+        
+        # Perform vector search on the list of questions to find the tables
+        datacatalog_documents, display_response = self._vectorsearch_from_questions(query, question_list, database=database, display_response=display_response, message_placeholder=message_placeholder)
+      
+        # Extract list of tables and database name from previous results
+        result_list, display_response = self._get_tables_list(datacatalog_documents, display_response=display_response, message_placeholder=message_placeholder)
+
+        ##################################
+        # Prepare result for the next step
+        ##################################
+        # Get data catalog document for each table
+        catalog_for_each_table = [self.find_relevant_metadata(f"DATABASE=\"{database}\" TABLE=\"{table}\"", k=1) for table in result_list]
+        catalog_for_each_table = [elt[0].page_content for elt, _ in catalog_for_each_table]
+        # Get channel
+        channel = self._get_channel_name_from_metadata_document(catalog_for_each_table[0])
+
+        return {
+            'channel': channel,
+            'database': database,
+            'table': result_list,
+            'document': catalog_for_each_table,
+            'display_response': display_response,
+        }
+
+        return None
