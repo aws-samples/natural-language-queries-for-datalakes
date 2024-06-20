@@ -1,5 +1,6 @@
 import ast
 import os 
+import re 
 import json
 import boto3
 import pathlib
@@ -96,26 +97,69 @@ class CatalogQuery():
 
         return s
        
+
+    def stripTag(self, text, tag):
+        text = re.sub(f"\n","<BR>",text)
+        text = re.sub(f"^.*<{tag}>","",text)
+        text = re.sub(f"<\/{tag}>.*$","",text)
+        text = re.sub(f"<BR>","\n",text)
+        return text
+    
+    
     def _split_question_for_table_search(self, query, display_response="", message_placeholder=None):
-        prompt = f"""You are a data anlytics expert.
-Given an input question, we want to generate a SQL query to answer this question.
-But before doing that, we want to find the required tables. We may need to perform some joins, so we need to find all the tables that are needed.
-We are going to perform a vector search in the data catalog to find the tables.
-Your task is to create an comprehensive list of questions that we will ask to the data catalog.
-Each question must be about a table that you think will be needed.
-Each question must contain enough context, because our data catalog could contain similar tables in different databases for different contexts.
+#         prompt = f"""You are a data anlytics expert.
+# Given an input question, we want to generate a SQL query to answer this question.
+# But before doing that, we want to find the required tables. We may need to perform some joins, so we need to find all the tables that are needed.
+# We are going to perform a vector search in the data catalog to find the tables.
+# Your task is to create an comprehensive list of questions that we will ask to the data catalog.
+# Each question must be about a table that you think will be needed.
+# Each question must contain enough context, because our data catalog could contain similar tables in different databases for different contexts.
 
-<question>{query}</question>
+# <question>{query}</question>
 
-Give your answer in the following format:
-<answer>
-Your first question here
----
-Your second question here
----
-Your third question here
-...
-</answer>
+# Give your answer in the following format:
+# <answer>
+# Your first question here
+# ---
+# Your second question here
+# ---
+# Your third question here
+# ...
+# </answer>
+#         """
+
+        databases = [
+            {"name": "Chinook.db", "description": "Music database describing albums, tracks, artists, playlists and purchases", "tables": ["Album", "Artist", "Customer", "Employee", "Genre", "Invoice", "InvoiceLine", "MediaType", "Playlist", "PlaylistTrack", "Track"]},
+            {"name": "financial.db", "description": "Financial daabase describing fixed income underwriting records", "tables": ["AUDBDLNK", "AUDRPT", "BDINF", "BDRGMAP", "BDRLNK", "BDTLRPT", "BKRTBL", "CLRLNK", "CLRNGMBR", "CPTBL", "CTRDTL", "CUSTTBL", "EXCPTBL", "EXCPTRLN", "FLDMST", "RGLTRY", "RLSTBL", "TRDCTRLNK", "TRDCUST", "TRDRLNK", "TRDTBL"]},
+            {"name": "northwind.db", "description": "Retail shop database describing retail inventory items, orders, customers and suppliers", "tables": ["Categories", "CustomerCustomerDemo", "CustomerDemographics", "Customers", "EmployeeTerritories", "Employees", "Order Details", "Orders", "Products", "Regions", "Shippers", "Suppliers", "Territories"]},
+            {"name": "sportsdb.db", "description": "Sports database describing teams, players, game statistics, and sports betting", "tables": ["addresses", "affiliation_phases", "affiliations", "affiliations_documents", "affiliations_events", "affiliations_media", "american_football_action_participants", "american_football_action_plays", "american_football_defensive_stats", "american_football_down_progress_stats", "american_football_event_states", "american_football_fumbles_stats", "american_football_offensive_stats", "american_football_passing_stats", "american_football_penalties_stats", "american_football_rushing_stats", "american_football_sacks_against_stats", "american_football_scoring_stats", "american_football_special_teams_stats", "baseball_action_contact_details", "baseball_action_pitches", "baseball_action_plays", "baseball_action_substitutions", "baseball_defensive_group", "baseball_defensive_players", "baseball_defensive_stats", "baseball_event_states", "baseball_offensive_stats", "baseball_pitching_stats", "basketball_defensive_stats", "basketball_event_states", "basketball_offensive_stats", "basketball_rebounding_stats", "basketball_team_stats", "bookmakers", "core_person_stats", "core_stats", "db_info", "display_names", "document_classes", "document_contents", "document_fixtures", "document_fixtures_events", "document_package_entry", "document_packages", "documents", "documents_media", "events", "events_documents", "events_media", "events_sub_seasons", "ice_hockey_action_participants", "ice_hockey_action_plays", "ice_hockey_defensive_stats", "ice_hockey_event_states", "ice_hockey_offensive_stats", "ice_hockey_player_stats", "injury_phases", "key_aliases", "key_roots", "latest_revisions", "locations", "media", "media_captions", "media_contents", "media_keywords", "motor_racing_event_states", "motor_racing_qualifying_stats", "motor_racing_race_stats", "outcome_totals", "participants_events", "periods", "person_event_metadata", "person_phases", "persons", "persons_documents", "persons_media", "positions", "publishers", "roles", "seasons", "sites", "soccer_defensive_stats", "soccer_event_states", "soccer_foul_stats", "soccer_offensive_stats", "standing_subgroups", "standings", "stats", "sub_periods", "sub_seasons", "team_american_football_stats", "team_phases", "teams", "teams_documents", "teams_media", "tennis_action_points", "tennis_action_volleys", "tennis_event_states", "tennis_return_stats", "tennis_service_stats", "wagering_moneylines", "wagering_odds_lines", "wagering_runlines", "wagering_straight_spread_lines", "wagering_total_score_lines", "weather_conditions"]}
+        ]
+
+        prompt = f"""
+System: You are an expert data analyst and SQL specialist.
+
+User: Read the list of available databases and their descriptions in the <DATABASES> tag below.
+Then read the user question in the <QUESTION> tag below.
+
+<DATABASES>
+{json.dumps(databases)}
+</DATABASES>
+
+<QUESTION>
+{query}
+</QUESTION>
+
+Write an <ENTITIES> XML tag, containing a JSON list of dictionaries, each containing 3 keys:
+- "entity": the entity name.
+- "description": its complete and unambiguous description.
+- "database": the database name (from the <DATABASES> tag) where it is most likely to be found.
+We are going to use each of theses descriptions to do a vector search against metadata about the above databases, to find a table that matches each of these descriptions, so we can write a SQL query to answer the quesiton.
+There should be at least one description for every noun or verb phrase that you see in the question in the <QUESTION> tag, since we expect the databases to be normalized, and store one concept per column.
+Make sure that each entity describes a single concept. Break any compound phrases into their atomic entities and write an entity string for each.
+Disambiguate and expand the entity descriptions to be as complete, detailed and descriptive as possible.
+Make sure to include the original wording of the entity name in the description, along with common, non-jargon synonyms for obsure or industry terms.
+For example, if the question asks about "Nike kicks", you should write something like "Sports footwear, specifically sneakers (kicks) made by the company Nike".
+Do not write any commentary before or after the <ENTITIES> tag.
         """
 
         print("\nPrompt for question split:")
@@ -136,11 +180,19 @@ Your third question here
 
         display_text = concatenate_texts(self._format_output(generated_text))
     
-        answer = generated_text.split("<answer>")[1].split("</answer>")[0]
-        question_list = answer.split("---")
-        # Trim question_list and remove empty questions
-        question_list = [question.strip() for question in question_list if question.strip()]
-        return question_list, display_text
+        ### NEW CODE FOR NEW PROMPT
+        entities = self.stripTag(generated_text, "ENTITIES")
+        entities_dict_list = json.loads(entities)
+        question_list = []
+        for entity_dict in entities_dict_list:
+            question_list.append(entity_dict["description"])
+            
+        # answer = generated_text.split("<answer>")[1].split("</answer>")[0]
+        
+        # question_list = answer.split("---")
+        # # Trim question_list and remove empty questions
+        # question_list = [question.strip() for question in question_list if question.strip()]
+        return question_list, display_text, entities_dict_list
     
     def _get_channel_name_from_metadata_document(self, document):
         """
@@ -175,7 +227,7 @@ Your third question here
 
         return database
 
-    def _vectorsearch_from_questions(self, query, question_list, database, display_response="", message_placeholder=None):
+    def _vectorsearch_from_questions(self, query, entities_dict_list, database, display_response="", message_placeholder=None):
         """
         Perform vector search on the list of questions to find the tables.
         """
@@ -184,17 +236,21 @@ Your third question here
         header = f"### Step 1.c: Table search\n\n"
         display = display_response + header
 
-        # Add original query to question list
-        question_list.append(query)
+        # # Query vector database for each question
+        # for question in question_list:
+        #     # Add database name to the question
+        #     extended_question = f"DATABASE={database}\n Question: {question}"
 
+        ### UPDATED CODE
         # Query vector database for each question
-        for question in question_list:
+        for entity_dict in entities_dict_list:
             # Add database name to the question
+            database = entity_dict['database']
+            question = entity_dict['description']
             extended_question = f"DATABASE={database}\n Question: {question}"
 
-            result, _ = self.find_relevant_metadata(extended_question, k=3)
-            new_display = "**For question:** " + question + "\\\n"
-            new_display += "**Potential tables are:** "
+            result, _ = self.find_relevant_metadata(extended_question, k=1)
+            new_display = f"**For database: ** {database}, question:** {question}\\\n**Potential tables are:** "
 
             table_names_list = []
             for r in result:
@@ -267,7 +323,7 @@ Your third question here
         print()
         
         # Split the question into multiple questions
-        question_list, display_response = self._split_question_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
+        question_list, display_response, entities_dict_list = self._split_question_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
 
         print("Question list: ")
         print(question_list)
@@ -282,7 +338,7 @@ Your third question here
         print()
         
         # Perform vector search on the list of questions to find the tables
-        datacatalog_documents, display_response = self._vectorsearch_from_questions(query, question_list, database=database, display_response=display_response, message_placeholder=message_placeholder)
+        datacatalog_documents, display_response = self._vectorsearch_from_questions(query, entities_dict_list, database=database, display_response=display_response, message_placeholder=message_placeholder)
       
         # Extract list of tables and database name from previous results
         result_list, display_response = self._get_tables_list(datacatalog_documents, display_response=display_response, message_placeholder=message_placeholder)

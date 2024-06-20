@@ -1,4 +1,5 @@
 import codecs
+import re
 from utils.bcolors import Bcolors
 
 class SqlQuery():
@@ -77,16 +78,10 @@ class SqlQuery():
  
         channel, db = self.set_db(tables_to_use) # set db according to the result of previous channel function
 
-        ##Prompt 2 'Run Query'
-        #after determining the data channel, run the Langchain SQL Database chain to convert 'text to sql' and run the query against the source data channel. 
-        #provide rules for running the SQL queries in default template--> table info.
-
-        docs_tables = ""
-        for doc in tables_to_use['document']:
-            docs_tables += str(tables_to_use['document']) \
-                            .replace('{', '{{') \
-                            .replace('}', '}}')
-            docs_tables += "\n"
+        docs_tables = "\n".join(tables_to_use['document'])
+        # Escape curly braces in the document tables
+        docs_tables = docs_tables.replace('{', '{{').replace('}', '}}')
+        docs_tables += "\n"
                         
         # Get table name
         tables = tables_to_use['table']
@@ -153,12 +148,18 @@ class SqlQuery():
             table_info += f"Table schema: {sql_result_schema}\n"
             table_info += f"Sample rows: {sql_result_sample_rows}\n"
             table_info += "</table_info>"
-            
+        
+        ### Strip out binary blobs in the data which are useless to the LLM and dramatically slow down prompts
+        table_info = re.sub(r", b'\\.+?', ", ", BLOB_VALUE, ",table_info)
+
         print("Table info: ")
         print(table_info)
         print()
         print("Metadata documents for tables: ")
         print(docs_tables)
+
+        # with open('/home/ec2-user/environment/datagenie/data-genie-sportsdb-with-graph/src/', 'r') as file:
+        #     table_info = file.read()
 
         # Generate SQL query with the LLM
         prompt = f"""\n\nHuman: Given an input question, create a SQL query to get from the database the information required to answer the question.
@@ -209,7 +210,7 @@ class SqlQuery():
             sql_result = db.run(sql_query)
             
             # Display SQL result
-            header_2 = "\n\n### Step 2b: Result of SQL query execution\n"
+            header_2 = "\n### Step 2b: Result of SQL query execution\n"
             display_text += header_2 + sql_result + "\n"
             if message_placeholder is not None:
                 message_placeholder.markdown(display_text + "▌")
