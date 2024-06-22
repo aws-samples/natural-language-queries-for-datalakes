@@ -68,6 +68,8 @@ class SqlQuery():
     
     def generate_sql(self, question, tables_to_use=None, message_placeholder=None, previous_display=""):
         
+        # sqlite3 Chinook.db .schema > chinook_schema.sql
+        
         print()
         print("******************* STEP 2 ***********************")
         print("*                                                *")
@@ -85,6 +87,9 @@ class SqlQuery():
                         
         # Get table name
         tables = tables_to_use['table']
+
+        # Get shortest join path
+        join_path = tables_to_use['join_path']
         
         # Get table info from the database (schema and sample rows)
         table_info = ""
@@ -167,10 +172,12 @@ class SqlQuery():
 
         Business data catalog information about the table are given in <tabledesc> tags.
         Information about the table schema and example rows are given in <tableinfo> tags.
+        The shortest valid join path is given in <join_path> tags.
         The input question is given in <question> tags.
         
         <tabledesc>{docs_tables}</tabledesc>
         <tableinfo>{table_info}</tableinfo>
+        <join_path>{join_path}</join_path>
         <question>{question}</question>
         
         Give your answer in the following xml format: <result><sql>Generated SQL query</sql><sql_explanation>Explain what you have done and give details about the syntax used like single quotes, double quotes, and so on.</sql_explanation></result>
