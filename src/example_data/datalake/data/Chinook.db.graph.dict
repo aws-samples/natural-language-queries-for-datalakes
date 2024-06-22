@@ -1,0 +1,13 @@
+{
+	"Album": {"Artist": 1, "Track": 1},
+	"Artist": {"Album": 1},
+	"Customer": {"Employee": 1, "Invoice": 1},
+	"Employee": {"Customer": 1},
+	"Genre": {"Track": 1},
+	"Invoice": {"Customer": 1, "InvoiceLine": 1},
+	"InvoiceLine": {"Invoice": 1, "Track": 1},
+	"MediaType": {"Track": 1},
+	"Playlist": {"PlaylistTrack": 1},
+	"PlaylistTrack": {"Playlist": 1, "Track": 1},
+	"Track": {"InvoiceLine": 1, "PlaylistTrack": 1, "Album": 1, "Genre": 1, "MediaType": 1}
+}
