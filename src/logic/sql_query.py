@@ -1,4 +1,5 @@
 import codecs
+import re
 from utils.bcolors import Bcolors
 
 class SqlQuery():
@@ -153,7 +154,10 @@ class SqlQuery():
             table_info += f"Table schema: {sql_result_schema}\n"
             table_info += f"Sample rows: {sql_result_sample_rows}\n"
             table_info += "</table_info>"
-            
+
+        ### Strip out binary blobs in the data which are useless to the LLM and dramatically slow down prompts
+        table_info = re.sub(r", b'\\.+?', ", ", BLOB_VALUE, ",table_info)
+
         print("Table info: ")
         print(table_info)
         print()
