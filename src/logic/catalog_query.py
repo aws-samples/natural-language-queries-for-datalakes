@@ -1,3 +1,4 @@
+import re
 import ast
 import os 
 import json
@@ -15,6 +16,7 @@ from utils.graph.bfs import weightedBfsFindPaths
 VECTOR_DATABASE_DIR = "./database/"
 # File name to save the vector database
 VECTOR_DATABASE_FILE = "vector_database.faiss"
+DATABASE_DESCRIPTION_FILE = "example_data/datalake/database_descriptions/databases.json"
 
 class CatalogQuery():
     
@@ -22,6 +24,9 @@ class CatalogQuery():
         self.language_model = language_model
         self.embeddings = language_model.embeddings
         self.vectorstore_faiss = None
+        self.database_list = []
+        with open(DATABASE_DESCRIPTION_FILE) as database_json:
+            self.database_list = json.load(database_json)        
 
     def _get_vectorstore_full_path(self):
         return os.path.join(VECTOR_DATABASE_DIR,VECTOR_DATABASE_FILE)
@@ -193,6 +198,15 @@ class CatalogQuery():
                 'display_response': display_text,
             }
         
+    # Utility method - extracts XML tag contents based on the tag name (without enclosing brackets, so tag="ANSWER" not tag="<ANSWER>")
+    def stripTag(self, text, tag):
+        text = re.sub(f"\n","<BR>",text)
+        text = re.sub(f"^.*<{tag}>","",text)
+        text = re.sub(f"<\/{tag}>.*$","",text)
+        text = re.sub(f"<BR>","\n",text)
+        return text
+
+
     def _split_question_for_table_search(self, query, display_response="", message_placeholder=None):
         prompt = f"""You are a data anlytics expert.
 Given an input question, we want to generate a SQL query to answer this question.
@@ -239,7 +253,60 @@ Your third question here
         question_list = [question.strip() for question in question_list if question.strip()]
         user_question_entity_database_list = [{"entity": "TBD", "description": question, "database": "TBD"} for question in question_list if question.strip()]
         return user_question_entity_database_list, display_text
+
+
+    def _split_question_into_query_and_database_list_for_table_search(self, query, display_response="", message_placeholder=None):
+        prompt = f"""
+System: You are an expert data analyst and SQL specialist.
+
+User: Read the list of available databases and their descriptions in the <DATABASES> tag below.
+Then read the user question in the <QUESTION> tag below.
+
+<DATABASES>
+{json.dumps(self.database_list)}
+</DATABASES>
+
+<QUESTION>
+{query}
+</QUESTION>
+
+Write an <ENTITIES> XML tag, containing a JSON list of dictionaries, each containing 3 keys:
+- "entity": the entity name.
+- "description": its complete and unambiguous description.
+- "database": the database name (from the <DATABASES> tag) where it is most likely to be found.
+We are going to use each of theses descriptions to do a vector search against metadata about the above databases, to find a table that matches each of these descriptions, so we can write a SQL query to answer the quesiton.
+There should be at least one description for every noun or verb phrase that you see in the question in the <QUESTION> tag, since we expect the databases to be normalized, and store one concept per column.
+Make sure that each entity describes a single concept. Break any compound phrases into their atomic entities and write an entity string for each.
+Disambiguate and expand the entity descriptions to be as complete, detailed and descriptive as possible.
+Make sure to include the original wording of the entity name in the description, along with common, non-jargon synonyms for obsure or industry terms.
+For example, if the question asks about "Nike kicks", you should write something like "Sports footwear, specifically sneakers (kicks) made by the company Nike".
+Do not write any commentary before or after the <ENTITIES> tag.
+        """
+
+        print("\nPrompt for question split:")
+        print(Bcolors.OKGREEN + prompt + Bcolors.ENDC)
+        
+        header = f"### Step 1.b: Split question for table search\n\n"
+        
+        previous_display = display_response
+        def concatenate_texts(s):
+            return previous_display + header + s
+
+        def callback(completion):
+            s = self._format_output(completion)
+            if message_placeholder is not None:
+                message_placeholder.markdown(concatenate_texts(s) + "▌")
+
+        generated_text = self.language_model.invoke_with_stream_callback(prompt, callback) #"anthropic.claude-3-haiku-20240307-v1:0"
+
+        display_text = concatenate_texts(self._format_output(generated_text))
     
+        entities = self.stripTag(generated_text, "ENTITIES")
+        entities_dict_list = json.loads(entities)
+        user_question_entity_database_list = []
+
+        return user_question_entity_database_list, display_text
+
     def _get_channel_name_from_metadata_document(self, document):
         """
         Get the channel name from the metadata document.
@@ -402,7 +469,7 @@ Your third question here
         print()
         
         # Split the question into multiple questions
-        user_question_entity_database_list, display_response = self._split_question_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
+        user_question_entity_database_list, display_response = self._split_question_into_query_and_database_list_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
 
         print("Question list: ")
         print(user_question_entity_database_list)
