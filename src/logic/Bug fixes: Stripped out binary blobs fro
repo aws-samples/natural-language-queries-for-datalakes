@@ -1,0 +1,1 @@
+Bug fixes: Stripped out binary blobs from display and prompt; increased bedrock timeout to 30 seconds and reduced retries to 2.

@@ -1,5 +1,4 @@
 import boto3
-from botocore.config import Config
 from langchain_community.embeddings import BedrockEmbeddings
 import json
 
@@ -7,14 +6,10 @@ class LanguageModel():
     
     def __init__(self):
 
-        # Extend timeout to 90 seconds and don't retry if that fails
-        config = Config(retries={'max_attempts': 2}, read_timeout=30)
-
         # Create bedrock client
         bedrock_client = boto3.client(
             'bedrock-runtime',
-            region_name='us-west-2',
-            config=config
+            region_name='us-west-2'
             )
         self.bedrock_client = bedrock_client
 

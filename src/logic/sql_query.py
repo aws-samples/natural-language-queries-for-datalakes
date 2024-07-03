@@ -68,6 +68,8 @@ class SqlQuery():
     
     def generate_sql(self, question, tables_to_use=None, message_placeholder=None, previous_display=""):
         
+        # sqlite3 Chinook.db .schema > chinook_schema.sql
+        
         print()
         print("******************* STEP 2 ***********************")
         print("*                                                *")
@@ -78,19 +80,16 @@ class SqlQuery():
  
         channel, db = self.set_db(tables_to_use) # set db according to the result of previous channel function
 
-        ##Prompt 2 'Run Query'
-        #after determining the data channel, run the Langchain SQL Database chain to convert 'text to sql' and run the query against the source data channel. 
-        #provide rules for running the SQL queries in default template--> table info.
-
-        docs_tables = ""
-        for doc in tables_to_use['document']:
-            docs_tables += str(tables_to_use['document']) \
-                            .replace('{', '{{') \
-                            .replace('}', '}}')
-            docs_tables += "\n"
+        docs_tables = "\n".join(tables_to_use['document'])
+        # Escape curly braces in the document tables
+        docs_tables = docs_tables.replace('{', '{{').replace('}', '}}')
+        docs_tables += "\n"
                         
         # Get table name
         tables = tables_to_use['table']
+
+        # Get shortest join path
+        # join_path = tables_to_use['join_path']
         
         # Get table info from the database (schema and sample rows)
         table_info = ""
@@ -154,7 +153,7 @@ class SqlQuery():
             table_info += f"Table schema: {sql_result_schema}\n"
             table_info += f"Sample rows: {sql_result_sample_rows}\n"
             table_info += "</table_info>"
-
+        
         ### Strip out binary blobs in the data which are useless to the LLM and dramatically slow down prompts
         table_info = re.sub(r", b'\\.+?', ", ", BLOB_VALUE, ",table_info)
 
@@ -164,12 +163,16 @@ class SqlQuery():
         print("Metadata documents for tables: ")
         print(docs_tables)
 
+        # with open('/home/ec2-user/environment/datagenie/data-genie-sportsdb-with-graph/src/', 'r') as file:
+        #     table_info = file.read()
+
         # Generate SQL query with the LLM
         prompt = f"""\n\nHuman: Given an input question, create a SQL query to get from the database the information required to answer the question.
         It is important that the SQL query complies with {dialect} syntax. For instance in SQLite, the column and table names should be enclosed in double quotes. It is also important to respect the type of columns: if a column is numeric, the value should not be enclosed in quotes.
 
         Business data catalog information about the table are given in <tabledesc> tags.
         Information about the table schema and example rows are given in <tableinfo> tags.
+        The shortest valid join path is given in <join_path> tags.
         The input question is given in <question> tags.
         
         <tabledesc>{docs_tables}</tabledesc>
@@ -177,6 +180,7 @@ class SqlQuery():
         <question>{question}</question>
         
         Give your answer in the following xml format: <result><sql>Generated SQL query</sql><sql_explanation>Explain what you have done and give details about the syntax used like single quotes, double quotes, and so on.</sql_explanation></result>
+        For columns that contain binary blobs, instead of selecting the column value, select the hard coded value "UNABLE TO DISPLAY BINARY BLOB" instead.
         
         If the answer is not possible, the Generated SQL query should be replaced with the keyword ERROR.
         
@@ -184,6 +188,8 @@ class SqlQuery():
         
         \n\nAssistant:
         """
+        # <join_path>{join_path}</join_path>
+
 
         print("\nPrompt for SQL generation:")
         print(Bcolors.OKGREEN + prompt + Bcolors.ENDC)
@@ -210,10 +216,12 @@ class SqlQuery():
         # Execute SQL query
 
         if channel=='athenadb' or channel=='postgresql' or channel=='sqlite':
+            print(f"RUNNING SQL: <<<{sql_query}>>>")
             sql_result = db.run(sql_query)
+            print(f"GOT SQL RESULT: <<<{sql_result}>>>")
             
             # Display SQL result
-            header_2 = "\n\n### Step 2b: Result of SQL query execution\n"
+            header_2 = "\n### Step 2b: Result of SQL query execution\n"
             display_text += header_2 + sql_result + "\n"
             if message_placeholder is not None:
                 message_placeholder.markdown(display_text + "▌")
