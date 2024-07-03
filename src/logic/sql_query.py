@@ -1,5 +1,6 @@
 import codecs
 import re
+import re
 from utils.bcolors import Bcolors
 
 class SqlQuery():
@@ -153,7 +154,7 @@ class SqlQuery():
             table_info += f"Table schema: {sql_result_schema}\n"
             table_info += f"Sample rows: {sql_result_sample_rows}\n"
             table_info += "</table_info>"
-        
+            
         ### Strip out binary blobs in the data which are useless to the LLM and dramatically slow down prompts
         table_info = re.sub(r", b'\\.+?', ", ", BLOB_VALUE, ",table_info)
 
@@ -181,7 +182,7 @@ class SqlQuery():
         
         Give your answer in the following xml format: <result><sql>Generated SQL query</sql><sql_explanation>Explain what you have done and give details about the syntax used like single quotes, double quotes, and so on.</sql_explanation></result>
         For columns that contain binary blobs, instead of selecting the column value, select the hard coded value "UNABLE TO DISPLAY BINARY BLOB" instead.
-        
+
         If the answer is not possible, the Generated SQL query should be replaced with the keyword ERROR.
         
         Important: you must comply with {dialect} SQL syntax.
@@ -217,7 +218,9 @@ class SqlQuery():
 
         if channel=='athenadb' or channel=='postgresql' or channel=='sqlite':
             print(f"RUNNING SQL: <<<{sql_query}>>>")
+            print(f"RUNNING SQL: <<<{sql_query}>>>")
             sql_result = db.run(sql_query)
+            print(f"GOT SQL RESULT: <<<{sql_result}>>>")
             print(f"GOT SQL RESULT: <<<{sql_result}>>>")
             
             # Display SQL result
