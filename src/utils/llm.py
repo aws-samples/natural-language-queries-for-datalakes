@@ -9,7 +9,7 @@ class LanguageModel():
         # Create bedrock client
         bedrock_client = boto3.client(
             'bedrock-runtime',
-            region_name='us-west-2',
+            region_name='us-west-2'
             )
         self.bedrock_client = bedrock_client
 
