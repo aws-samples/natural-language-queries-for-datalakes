@@ -65,7 +65,14 @@ class SqlQuery():
             encodable = encodable.replace("\x00", replacement)
 
         return "\"" + encodable.replace("\"", "\"\"") + "\""
-    
+
+
+    def clean_sql_result(self, result):
+        ### Strip out binary blobs in the data which are useless to the LLM and dramatically slow down prompts
+        result = re.sub(r", b'\\.+?', ", ", BLOB_VALUE, ",result)
+        return result
+
+
     def generate_sql(self, question, tables_to_use=None, message_placeholder=None, previous_display=""):
         
         print()
@@ -155,8 +162,8 @@ class SqlQuery():
             table_info += f"Sample rows: {sql_result_sample_rows}\n"
             table_info += "</table_info>"
             
-        ### Strip out binary blobs in the data which are useless to the LLM and dramatically slow down prompts
-        table_info = re.sub(r", b'\\.+?', ", ", BLOB_VALUE, ",table_info)
+        table_info = self.clean_sql_result(table_info)
+
         print("Table info: ")
         print(table_info)
         print()
@@ -184,8 +191,6 @@ class SqlQuery():
         
         \n\nAssistant:
         """
-        # <join_path>{join_path}</join_path>
-
 
         print("\nPrompt for SQL generation:")
         print(Bcolors.OKGREEN + prompt + Bcolors.ENDC)
