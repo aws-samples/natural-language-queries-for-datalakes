@@ -223,7 +223,7 @@ class SqlQuery():
             print(f"GOT SQL RESULT: <<<{sql_result}>>>")
             
             # Display SQL result
-            header_2 = "\n### Step 2b: Result of SQL query execution\n"
+            header_2 = "\n\n### Step 2b: Result of SQL query execution\n"
             display_text += header_2 + sql_result + "\n"
             if message_placeholder is not None:
                 message_placeholder.markdown(display_text + "▌")
