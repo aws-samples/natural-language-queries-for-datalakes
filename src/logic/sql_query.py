@@ -219,6 +219,7 @@ class SqlQuery():
         if channel=='athenadb' or channel=='postgresql' or channel=='sqlite':
             print(f"RUNNING SQL: <<<{sql_query}>>>")
             sql_result = db.run(sql_query)
+            sql_result = self.clean_sql_result(sql_result)
             print(f"GOT SQL RESULT: <<<{sql_result}>>>")
             
             # Display SQL result
