@@ -78,7 +78,7 @@ class SqlQuery():
                 clean_row = []
                 for col in list(row):
                     if isinstance(col, bytes): 
-                        col = "BLOB_VALUE"
+                        col = "BINARY_DATA"
                     clean_row.append(col)
                 clean_data.append(clean_row)
             result = json.dumps(clean_data)
@@ -198,7 +198,7 @@ class SqlQuery():
         <question>{question}</question>
         
         Give your answer in the following xml format: <result><sql>Generated SQL query</sql><sql_explanation>Explain what you have done and give details about the syntax used like single quotes, double quotes, and so on.</sql_explanation></result>
-        For columns that contain binary blobs, instead of selecting the column value, select the hard coded value "UNABLE TO DISPLAY BINARY BLOB" instead.
+        For columns that contain binary blobs, instead of selecting the column value, select the hard coded value "UNABLE TO DISPLAY BINARY DATA" instead.
         
         If the answer is not possible, the Generated SQL query should be replaced with the keyword ERROR.
         
