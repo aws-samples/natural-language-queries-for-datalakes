@@ -1,6 +1,8 @@
 import codecs
 import re
 from utils.bcolors import Bcolors
+import ast
+import json
 
 class SqlQuery():
     
@@ -69,7 +71,19 @@ class SqlQuery():
 
     def clean_sql_result(self, result):
         ### Strip out binary blobs in the data which are useless to the LLM and dramatically slow down prompts
-        result = re.sub(r", b'\\.+?', ", ", BLOB_VALUE, ",result)
+        try:
+            data = ast.literal_eval(result)
+            clean_data = []
+            for row in data:
+                clean_row = []
+                for col in list(row):
+                    if isinstance(col, bytes): 
+                        col = "BLOB_VALUE"
+                    clean_row.append(col)
+                clean_data.append(clean_row)
+            result = json.dumps(clean_data)
+        except Exception as e:
+            print(f"ERROR CLEANING SQL RESULT: <<{e}>> FOR RESULT SET <<{result}>>")
         return result
 
 
@@ -113,6 +127,7 @@ class SqlQuery():
                 # Get sample rows
                 sql_query_get_sample_rows = f"SELECT * FROM {table} ORDER BY RANDOM() LIMIT 5;"
                 sql_result_sample_rows = db.run(sql_query_get_sample_rows)
+                sql_result_sample_rows = self.clean_sql_result(sql_result_sample_rows)
                 
                 dialect = 'SQLite'
 
@@ -162,7 +177,7 @@ class SqlQuery():
             table_info += f"Sample rows: {sql_result_sample_rows}\n"
             table_info += "</table_info>"
             
-        table_info = self.clean_sql_result(table_info)
+        # table_info = self.clean_sql_result(table_info)
 
         print("Table info: ")
         print(table_info)
