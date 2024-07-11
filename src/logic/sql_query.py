@@ -1,5 +1,8 @@
 import codecs
+import re
 from utils.bcolors import Bcolors
+import ast
+import json
 
 class SqlQuery():
     
@@ -64,7 +67,26 @@ class SqlQuery():
             encodable = encodable.replace("\x00", replacement)
 
         return "\"" + encodable.replace("\"", "\"\"") + "\""
-    
+
+
+    def clean_sql_result(self, result):
+        ### Strip out binary blobs in the data which are useless to the LLM and dramatically slow down prompts
+        try:
+            data = ast.literal_eval(result)
+            clean_data = []
+            for row in data:
+                clean_row = []
+                for col in list(row):
+                    if isinstance(col, bytes): 
+                        col = "BINARY_DATA"
+                    clean_row.append(col)
+                clean_data.append(clean_row)
+            result = json.dumps(clean_data)
+        except Exception as e:
+            print(f"ERROR CLEANING SQL RESULT: <<{e}>> FOR RESULT SET <<{result}>>")
+        return result
+
+
     def generate_sql(self, question, tables_to_use=None, message_placeholder=None, previous_display=""):
         
         print()
@@ -105,6 +127,7 @@ class SqlQuery():
                 # Get sample rows
                 sql_query_get_sample_rows = f"SELECT * FROM {table} ORDER BY RANDOM() LIMIT 5;"
                 sql_result_sample_rows = db.run(sql_query_get_sample_rows)
+                sql_result_sample_rows = self.clean_sql_result(sql_result_sample_rows)
                 
                 dialect = 'SQLite'
 
@@ -154,6 +177,8 @@ class SqlQuery():
             table_info += f"Sample rows: {sql_result_sample_rows}\n"
             table_info += "</table_info>"
             
+        # table_info = self.clean_sql_result(table_info)
+
         print("Table info: ")
         print(table_info)
         print()
@@ -173,6 +198,7 @@ class SqlQuery():
         <question>{question}</question>
         
         Give your answer in the following xml format: <result><sql>Generated SQL query</sql><sql_explanation>Explain what you have done and give details about the syntax used like single quotes, double quotes, and so on.</sql_explanation></result>
+        For columns that contain binary blobs, instead of selecting the column value, select the hard coded value "UNABLE TO DISPLAY BINARY DATA" instead.
         
         If the answer is not possible, the Generated SQL query should be replaced with the keyword ERROR.
         
@@ -206,7 +232,10 @@ class SqlQuery():
         # Execute SQL query
 
         if channel=='athenadb' or channel=='postgresql' or channel=='sqlite':
+            print(f"RUNNING SQL: <<<{sql_query}>>>")
             sql_result = db.run(sql_query)
+            sql_result = self.clean_sql_result(sql_result)
+            print(f"GOT SQL RESULT: <<<{sql_result}>>>")
             
             # Display SQL result
             header_2 = "\n\n### Step 2b: Result of SQL query execution\n"
