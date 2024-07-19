@@ -1,0 +1,252 @@
+[
+    {
+      "question": "How many albums does AC/DC have?",
+      "disambiguated_question": "Count the number of albums in the Album table where the ArtistId corresponds to AC/DC in the Artist table.",
+      "sql_query": "SELECT COUNT(*) FROM Album WHERE ArtistId = (SELECT ArtistId FROM Artist WHERE Name = 'AC/DC');"
+    },
+    {
+      "question": "Who is the oldest employee?",
+      "disambiguated_question": "Find the employee with the earliest BirthDate in the Employee table.",
+      "sql_query": "SELECT FirstName, LastName FROM Employee ORDER BY BirthDate ASC LIMIT 1;"
+    },
+    {
+      "question": "What's the most expensive track?",
+      "disambiguated_question": "Find the track with the highest UnitPrice in the Track table.",
+      "sql_query": "SELECT Name, UnitPrice FROM Track ORDER BY UnitPrice DESC LIMIT 1;"
+    },
+    {
+      "question": "How many customers are from Brazil?",
+      "disambiguated_question": "Count the number of customers in the Customer table where the Country is Brazil.",
+      "sql_query": "SELECT COUNT(*) FROM Customer WHERE Country = 'Brazil';"
+    },
+    {
+      "question": "What's the total duration of all tracks by Aerosmith?",
+      "disambiguated_question": "Sum the Milliseconds of all tracks in the Track table where the AlbumId corresponds to albums by Aerosmith in the Album and Artist tables.",
+      "sql_query": "SELECT SUM(Milliseconds) FROM Track JOIN Album ON Track.AlbumId = Album.AlbumId JOIN Artist ON Album.ArtistId = Artist.ArtistId WHERE Artist.Name = 'Aerosmith';"
+    },
+    {
+      "question": "Which genre has the most tracks?",
+      "disambiguated_question": "Find the genre with the highest count of associated tracks in the Track and Genre tables.",
+      "sql_query": "SELECT Genre.Name, COUNT(*) as TrackCount FROM Track JOIN Genre ON Track.GenreId = Genre.GenreId GROUP BY Genre.GenreId ORDER BY TrackCount DESC LIMIT 1;"
+    },
+    {
+      "question": "Who is the highest-earning customer?",
+      "disambiguated_question": "Find the customer with the highest sum of Total from their associated invoices in the Customer and Invoice tables.",
+      "sql_query": "SELECT Customer.FirstName, Customer.LastName, SUM(Invoice.Total) as TotalSpent FROM Customer JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId GROUP BY Customer.CustomerId ORDER BY TotalSpent DESC LIMIT 1;"
+    },
+    {
+      "question": "What's the average length of rock tracks?",
+      "disambiguated_question": "Calculate the average Milliseconds of tracks in the Track table where the GenreId corresponds to 'Rock' in the Genre table.",
+      "sql_query": "SELECT AVG(Milliseconds) FROM Track JOIN Genre ON Track.GenreId = Genre.GenreId WHERE Genre.Name = 'Rock';"
+    },
+    {
+      "question": "How many employees were hired in 2003?",
+      "disambiguated_question": "Count the number of employees in the Employee table whose HireDate is in the year 2003.",
+      "sql_query": "SELECT COUNT(*) FROM Employee WHERE strftime('%Y', HireDate) = 2003;"
+    },
+    {
+      "question": "Which playlist has the most tracks?",
+      "disambiguated_question": "Find the playlist with the highest count of associated tracks in the Playlist and PlaylistTrack tables.",
+      "sql_query": "SELECT Playlist.Name, COUNT(*) as TrackCount FROM Playlist JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId GROUP BY Playlist.PlaylistId ORDER BY TrackCount DESC LIMIT 1;"
+    },
+    {
+      "question": "What's the total sales for 2021?",
+      "disambiguated_question": "Sum the Total from all invoices in the Invoice table where the InvoiceDate is in the year 2021.",
+      "sql_query": "SELECT SUM(Total) FROM Invoice WHERE strftime('%Y', InvoiceDate) = 2021;"
+    },
+    {
+      "question": "Which country has the most customers?",
+      "disambiguated_question": "Find the country with the highest count of customers in the Customer table.",
+      "sql_query": "SELECT Country, COUNT(*) as CustomerCount FROM Customer GROUP BY Country ORDER BY CustomerCount DESC LIMIT 1;"
+    },
+    {
+      "question": "What's the average number of tracks per album?",
+      "disambiguated_question": "Calculate the average count of tracks per album using the Track and Album tables.",
+      "sql_query": "SELECT AVG(TrackCount) FROM (SELECT AlbumId, COUNT(*) as TrackCount FROM Track GROUP BY AlbumId) as AlbumTrackCounts;"
+    },
+    {
+      "question": "Who is the manager with the most direct reports?",
+      "disambiguated_question": "Find the employee with the highest count of other employees reporting to them in the Employee table.",
+      "sql_query": "SELECT e.FirstName, e.LastName, COUNT(*) as DirectReports FROM Employee e JOIN Employee r ON e.EmployeeId = r.ReportsTo GROUP BY e.EmployeeId ORDER BY DirectReports DESC LIMIT 1;"
+    },
+    {
+      "question": "What's the most common media type for tracks?",
+      "disambiguated_question": "Find the media type with the highest count of associated tracks in the Track and MediaType tables.",
+      "sql_query": "SELECT MediaType.Name, COUNT(*) as TrackCount FROM Track JOIN MediaType ON Track.MediaTypeId = MediaType.MediaTypeId GROUP BY MediaType.MediaTypeId ORDER BY TrackCount DESC LIMIT 1;"
+    },
+    {
+      "question": "How many tracks were composed by Queen?",
+      "disambiguated_question": "Count the number of tracks in the Track table where the Composer field contains 'Queen'.",
+      "sql_query": "SELECT COUNT(*) FROM Track WHERE Composer LIKE '%Queen%';"
+    },
+    {
+      "question": "What's the total playtime of the 'Music' playlist?",
+      "disambiguated_question": "Sum the Milliseconds of all tracks associated with the 'Music' playlist in the Playlist, PlaylistTrack, and Track tables.",
+      "sql_query": "SELECT SUM(Track.Milliseconds) FROM Track JOIN PlaylistTrack ON Track.TrackId = PlaylistTrack.TrackId JOIN Playlist ON PlaylistTrack.PlaylistId = Playlist.PlaylistId WHERE Playlist.Name = 'Music';"
+    },
+    {
+      "question": "Which artist has the most albums?",
+      "disambiguated_question": "Find the artist with the highest count of associated albums in the Artist and Album tables.",
+      "sql_query": "SELECT Artist.Name, COUNT(*) as AlbumCount FROM Artist JOIN Album ON Artist.ArtistId = Album.ArtistId GROUP BY Artist.ArtistId ORDER BY AlbumCount DESC LIMIT 1;"
+    },
+    {
+      "question": "What's the average invoice total?",
+      "disambiguated_question": "Calculate the average Total from all invoices in the Invoice table.",
+      "sql_query": "SELECT AVG(Total) FROM Invoice;"
+    },
+    {
+      "question": "How many tracks are longer than 5 minutes?",
+      "disambiguated_question": "Count the number of tracks in the Track table where the Milliseconds is greater than 300,000 (5 minutes).",
+      "sql_query": "SELECT COUNT(*) FROM Track WHERE Milliseconds > 300000;"
+    },
+    {
+      "question": "Which customer has purchased the most tracks?",
+      "disambiguated_question": "Find the customer with the highest count of purchased tracks through the Customer, Invoice, and InvoiceLine tables.",
+      "sql_query": "SELECT Customer.FirstName, Customer.LastName, COUNT(*) as TracksPurchased FROM Customer JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId GROUP BY Customer.CustomerId ORDER BY TracksPurchased DESC LIMIT 1;"
+    },
+    {
+      "question": "What's the total size of all tracks in gigabytes?",
+      "disambiguated_question": "Sum the Bytes of all tracks in the Track table and convert to gigabytes.",
+      "sql_query": "SELECT SUM(Bytes) / 1073741824.0 as GigabytesTotal FROM Track;"
+    },
+    {
+      "question": "How many customers does each employee support?",
+      "disambiguated_question": "Count the number of customers associated with each employee through the SupportRepId in the Customer and Employee tables.",
+      "sql_query": "SELECT Employee.FirstName, Employee.LastName, COUNT(Customer.CustomerId) as CustomerCount FROM Employee LEFT JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId GROUP BY Employee.EmployeeId;"
+    },
+    {
+      "question": "What's the most common billing country?",
+      "disambiguated_question": "Find the BillingCountry with the highest count of invoices in the Invoice table.",
+      "sql_query": "SELECT BillingCountry, COUNT(*) as InvoiceCount FROM Invoice GROUP BY BillingCountry ORDER BY InvoiceCount DESC LIMIT 1;"
+    },
+    {
+      "question": "How many rock stars are in the database?",
+      "disambiguated_question": "Count the number of distinct artists who have at least one track in the 'Rock' genre, using the Artist, Album, Track, and Genre tables.",
+      "sql_query": "SELECT COUNT(DISTINCT Artist.ArtistId) FROM Artist JOIN Album ON Artist.ArtistId = Album.ArtistId JOIN Track ON Album.AlbumId = Track.AlbumId JOIN Genre ON Track.GenreId = Genre.GenreId WHERE Genre.Name = 'Rock';"
+    },
+    {
+      "question": "Who's the big cheese in the company?",
+      "disambiguated_question": "Find the employee with the highest position (no ReportsTo value) in the Employee table.",
+      "sql_query": "SELECT FirstName, LastName, Title FROM Employee WHERE ReportsTo IS NULL;"
+    },
+    {
+      "question": "What's the hottest track in town?",
+      "disambiguated_question": "Find the track with the highest number of purchases in the InvoiceLine and Track tables.",
+      "sql_query": "SELECT Track.Name, COUNT(*) as PurchaseCount FROM Track JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId GROUP BY Track.TrackId ORDER BY PurchaseCount DESC LIMIT 1;"
+    },
+    {
+      "question": "Which artist is raking in the most dough?",
+      "disambiguated_question": "Find the artist with the highest total sales amount through the Artist, Album, Track, and InvoiceLine tables.",
+      "sql_query": "SELECT Artist.Name, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSales FROM Artist JOIN Album ON Artist.ArtistId = Album.ArtistId JOIN Track ON Album.AlbumId = Track.AlbumId JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId GROUP BY Artist.ArtistId ORDER BY TotalSales DESC LIMIT 1;"
+    },
+    {
+      "question": "Who's the most devoted music fan?",
+      "disambiguated_question": "Find the customer who has spent the most money on music tracks through the Customer, Invoice, and InvoiceLine tables.",
+      "sql_query": "SELECT Customer.FirstName, Customer.LastName, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSpent FROM Customer JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId GROUP BY Customer.CustomerId ORDER BY TotalSpent DESC LIMIT 1;"
+    },
+    {
+      "question": "Which genre is bringing home the bacon?",
+      "disambiguated_question": "Find the genre with the highest total sales amount through the Genre, Track, and InvoiceLine tables.",
+      "sql_query": "SELECT Genre.Name, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSales FROM Genre JOIN Track ON Genre.GenreId = Track.GenreId JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId GROUP BY Genre.GenreId ORDER BY TotalSales DESC LIMIT 1;"
+    },
+    {
+      "question": "Who's the busiest beaver in sales?",
+      "disambiguated_question": "Find the employee with the highest number of associated customer invoices through the Employee, Customer, and Invoice tables.",
+      "sql_query": "SELECT Employee.FirstName, Employee.LastName, COUNT(DISTINCT Invoice.InvoiceId) as InvoiceCount FROM Employee JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId GROUP BY Employee.EmployeeId ORDER BY InvoiceCount DESC LIMIT 1;"
+    },
+    {
+      "question": "What's the most popular playlist among the cool kids?",
+      "disambiguated_question": "Find the playlist with the highest number of associated tracks in the Playlist and PlaylistTrack tables.",
+      "sql_query": "SELECT Playlist.Name, COUNT(*) as TrackCount FROM Playlist JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId GROUP BY Playlist.PlaylistId ORDER BY TrackCount DESC LIMIT 1;"
+    },
+    {
+      "question": "Which country is swimming in tunes?",
+      "disambiguated_question": "Find the country with the highest total number of tracks purchased through the Invoice, InvoiceLine, and Track tables.",
+      "sql_query": "SELECT Invoice.BillingCountry, COUNT(*) as TracksPurchased FROM Invoice JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId GROUP BY Invoice.BillingCountry ORDER BY TracksPurchased DESC LIMIT 1;"
+    },
+    {
+      "question": "Who's the most prolific wordsmith?",
+      "disambiguated_question": "Find the composer with the highest number of associated tracks in the Track table.",
+      "sql_query": "SELECT Composer, COUNT(*) as TrackCount FROM Track WHERE Composer IS NOT NULL GROUP BY Composer ORDER BY TrackCount DESC LIMIT 1;"
+    },
+    {
+      "question": "Which album is the heavyweight champion?",
+      "disambiguated_question": "Find the album with the highest total duration (in milliseconds) of its tracks through the Album and Track tables.",
+      "sql_query": "SELECT Album.Title, SUM(Track.Milliseconds) as TotalDuration FROM Album JOIN Track ON Album.AlbumId = Track.AlbumId GROUP BY Album.AlbumId ORDER BY TotalDuration DESC LIMIT 1;"
+    },
+    {
+      "question": "Who's the customer with the fattest wallet?",
+      "disambiguated_question": "Find the customer who has spent the most money overall through the Customer and Invoice tables.",
+      "sql_query": "SELECT Customer.FirstName, Customer.LastName, SUM(Invoice.Total) as TotalSpent FROM Customer JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId GROUP BY Customer.CustomerId ORDER BY TotalSpent DESC LIMIT 1;"
+    },
+    {
+      "question": "Which city is the music capital of our customer base?",
+      "disambiguated_question": "Find the city with the highest number of customers in the Customer table.",
+      "sql_query": "SELECT City, COUNT(*) as CustomerCount FROM Customer GROUP BY City ORDER BY CustomerCount DESC LIMIT 1;"
+    },
+    {
+      "question": "What's the most common year for our customers' purchases?",
+      "disambiguated_question": "Find the year with the highest count of invoices in the Invoice table.",
+      "sql_query": "SELECT strftime('%Y', InvoiceDate) as Year, COUNT(*) as InvoiceCount FROM Invoice GROUP BY Year ORDER BY InvoiceCount DESC LIMIT 1;"
+    },
+    {
+      "question": "Which artist is the king of short tunes?",
+      "disambiguated_question": "Find the artist with the lowest average track duration through the Artist, Album, and Track tables.",
+      "sql_query": "SELECT Artist.Name, AVG(Track.Milliseconds) as AvgDuration FROM Artist JOIN Album ON Artist.ArtistId = Album.ArtistId JOIN Track ON Album.AlbumId = Track.AlbumId GROUP BY Artist.ArtistId ORDER BY AvgDuration ASC LIMIT 1;"
+    },
+    {
+      "question": "Who's the employee with the golden touch?",
+      "disambiguated_question": "Find the employee whose associated customers have the highest average invoice total through the Employee, Customer, and Invoice tables.",
+      "sql_query": "SELECT Employee.FirstName, Employee.LastName, AVG(Invoice.Total) as AvgInvoiceTotal FROM Employee JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId GROUP BY Employee.EmployeeId ORDER BY AvgInvoiceTotal DESC LIMIT 1;"
+    },
+    {
+      "question": "Which genre is a one-hit wonder?",
+      "disambiguated_question": "Find the genre with only one track associated with it in the Genre and Track tables.",
+      "sql_query": "SELECT Genre.Name FROM Genre JOIN Track ON Genre.GenreId = Track.GenreId GROUP BY Genre.GenreId HAVING COUNT(*) = 1;"
+    },
+    {
+      "question": "Who's the customer with the most eclectic taste?",
+      "disambiguated_question": "Find the customer who has purchased tracks from the highest number of distinct genres through the Customer, Invoice, InvoiceLine, Track, and Genre tables.",
+      "sql_query": "SELECT Customer.FirstName, Customer.LastName, COUNT(DISTINCT Genre.GenreId) as GenreCount FROM Customer JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId JOIN Track ON InvoiceLine.TrackId = Track.TrackId JOIN Genre ON Track.GenreId = Genre.GenreId GROUP BY Customer.CustomerId ORDER BY GenreCount DESC LIMIT 1;"
+    },
+    {
+      "question": "Which album is the best bang for your buck?",
+      "disambiguated_question": "Find the album with the lowest price per track through the Album, Track, and InvoiceLine tables.",
+      "sql_query": "SELECT Album.Title, AVG(InvoiceLine.UnitPrice) as AvgTrackPrice FROM Album JOIN Track ON Album.AlbumId = Track.AlbumId JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId GROUP BY Album.AlbumId ORDER BY AvgTrackPrice ASC LIMIT 1;"
+    },
+    {
+      "question": "Who's the most loyal customer?",
+      "disambiguated_question": "Find the customer who has made purchases over the longest period of time (difference between first and last purchase date) through the Customer and Invoice tables.",
+      "sql_query": "SELECT Customer.FirstName, Customer.LastName, MAX(Invoice.InvoiceDate) - MIN(Invoice.InvoiceDate) as LoyaltyPeriod FROM Customer JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId GROUP BY Customer.CustomerId ORDER BY LoyaltyPeriod DESC LIMIT 1;"
+    },
+    {
+      "question": "Which artist is the master of all genres?",
+      "disambiguated_question": "Find the artist with tracks in the highest number of distinct genres through the Artist, Album, Track, and Genre tables.",
+      "sql_query": "SELECT Artist.Name, COUNT(DISTINCT Genre.GenreId) as GenreCount FROM Artist JOIN Album ON Artist.ArtistId = Album.ArtistId JOIN Track ON Album.AlbumId = Track.AlbumId JOIN Genre ON Track.GenreId = Genre.GenreId GROUP BY Artist.ArtistId ORDER BY GenreCount DESC LIMIT 1;"
+    },
+    {
+      "question": "What's the most popular track length?",
+      "disambiguated_question": "Find the most common track duration (rounded to the nearest minute) in the Track table.",
+      "sql_query": "SELECT ROUND(Milliseconds / 60000.0) as Minutes, COUNT(*) as TrackCount FROM Track GROUP BY Minutes ORDER BY TrackCount DESC LIMIT 1;"
+    },
+    {
+      "question": "Who's the customer with the biggest music library?",
+      "disambiguated_question": "Find the customer who has purchased the highest number of unique tracks through the Customer, Invoice, and InvoiceLine tables.",
+      "sql_query": "SELECT Customer.FirstName, Customer.LastName, COUNT(DISTINCT InvoiceLine.TrackId) as UniqueTrackCount FROM Customer JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId GROUP BY Customer.CustomerId ORDER BY UniqueTrackCount DESC LIMIT 1;"
+    },
+    {
+      "question": "Which playlist is the most diverse?",
+      "disambiguated_question": "Find the playlist with tracks from the highest number of distinct genres through the Playlist, PlaylistTrack, Track, and Genre tables.",
+      "sql_query": "SELECT Playlist.Name, COUNT(DISTINCT Genre.GenreId) as GenreCount FROM Playlist JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId JOIN Track ON PlaylistTrack.TrackId = Track.TrackId JOIN Genre ON Track.GenreId = Genre.GenreId GROUP BY Playlist.PlaylistId ORDER BY GenreCount DESC LIMIT 1;"
+    },
+    {
+      "question": "Who's the employee with the Midas touch?",
+      "disambiguated_question": "Find the employee whose associated customers have the highest total sales amount through the Employee, Customer, Invoice, and InvoiceLine tables.",
+      "sql_query": "SELECT Employee.FirstName, Employee.LastName, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSales FROM Employee JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId GROUP BY Employee.EmployeeId ORDER BY TotalSales DESC LIMIT 1;"
+    },
+    {
+      "question": "Which artist is the hidden gem?",
+      "disambiguated_question": "Find the artist with the highest average track rating (based on the number of times each track appears in playlists) but with fewer than 5 tracks in total, through the Artist, Album, Track, and PlaylistTrack tables.",
+      "sql_query": "SELECT Artist.Name, AVG(PlaylistAppearances) as AvgRating, COUNT(*) as TrackCount FROM Artist JOIN Album ON Artist.ArtistId = Album.ArtistId JOIN Track ON Album.AlbumId = Track.AlbumId LEFT JOIN (SELECT TrackId, COUNT(*) as PlaylistAppearances FROM PlaylistTrack GROUP BY TrackId) PT ON Track.TrackId = PT.TrackId GROUP BY Artist.ArtistId HAVING TrackCount < 5 ORDER BY AvgRating DESC LIMIT 1;"
+    }
+  ]

@@ -1,0 +1,288 @@
+[
+    {
+      "question": "How many products are in the 'Beverages' category?",
+      "disambiguated_question": "Count the number of products in the Products table that belong to the category named 'Beverages'.",
+      "sql_query": "SELECT COUNT(*) FROM Products JOIN Categories ON Products.CategoryID = Categories.CategoryID WHERE Categories.CategoryName = 'Beverages'"
+    },
+    {
+      "question": "Who is the employee with the most sales in 1997?",
+      "disambiguated_question": "Find the employee who has the highest total sales amount for orders placed in 1997.",
+      "sql_query": "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS TotalSales FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID JOIN [Order Details] od ON o.OrderID = od.OrderID WHERE strftime('%Y', o.OrderDate) = '1997' GROUP BY e.EmployeeID ORDER BY TotalSales DESC LIMIT 1"
+    },
+    {
+      "question": "What's the most expensive product in the 'Seafood' category?",
+      "disambiguated_question": "Find the product with the highest unit price in the category named 'Seafood'.",
+      "sql_query": "SELECT p.ProductName, p.UnitPrice FROM Products p JOIN Categories c ON p.CategoryID = c.CategoryID WHERE c.CategoryName = 'Seafood' ORDER BY p.UnitPrice DESC LIMIT 1"
+    },
+    {
+      "question": "How many orders were shipped to Germany in 1996?",
+      "disambiguated_question": "Count the number of orders in the Orders table that were shipped to Germany in the year 1996.",
+      "sql_query": "SELECT COUNT(*) FROM Orders WHERE ShipCountry = 'Germany' AND strftime('%Y', OrderDate) = '1996'"
+    },
+    {
+      "question": "Which supplier provides the most products?",
+      "disambiguated_question": "Find the supplier that has the highest count of products in the Products table.",
+      "sql_query": "SELECT s.CompanyName, COUNT(*) AS ProductCount FROM Suppliers s JOIN Products p ON s.SupplierID = p.SupplierID GROUP BY s.SupplierID ORDER BY ProductCount DESC LIMIT 1"
+    },
+    {
+      "question": "What's the average order value for customers in France?",
+      "disambiguated_question": "Calculate the average total value of orders for customers located in France.",
+      "sql_query": "SELECT AVG(OrderTotal) FROM (SELECT o.OrderID, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS OrderTotal FROM Orders o JOIN [Order Details] od ON o.OrderID = od.OrderID JOIN Customers c ON o.CustomerID = c.CustomerID WHERE c.Country = 'France' GROUP BY o.OrderID)"
+    },
+    {
+      "question": "Which category has the highest average product price?",
+      "disambiguated_question": "Find the category with the highest average unit price of its products.",
+      "sql_query": "SELECT c.CategoryName, AVG(p.UnitPrice) AS AvgPrice FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID GROUP BY c.CategoryID ORDER BY AvgPrice DESC LIMIT 1"
+    },
+    {
+      "question": "How many employees are older than their managers?",
+      "disambiguated_question": "Count the number of employees whose birth date is earlier than their manager's birth date.",
+      "sql_query": "SELECT COUNT(*) FROM Employees e JOIN Employees m ON e.ReportsTo = m.EmployeeID WHERE e.BirthDate < m.BirthDate"
+    },
+    {
+      "question": "What's the most common ship country for orders?",
+      "disambiguated_question": "Find the country to which the most orders have been shipped.",
+      "sql_query": "SELECT ShipCountry, COUNT(*) AS OrderCount FROM Orders GROUP BY ShipCountry ORDER BY OrderCount DESC LIMIT 1"
+    },
+    {
+      "question": "Which customers have never placed an order?",
+      "disambiguated_question": "List the customers who do not have any corresponding entries in the Orders table.",
+      "sql_query": "SELECT CustomerID, CompanyName FROM Customers WHERE CustomerID NOT IN (SELECT DISTINCT CustomerID FROM Orders)"
+    },
+    {
+      "question": "What's the total revenue from 'Dairy Products' in 1997?",
+      "disambiguated_question": "Calculate the sum of all order details' extended prices for products in the 'Dairy Products' category for orders placed in 1997.",
+      "sql_query": "SELECT SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS TotalRevenue FROM [Order Details] od JOIN Products p ON od.ProductID = p.ProductID JOIN Categories c ON p.CategoryID = c.CategoryID JOIN Orders o ON od.OrderID = o.OrderID WHERE c.CategoryName = 'Dairy Products' AND strftime('%Y', o.OrderDate) = '1997'"
+    },
+    {
+      "question": "Who are the top 5 employees by total sales amount?",
+      "disambiguated_question": "List the top 5 employees based on their total sales amount across all orders.",
+      "sql_query": "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS TotalSales FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID JOIN [Order Details] od ON o.OrderID = od.OrderID GROUP BY e.EmployeeID ORDER BY TotalSales DESC LIMIT 5"
+    },
+    {
+      "question": "What's the average number of days between order date and ship date?",
+      "disambiguated_question": "Calculate the average number of days between the OrderDate and ShippedDate for all orders.",
+      "sql_query": "SELECT AVG(JULIANDAY(ShippedDate) - JULIANDAY(OrderDate)) AS AvgDays FROM Orders WHERE ShippedDate IS NOT NULL"
+    },
+    {
+      "question": "Which products have never been ordered?",
+      "disambiguated_question": "List the products that do not appear in any order details.",
+      "sql_query": "SELECT ProductName FROM Products WHERE ProductID NOT IN (SELECT DISTINCT ProductID FROM [Order Details])"
+    },
+    {
+      "question": "What's the most popular product in terms of units sold?",
+      "disambiguated_question": "Find the product with the highest total quantity sold across all orders.",
+      "sql_query": "SELECT p.ProductName, SUM(od.Quantity) AS TotalQuantity FROM Products p JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY p.ProductID ORDER BY TotalQuantity DESC LIMIT 1"
+    },
+    {
+      "question": "Which customers have ordered all products in a specific category?",
+      "disambiguated_question": "List customers who have ordered all products belonging to the 'Beverages' category.",
+      "sql_query": "SELECT c.CustomerID, c.CompanyName FROM Customers c WHERE NOT EXISTS (SELECT p.ProductID FROM Products p JOIN Categories cat ON p.CategoryID = cat.CategoryID WHERE cat.CategoryName = 'Beverages' AND p.ProductID NOT IN (SELECT od.ProductID FROM Orders o JOIN [Order Details] od ON o.OrderID = od.OrderID WHERE o.CustomerID = c.CustomerID))"
+    },
+    {
+      "question": "What's the average discount percentage for orders over $1000?",
+      "disambiguated_question": "Calculate the average discount percentage for order details where the total value (unit price * quantity) exceeds $1000.",
+      "sql_query": "SELECT AVG(Discount) * 100 AS AvgDiscountPercentage FROM [Order Details] WHERE UnitPrice * Quantity > 1000"
+    },
+    {
+      "question": "Which suppliers are from the same country as their products' category's top-selling product?",
+      "disambiguated_question": "List suppliers who are from the same country as the top-selling product (by total quantity sold) in the category of products they supply.",
+      "sql_query": "WITH TopSellingProducts AS (SELECT p.CategoryID, p.ProductID, SUM(od.Quantity) AS TotalQuantity FROM Products p JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY p.CategoryID, p.ProductID), CategoryTopSellers AS (SELECT t.CategoryID, t.ProductID, p.SupplierID, s.Country FROM TopSellingProducts t JOIN Products p ON t.ProductID = p.ProductID JOIN Suppliers s ON p.SupplierID = s.SupplierID WHERE (t.CategoryID, t.TotalQuantity) IN (SELECT CategoryID, MAX(TotalQuantity) FROM TopSellingProducts GROUP BY CategoryID)) SELECT DISTINCT s.SupplierID, s.CompanyName FROM Suppliers s JOIN Products p ON s.SupplierID = p.SupplierID JOIN CategoryTopSellers cts ON p.CategoryID = cts.CategoryID WHERE s.Country = cts.Country"
+    },
+    {
+      "question": "What's the total revenue for each quarter of 1997?",
+      "disambiguated_question": "Calculate the total revenue (sum of order details' extended prices) for each quarter of the year 1997.",
+      "sql_query": "SELECT (CASE WHEN strftime('%m', o.OrderDate) IN ('01', '02', '03') THEN 'Q1' WHEN strftime('%m', o.OrderDate) IN ('04', '05', '06') THEN 'Q2' WHEN strftime('%m', o.OrderDate) IN ('07', '08', '09') THEN 'Q3' ELSE 'Q4' END) AS Quarter, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS TotalRevenue FROM Orders o JOIN [Order Details] od ON o.OrderID = od.OrderID WHERE strftime('%Y', o.OrderDate) = '1997' GROUP BY Quarter ORDER BY Quarter"
+    },
+    {
+      "question": "Which employees have territories in multiple regions?",
+      "disambiguated_question": "List employees who are assigned territories that belong to more than one region.",
+      "sql_query": "SELECT e.EmployeeID, e.FirstName || ' ' || e.LastName AS EmployeeName, COUNT(DISTINCT t.RegionID) AS RegionCount FROM Employees e JOIN EmployeeTerritories et ON e.EmployeeID = et.EmployeeID JOIN Territories t ON et.TerritoryID = t.TerritoryID GROUP BY e.EmployeeID HAVING RegionCount > 1"
+    },
+    {
+      "question": "What's the most expensive product that has never been ordered?",
+      "disambiguated_question": "Find the product with the highest unit price among products that have never appeared in any order details.",
+      "sql_query": "SELECT ProductName, UnitPrice FROM Products WHERE ProductID NOT IN (SELECT DISTINCT ProductID FROM [Order Details]) ORDER BY UnitPrice DESC LIMIT 1"
+    },
+    {
+      "question": "Which customers have ordered products from all categories?",
+      "disambiguated_question": "List customers who have placed orders for products from every category in the Categories table.",
+      "sql_query": "SELECT c.CustomerID, c.CompanyName FROM Customers c WHERE (SELECT COUNT(DISTINCT p.CategoryID) FROM Orders o JOIN [Order Details] od ON o.OrderID = od.OrderID JOIN Products p ON od.ProductID = p.ProductID WHERE o.CustomerID = c.CustomerID) = (SELECT COUNT(*) FROM Categories)"
+    },
+    {
+      "question": "What's the average number of products per order for each customer?",
+      "disambiguated_question": "Calculate the average number of distinct products per order for each customer.",
+      "sql_query": "SELECT c.CustomerID, c.CompanyName, AVG(ProductCount) AS AvgProductsPerOrder FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN (SELECT OrderID, COUNT(DISTINCT ProductID) AS ProductCount FROM [Order Details] GROUP BY OrderID) pc ON o.OrderID = pc.OrderID GROUP BY c.CustomerID ORDER BY AvgProductsPerOrder DESC"
+    },
+    {
+      "question": "Which product has the highest revenue to cost ratio?",
+      "disambiguated_question": "Find the product with the highest ratio of total revenue (sum of extended prices in order details) to total cost (unit price * units in stock).",
+      "sql_query": "SELECT p.ProductID, p.ProductName, (SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) / (p.UnitPrice * p.UnitsInStock)) AS RevenueCostRatio FROM Products p JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY p.ProductID HAVING p.UnitsInStock > 0 ORDER BY RevenueCostRatio DESC LIMIT 1"
+    },
+    {
+      "question": "What's the most common product pair in orders?",
+      "disambiguated_question": "Find the pair of products that appear together most frequently in the same order.",
+      "sql_query": "SELECT p1.ProductName AS Product1, p2.ProductName AS Product2, COUNT(*) AS OrderCount FROM [Order Details] od1 JOIN [Order Details] od2 ON od1.OrderID = od2.OrderID AND od1.ProductID < od2.ProductID JOIN Products p1 ON od1.ProductID = p1.ProductID JOIN Products p2 ON od2.ProductID = p2.ProductID GROUP BY od1.ProductID, od2.ProductID ORDER BY OrderCount DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the big cheese in the Dairy biz?",
+      "disambiguated_question": "Find the supplier who provides the most products in the 'Dairy Products' category.",
+      "sql_query": "SELECT s.CompanyName, COUNT(*) AS ProductCount FROM Suppliers s JOIN Products p ON s.SupplierID = p.SupplierID JOIN Categories c ON p.CategoryID = c.CategoryID WHERE c.CategoryName = 'Dairy Products' GROUP BY s.SupplierID ORDER BY ProductCount DESC LIMIT 1"
+    },
+    {
+      "question": "Which crew member's bringing home the bacon?",
+      "disambiguated_question": "Find the employee with the highest total sales amount across all orders.",
+      "sql_query": "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS TotalSales FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID JOIN [Order Details] od ON o.OrderID = od.OrderID GROUP BY e.EmployeeID ORDER BY TotalSales DESC LIMIT 1"
+    },
+    {
+      "question": "What's flying off the shelves faster than hot cakes?",
+      "disambiguated_question": "Find the product with the highest ratio of units sold to units in stock.",
+      "sql_query": "SELECT p.ProductName, SUM(od.Quantity) / NULLIF(p.UnitsInStock, 0) AS SoldToStockRatio FROM Products p JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY p.ProductID HAVING p.UnitsInStock > 0 ORDER BY SoldToStockRatio DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the top dog in the Big Apple?",
+      "disambiguated_question": "Find the customer with the highest total order value in New York City.",
+      "sql_query": "SELECT c.CompanyName, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS TotalOrderValue FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN [Order Details] od ON o.OrderID = od.OrderID WHERE c.City = 'New York' GROUP BY c.CustomerID ORDER BY TotalOrderValue DESC LIMIT 1"
+    },
+    {
+      "question": "Which product is the dark horse in sales?",
+      "disambiguated_question": "Find the product with the highest increase in sales quantity from 1996 to 1997.",
+      "sql_query": "WITH Sales1996 AS (SELECT ProductID, SUM(Quantity) AS Qty1996 FROM [Order Details] od JOIN Orders o ON od.OrderID = o.OrderID WHERE strftime('%Y', o.OrderDate) = '1996' GROUP BY ProductID), Sales1997 AS (SELECT ProductID, SUM(Quantity) AS Qty1997 FROM [Order Details] od JOIN Orders o ON od.OrderID = o.OrderID WHERE strftime('%Y', o.OrderDate) = '1997' GROUP BY ProductID) SELECT p.ProductName, (s97.Qty1997 - s96.Qty1996) AS Increase FROM Products p JOIN Sales1996 s96 ON p.ProductID = s96.ProductID JOIN Sales1997 s97 ON p.ProductID = s97.ProductID ORDER BY Increase DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the globetrotter of our sales team?",
+      "disambiguated_question": "Find the employee who has sold products to the most different countries.",
+      "sql_query": "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, COUNT(DISTINCT o.ShipCountry) AS CountriesServed FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID GROUP BY e.EmployeeID ORDER BY CountriesServed DESC LIMIT 1"
+    },
+    {
+      "question": "Which product is our golden goose?",
+      "disambiguated_question": "Find the product that has generated the highest total revenue.",
+      "sql_query": "SELECT p.ProductName, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) AS TotalRevenue FROM Products p JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY p.ProductID ORDER BY TotalRevenue DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the king of the jungle in our supplier network?",
+      "disambiguated_question": "Find the supplier who provides products across the most categories.",
+      "sql_query": "SELECT s.CompanyName, COUNT(DISTINCT p.CategoryID) AS CategoryCount FROM Suppliers s JOIN Products p ON s.SupplierID = p.SupplierID GROUP BY s.SupplierID ORDER BY CategoryCount DESC LIMIT 1"
+    },
+    {
+      "question": "Which city is our hidden gem for sales?",
+      "disambiguated_question": "Find the city with the highest average order value, excluding the top 5 cities by total order count.",
+      "sql_query": "WITH CityOrderCounts AS (SELECT ShipCity, COUNT(*) AS OrderCount, AVG(TotalValue) AS AvgOrderValue FROM Orders o JOIN (SELECT OrderID, SUM(UnitPrice * Quantity * (1 - Discount)) AS TotalValue FROM [Order Details] GROUP BY OrderID) od ON o.OrderID = od.OrderID GROUP BY ShipCity) SELECT ShipCity, AvgOrderValue FROM CityOrderCounts WHERE ShipCity NOT IN (SELECT ShipCity FROM CityOrderCounts ORDER BY OrderCount DESC LIMIT 5) ORDER BY AvgOrderValue DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the comeback kid of our product line?",
+      "disambiguated_question": "Find the product that had the lowest sales in 1996 but the highest sales in 1997.",
+      "sql_query": "WITH Sales1996 AS (SELECT ProductID, SUM(Quantity) AS Qty1996 FROM [Order Details] od JOIN Orders o ON od.OrderID = o.OrderID WHERE strftime('%Y', o.OrderDate) = '1996' GROUP BY ProductID), Sales1997 AS (SELECT ProductID, SUM(Quantity) AS Qty1997 FROM [Order Details] od JOIN Orders o ON od.OrderID = o.OrderID WHERE strftime('%Y', o.OrderDate) = '1997' GROUP BY ProductID) SELECT p.ProductName FROM Products p JOIN Sales1996 s96 ON p.ProductID = s96.ProductID JOIN Sales1997 s97 ON p.ProductID = s97.ProductID WHERE s96.Qty1996 = (SELECT MIN(Qty1996) FROM Sales1996) AND s97.Qty1997 = (SELECT MAX(Qty1997) FROM Sales1997)"
+    },
+    {
+      "question": "Which customer is playing hard to get?",
+      "disambiguated_question": "Find the customer who has the longest average time between orders.",
+      "sql_query": "WITH OrderDates AS (SELECT CustomerID, OrderDate, LAG(OrderDate) OVER (PARTITION BY CustomerID ORDER BY OrderDate) AS PrevOrderDate FROM Orders) SELECT c.CompanyName, AVG(JULIANDAY(OrderDate) - JULIANDAY(PrevOrderDate)) AS AvgDaysBetweenOrders FROM OrderDates od JOIN Customers c ON od.CustomerID = c.CustomerID WHERE PrevOrderDate IS NOT NULL GROUP BY od.CustomerID ORDER BY AvgDaysBetweenOrders DESC LIMIT 1"
+    },
+    {
+      "question": "Which product category is our cash cow?",
+      "disambiguated_question": "Find the category with the highest profit margin (assuming profit is 20% of revenue).",
+      "sql_query": "SELECT c.CategoryName, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount) * 0.2) AS TotalProfit FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY c.CategoryID ORDER BY TotalProfit DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the master of upselling in our team?",
+      "disambiguated_question": "Find the employee who has the highest average number of items per order.",
+      "sql_query": "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, AVG(ItemCount) AS AvgItemsPerOrder FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID JOIN (SELECT OrderID, SUM(Quantity) AS ItemCount FROM [Order Details] GROUP BY OrderID) od ON o.OrderID = od.OrderID GROUP BY e.EmployeeID ORDER BY AvgItemsPerOrder DESC LIMIT 1"
+    },
+    {
+      "question": "Which product is the unsung hero of our inventory?",
+      "disambiguated_question": "Find the product with the highest ratio of total revenue to number of orders it appears in.",
+      "sql_query": "SELECT p.ProductName, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) / COUNT(DISTINCT od.OrderID) AS RevenuePerOrder FROM Products p JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY p.ProductID ORDER BY RevenuePerOrder DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the VIP in our customer base?",
+      "disambiguated_question": "Find the customer who has ordered the highest number of distinct products.",
+      "sql_query": "SELECT c.CompanyName, COUNT(DISTINCT od.ProductID) AS DistinctProducts FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN [Order Details] od ON o.OrderID = od.OrderID GROUP BY c.CustomerID ORDER BY DistinctProducts DESC LIMIT 1"
+    },
+    {
+      "question": "Which supplier is our secret weapon?",
+      "disambiguated_question": "Find the supplier whose products have the highest average rating (assuming rating is inversely proportional to discount, i.e., lower discount means higher rating).",
+      "sql_query": "SELECT s.CompanyName, AVG(1 - od.Discount) AS AvgRating FROM Suppliers s JOIN Products p ON s.SupplierID = p.SupplierID JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY s.SupplierID ORDER BY AvgRating DESC LIMIT 1"
+    },
+    {
+      "question": "Which product is our slow burner?",
+      "disambiguated_question": "Find the product with the longest average time between consecutive orders.",
+      "sql_query": "WITH OrderDates AS (SELECT ProductID, OrderDate, LAG(OrderDate) OVER (PARTITION BY ProductID ORDER BY OrderDate) AS PrevOrderDate FROM [Order Details] od JOIN Orders o ON od.OrderID = o.OrderID) SELECT p.ProductName, AVG(JULIANDAY(OrderDate) - JULIANDAY(PrevOrderDate)) AS AvgDaysBetweenOrders FROM OrderDates od JOIN Products p ON od.ProductID = p.ProductID WHERE PrevOrderDate IS NOT NULL GROUP BY od.ProductID ORDER BY AvgDaysBetweenOrders DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the master of disaster in our shipping department?",
+      "disambiguated_question": "Find the employee with the highest percentage of late shipments (shipped after required date).",
+      "sql_query": "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, SUM(CASE WHEN o.ShippedDate > o.RequiredDate THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS LateShipmentPercentage FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID WHERE o.ShippedDate IS NOT NULL GROUP BY e.EmployeeID ORDER BY LateShipmentPercentage DESC LIMIT 1"
+    },
+    {
+      "question": "Which product category is our rising star?",
+      "disambiguated_question": "Find the category with the highest year-over-year growth in order quantity from 1996 to 1997.",
+      "sql_query": "WITH CategorySales AS (SELECT c.CategoryID, c.CategoryName, strftime('%Y', o.OrderDate) AS Year, SUM(od.Quantity) AS TotalQuantity FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID JOIN [Order Details] od ON p.ProductID = od.ProductID JOIN Orders o ON od.OrderID = o.OrderID WHERE Year IN ('1996', '1997') GROUP BY c.CategoryID, Year) SELECT cs1.CategoryName, (cs2.TotalQuantity - cs1.TotalQuantity) * 100.0 / cs1.TotalQuantity AS GrowthPercentage FROM CategorySales cs1 JOIN CategorySales cs2 ON cs1.CategoryID = cs2.CategoryID AND cs1.Year = '1996' AND cs2.Year = '1997' ORDER BY GrowthPercentage DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the smooth operator in our sales team?",
+      "disambiguated_question": "Find the employee with the highest ratio of distinct customers to total orders.",
+      "sql_query": "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, COUNT(DISTINCT o.CustomerID) * 1.0 / COUNT(*) AS CustomerOrderRatio FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID GROUP BY e.EmployeeID ORDER BY CustomerOrderRatio DESC LIMIT 1"
+    },
+    {
+      "question": "Which product is our silent moneymaker?",
+      "disambiguated_question": "Find the product with the highest total revenue that has never been discounted.",
+      "sql_query": "SELECT p.ProductName, SUM(od.UnitPrice * od.Quantity) AS TotalRevenue FROM Products p JOIN [Order Details] od ON p.ProductID = od.ProductID WHERE od.Discount = 0 GROUP BY p.ProductID HAVING p.ProductID NOT IN (SELECT DISTINCT ProductID FROM [Order Details] WHERE Discount > 0) ORDER BY TotalRevenue DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the chameleon in our customer base?",
+      "disambiguated_question": "Find the customer who has ordered from the most diverse set of categories.",
+      "sql_query": "SELECT c.CompanyName, COUNT(DISTINCT p.CategoryID) AS CategoryCount FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN [Order Details] od ON o.OrderID = od.OrderID JOIN Products p ON od.ProductID = p.ProductID GROUP BY c.CustomerID ORDER BY CategoryCount DESC LIMIT 1"
+    },
+    {
+      "question": "Which city is our diamond in the rough?",
+      "disambiguated_question": "Find the city with the highest average order value among cities with fewer than 5 orders.",
+      "sql_query": "SELECT ShipCity, AVG(TotalValue) AS AvgOrderValue FROM Orders o JOIN (SELECT OrderID, SUM(UnitPrice * Quantity * (1 - Discount)) AS TotalValue FROM [Order Details] GROUP BY OrderID) od ON o.OrderID = od.OrderID GROUP BY ShipCity HAVING COUNT(*) < 5 ORDER BY AvgOrderValue DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the jack of all trades in our supplier network?",
+      "disambiguated_question": "Find the supplier who provides products in the most diverse set of price ranges.",
+      "sql_query": "WITH PriceRanges AS (SELECT ProductID, CASE WHEN UnitPrice < 10 THEN 1 WHEN UnitPrice < 20 THEN 2 WHEN UnitPrice < 50 THEN 3 ELSE 4 END AS PriceRange FROM Products) SELECT s.CompanyName, COUNT(DISTINCT pr.PriceRange) AS PriceRangeCount FROM Suppliers s JOIN Products p ON s.SupplierID = p.SupplierID JOIN PriceRanges pr ON p.ProductID = pr.ProductID GROUP BY s.SupplierID ORDER BY PriceRangeCount DESC LIMIT 1"
+    },
+    {
+      "question": "Which product is our steady eddie?",
+      "disambiguated_question": "Find the product with the most consistent order quantity across all its orders.",
+      "sql_query": "SELECT p.ProductName, AVG(od.Quantity) AS AvgQuantity, STDEV(od.Quantity) AS StdDevQuantity, STDEV(od.Quantity) / AVG(od.Quantity) AS CoefficientOfVariation FROM Products p JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY p.ProductID HAVING COUNT(*) > 10 ORDER BY CoefficientOfVariation ASC LIMIT 1"
+    },
+    {
+      "question": "Who's the ninja of our shipping department?",
+      "disambiguated_question": "Find the employee with the highest percentage of orders shipped earlier than required.",
+      "sql_query": "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, SUM(CASE WHEN o.ShippedDate < o.RequiredDate THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS EarlyShipmentPercentage FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID WHERE o.ShippedDate IS NOT NULL GROUP BY e.EmployeeID ORDER BY EarlyShipmentPercentage DESC LIMIT 1"
+    },
+    {
+      "question": "Which product category is our sleeping giant?",
+      "disambiguated_question": "Find the category with the highest ratio of total revenue to number of products in that category.",
+      "sql_query": "SELECT c.CategoryName, SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) / COUNT(DISTINCT p.ProductID) AS RevenuePerProduct FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY c.CategoryID ORDER BY RevenuePerProduct DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the dark horse in our customer base?",
+      "disambiguated_question": "Find the customer who has the highest average order value among customers with fewer than 5 orders.",
+      "sql_query": "SELECT c.CompanyName, AVG(TotalValue) AS AvgOrderValue FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN (SELECT OrderID, SUM(UnitPrice * Quantity * (1 - Discount)) AS TotalValue FROM [Order Details] GROUP BY OrderID) od ON o.OrderID = od.OrderID GROUP BY c.CustomerID HAVING COUNT(o.OrderID) < 5 ORDER BY AvgOrderValue DESC LIMIT 1"
+    },
+    {
+      "question": "Which product is our hidden gem in the rough?",
+      "disambiguated_question": "Find the product with the highest profit margin (assuming 20% of price is profit) that has been ordered less than 10 times.",
+      "sql_query": "SELECT p.ProductName, (p.UnitPrice * 0.2) AS ProfitMargin, COUNT(od.OrderID) AS OrderCount FROM Products p LEFT JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY p.ProductID HAVING OrderCount < 10 ORDER BY ProfitMargin DESC LIMIT 1"
+    },
+    {
+      "question": "Who's the maestro of our inventory orchestra?",
+      "disambiguated_question": "Find the employee who has sold the widest variety of products (highest number of distinct products).",
+      "sql_query": "SELECT e.FirstName || ' ' || e.LastName AS EmployeeName, COUNT(DISTINCT od.ProductID) AS DistinctProducts FROM Employees e JOIN Orders o ON e.EmployeeID = o.EmployeeID JOIN [Order Details] od ON o.OrderID = od.OrderID GROUP BY e.EmployeeID ORDER BY DistinctProducts DESC LIMIT 1"
+    },
+    {
+      "question": "Which supplier is our secret sauce maker?",
+      "disambiguated_question": "Find the supplier whose products have the highest average quantity per order.",
+      "sql_query": "SELECT s.CompanyName, AVG(od.Quantity) AS AvgQuantityPerOrder FROM Suppliers s JOIN Products p ON s.SupplierID = p.SupplierID JOIN [Order Details] od ON p.ProductID = od.ProductID GROUP BY s.SupplierID ORDER BY AvgQuantityPerOrder DESC LIMIT 1"
+    },
+    {
+      "question": "What's our golden ratio of product combos?",
+      "disambiguated_question": "Find the pair of products that, when ordered together, result in the highest average total order value.",
+      "sql_query": "WITH ProductPairs AS (SELECT od1.ProductID AS Product1, od2.ProductID AS Product2, o.OrderID FROM [Order Details] od1 JOIN [Order Details] od2 ON od1.OrderID = od2.OrderID AND od1.ProductID < od2.ProductID JOIN Orders o ON od1.OrderID = o.OrderID) SELECT p1.ProductName AS Product1Name, p2.ProductName AS Product2Name, AVG(TotalValue) AS AvgOrderValue FROM ProductPairs pp JOIN (SELECT OrderID, SUM(UnitPrice * Quantity * (1 - Discount)) AS TotalValue FROM [Order Details] GROUP BY OrderID) od ON pp.OrderID = od.OrderID JOIN Products p1 ON pp.Product1 = p1.ProductID JOIN Products p2 ON pp.Product2 = p2.ProductID GROUP BY pp.Product1, pp.Product2 ORDER BY AvgOrderValue DESC LIMIT 1"
+    }
+  ]
+  
