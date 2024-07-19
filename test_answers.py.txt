@@ -1,0 +1,3372 @@
+SQL TEST: 06:51PM on July 19, 2024
+
+################################################
+############# QUESTION 1 of 50 (SUBQUESTION 0, QUESTION 1): How many albums does AC/DC have?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT COUNT(*) 
+FROM Album 
+WHERE ArtistId = (SELECT ArtistId 
+FROM Artist 
+WHERE Name = 'AC/DC');
+</QUERY>
+
+<EXPECTED SQL>
+SELECT COUNT(*) 
+FROM Album 
+WHERE ArtistId = (SELECT ArtistId 
+FROM Artist 
+WHERE Name = 'AC/DC');
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+2
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+2
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 1 TESTS. STATS SO FAR:
+MATCH: 1 (100%)
+################################################
+{'GOOD': 1, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 2 of 50 (SUBQUESTION 0, QUESTION 1): Who is the oldest employee?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT FirstName, LastName 
+FROM Employee 
+ORDER BY BirthDate ASC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT FirstName, LastName 
+FROM Employee 
+ORDER BY BirthDate ASC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Margaret|Park
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Margaret|Park
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 2 TESTS. STATS SO FAR:
+MATCH: 2 (100%)
+################################################
+{'GOOD': 2, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 3 of 50 (SUBQUESTION 0, QUESTION 1): What's the most expensive track?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Name, UnitPrice 
+FROM Track 
+ORDER BY UnitPrice DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Name, UnitPrice 
+FROM Track 
+ORDER BY UnitPrice DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Battlestar Galactica: The Story So Far|1.99
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Battlestar Galactica: The Story So Far|1.99
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 3 TESTS. STATS SO FAR:
+MATCH: 3 (100%)
+################################################
+{'GOOD': 3, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 4 of 50 (SUBQUESTION 0, QUESTION 1): How many customers are from Brazil?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT COUNT(*) 
+FROM Customer 
+WHERE Country = 'Brazil';
+</QUERY>
+
+<EXPECTED SQL>
+SELECT COUNT(*) 
+FROM Customer 
+WHERE Country = 'Brazil';
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+5
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+5
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 4 TESTS. STATS SO FAR:
+MATCH: 4 (100%)
+################################################
+{'GOOD': 4, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 5 of 50 (SUBQUESTION 0, QUESTION 1): What's the total duration of all tracks by Aerosmith?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT SUM(Milliseconds) 
+FROM Track 
+JOIN Album ON Track.AlbumId = Album.AlbumId 
+JOIN Artist ON Album.ArtistId = Artist.ArtistId 
+WHERE Artist.Name = 'Aerosmith';
+</QUERY>
+
+<EXPECTED SQL>
+SELECT SUM(Milliseconds) 
+FROM Track 
+JOIN Album ON Track.AlbumId = Album.AlbumId 
+JOIN Artist ON Album.ArtistId = Artist.ArtistId 
+WHERE Artist.Name = 'Aerosmith';
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+4411709
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+4411709
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 5 TESTS. STATS SO FAR:
+MATCH: 5 (100%)
+################################################
+{'GOOD': 5, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 6 of 50 (SUBQUESTION 0, QUESTION 1): Which genre has the most tracks?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Genre.Name, COUNT(*) as TrackCount 
+FROM Track 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+GROUP BY Genre.GenreId 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Genre.Name, COUNT(*) as TrackCount 
+FROM Track 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+GROUP BY Genre.GenreId 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Rock|1297
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Rock|1297
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 6 TESTS. STATS SO FAR:
+MATCH: 6 (100%)
+################################################
+{'GOOD': 6, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 7 of 50 (SUBQUESTION 0, QUESTION 1): Who is the highest-earning customer?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Customer.FirstName, Customer.LastName, SUM(Invoice.Total) as TotalSpent 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Customer.CustomerId 
+ORDER BY TotalSpent DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Customer.FirstName, Customer.LastName, SUM(Invoice.Total) as TotalSpent 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Customer.CustomerId 
+ORDER BY TotalSpent DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Helena|Holý|49.62
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Helena|Holý|49.62
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 7 TESTS. STATS SO FAR:
+MATCH: 7 (100%)
+################################################
+{'GOOD': 7, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 8 of 50 (SUBQUESTION 0, QUESTION 1): What's the average length of rock tracks?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT AVG(Milliseconds) 
+FROM Track 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+WHERE Genre.Name = 'Rock';
+</QUERY>
+
+<EXPECTED SQL>
+SELECT AVG(Milliseconds) 
+FROM Track 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+WHERE Genre.Name = 'Rock';
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+283910.0431765613
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+283910.0431765613
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 8 TESTS. STATS SO FAR:
+MATCH: 8 (100%)
+################################################
+{'GOOD': 8, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 9 of 50 (SUBQUESTION 0, QUESTION 1): How many employees were hired in 2003?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT COUNT(*) 
+FROM Employee 
+WHERE strftime('%Y', HireDate) = 2003;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT COUNT(*) 
+FROM Employee 
+WHERE strftime('%Y', HireDate) = 2003;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+0
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+0
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 9 TESTS. STATS SO FAR:
+MATCH: 9 (100%)
+################################################
+{'GOOD': 9, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 10 of 50 (SUBQUESTION 0, QUESTION 1): Which playlist has the most tracks?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Playlist.Name, COUNT(*) as TrackCount 
+FROM Playlist 
+JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId 
+GROUP BY Playlist.PlaylistId 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Playlist.Name, COUNT(*) as TrackCount 
+FROM Playlist 
+JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId 
+GROUP BY Playlist.PlaylistId 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Music|3290
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Music|3290
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 10 TESTS. STATS SO FAR:
+MATCH: 10 (100%)
+################################################
+{'GOOD': 10, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 11 of 50 (SUBQUESTION 0, QUESTION 1): What's the total sales for 2021?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT SUM(Total) 
+FROM Invoice 
+WHERE strftime('%Y', InvoiceDate) = 2021;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT SUM(Total) 
+FROM Invoice 
+WHERE strftime('%Y', InvoiceDate) = 2021;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+None
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+None
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 11 TESTS. STATS SO FAR:
+MATCH: 11 (100%)
+################################################
+{'GOOD': 11, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 12 of 50 (SUBQUESTION 0, QUESTION 1): Which country has the most customers?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Country, COUNT(*) as CustomerCount 
+FROM Customer 
+GROUP BY Country 
+ORDER BY CustomerCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Country, COUNT(*) as CustomerCount 
+FROM Customer 
+GROUP BY Country 
+ORDER BY CustomerCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+USA|13
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+USA|13
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 12 TESTS. STATS SO FAR:
+MATCH: 12 (100%)
+################################################
+{'GOOD': 12, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 13 of 50 (SUBQUESTION 0, QUESTION 1): What's the average number of tracks per album?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT AVG(TrackCount) 
+FROM (SELECT AlbumId, COUNT(*) as TrackCount 
+FROM Track 
+GROUP BY AlbumId) as AlbumTrackCounts;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT AVG(TrackCount) 
+FROM (SELECT AlbumId, COUNT(*) as TrackCount 
+FROM Track 
+GROUP BY AlbumId) as AlbumTrackCounts;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+10.095100864553315
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+10.095100864553315
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 13 TESTS. STATS SO FAR:
+MATCH: 13 (100%)
+################################################
+{'GOOD': 13, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 14 of 50 (SUBQUESTION 0, QUESTION 1): Who is the manager with the most direct reports?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT e.FirstName, e.LastName, COUNT(*) as DirectReports 
+FROM Employee e 
+JOIN Employee r ON e.EmployeeId = r.ReportsTo 
+GROUP BY e.EmployeeId 
+ORDER BY DirectReports DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT e.FirstName, e.LastName, COUNT(*) as DirectReports 
+FROM Employee e 
+JOIN Employee r ON e.EmployeeId = r.ReportsTo 
+GROUP BY e.EmployeeId 
+ORDER BY DirectReports DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Nancy|Edwards|3
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Nancy|Edwards|3
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 14 TESTS. STATS SO FAR:
+MATCH: 14 (100%)
+################################################
+{'GOOD': 14, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 15 of 50 (SUBQUESTION 0, QUESTION 1): What's the most common media type for tracks?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT MediaType.Name, COUNT(*) as TrackCount 
+FROM Track 
+JOIN MediaType ON Track.MediaTypeId = MediaType.MediaTypeId 
+GROUP BY MediaType.MediaTypeId 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT MediaType.Name, COUNT(*) as TrackCount 
+FROM Track 
+JOIN MediaType ON Track.MediaTypeId = MediaType.MediaTypeId 
+GROUP BY MediaType.MediaTypeId 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+MPEG audio file|3034
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+MPEG audio file|3034
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 15 TESTS. STATS SO FAR:
+MATCH: 15 (100%)
+################################################
+{'GOOD': 15, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 16 of 50 (SUBQUESTION 0, QUESTION 1): How many tracks were composed by Queen?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT COUNT(*) 
+FROM Track 
+WHERE Composer LIKE '%Queen%';
+</QUERY>
+
+<EXPECTED SQL>
+SELECT COUNT(*) 
+FROM Track 
+WHERE Composer LIKE '%Queen%';
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+10
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+10
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 16 TESTS. STATS SO FAR:
+MATCH: 16 (100%)
+################################################
+{'GOOD': 16, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 17 of 50 (SUBQUESTION 0, QUESTION 1): What's the total playtime of the 'Music' playlist?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT SUM(Track.Milliseconds) 
+FROM Track 
+JOIN PlaylistTrack ON Track.TrackId = PlaylistTrack.TrackId 
+JOIN Playlist ON PlaylistTrack.PlaylistId = Playlist.PlaylistId 
+WHERE Playlist.Name = 'Music';
+</QUERY>
+
+<EXPECTED SQL>
+SELECT SUM(Track.Milliseconds) 
+FROM Track 
+JOIN PlaylistTrack ON Track.TrackId = PlaylistTrack.TrackId 
+JOIN Playlist ON PlaylistTrack.PlaylistId = Playlist.PlaylistId 
+WHERE Playlist.Name = 'Music';
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+1755366166
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+1755366166
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 17 TESTS. STATS SO FAR:
+MATCH: 17 (100%)
+################################################
+{'GOOD': 17, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 18 of 50 (SUBQUESTION 0, QUESTION 1): Which artist has the most albums?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Artist.Name, COUNT(*) as AlbumCount 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+GROUP BY Artist.ArtistId 
+ORDER BY AlbumCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Artist.Name, COUNT(*) as AlbumCount 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+GROUP BY Artist.ArtistId 
+ORDER BY AlbumCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Iron Maiden|21
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Iron Maiden|21
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 18 TESTS. STATS SO FAR:
+MATCH: 18 (100%)
+################################################
+{'GOOD': 18, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 19 of 50 (SUBQUESTION 0, QUESTION 1): What's the average invoice total?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT AVG(Total) 
+FROM Invoice;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT AVG(Total) 
+FROM Invoice;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+5.651941747572815
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+5.651941747572815
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 19 TESTS. STATS SO FAR:
+MATCH: 19 (100%)
+################################################
+{'GOOD': 19, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 20 of 50 (SUBQUESTION 0, QUESTION 1): How many tracks are longer than 5 minutes?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT COUNT(*) 
+FROM Track 
+WHERE Milliseconds > 300000;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT COUNT(*) 
+FROM Track 
+WHERE Milliseconds > 300000;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+1069
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+1069
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 20 TESTS. STATS SO FAR:
+MATCH: 20 (100%)
+################################################
+{'GOOD': 20, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 21 of 50 (SUBQUESTION 0, QUESTION 1): Which customer has purchased the most tracks?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Customer.FirstName, Customer.LastName, COUNT(*) as TracksPurchased 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Customer.CustomerId 
+ORDER BY TracksPurchased DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Customer.FirstName, Customer.LastName, COUNT(*) as TracksPurchased 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Customer.CustomerId 
+ORDER BY TracksPurchased DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Manoj|Pareek|38
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Manoj|Pareek|38
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 21 TESTS. STATS SO FAR:
+MATCH: 21 (100%)
+################################################
+{'GOOD': 21, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 22 of 50 (SUBQUESTION 0, QUESTION 1): What's the total size of all tracks in gigabytes?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT SUM(Bytes) / 1073741824.0 as GigabytesTotal 
+FROM Track;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT SUM(Bytes) / 1073741824.0 as GigabytesTotal 
+FROM Track;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+109.32446955703199
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+109.32446955703199
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 22 TESTS. STATS SO FAR:
+MATCH: 22 (100%)
+################################################
+{'GOOD': 22, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 23 of 50 (SUBQUESTION 0, QUESTION 1): How many customers does each employee support?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Employee.FirstName, Employee.LastName, COUNT(Customer.CustomerId) as CustomerCount 
+FROM Employee LEFT 
+JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId 
+GROUP BY Employee.EmployeeId;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Employee.FirstName, Employee.LastName, COUNT(Customer.CustomerId) as CustomerCount 
+FROM Employee LEFT 
+JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId 
+GROUP BY Employee.EmployeeId;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Andrew|Adams|0
+Nancy|Edwards|0
+Jane|Peacock|21
+Margaret|Park|20
+Steve|Johnson|18
+Michael|Mitchell|0
+Robert|King|0
+Laura|Callahan|0
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Andrew|Adams|0
+Nancy|Edwards|0
+Jane|Peacock|21
+Margaret|Park|20
+Steve|Johnson|18
+Michael|Mitchell|0
+Robert|King|0
+Laura|Callahan|0
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 23 TESTS. STATS SO FAR:
+MATCH: 23 (100%)
+################################################
+{'GOOD': 23, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 24 of 50 (SUBQUESTION 0, QUESTION 1): What's the most common billing country?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT BillingCountry, COUNT(*) as InvoiceCount 
+FROM Invoice 
+GROUP BY BillingCountry 
+ORDER BY InvoiceCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT BillingCountry, COUNT(*) as InvoiceCount 
+FROM Invoice 
+GROUP BY BillingCountry 
+ORDER BY InvoiceCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+USA|91
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+USA|91
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 24 TESTS. STATS SO FAR:
+MATCH: 24 (100%)
+################################################
+{'GOOD': 24, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 25 of 50 (SUBQUESTION 0, QUESTION 1): How many rock stars are in the database?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT COUNT(DISTINCT Artist.ArtistId) 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+WHERE Genre.Name = 'Rock';
+</QUERY>
+
+<EXPECTED SQL>
+SELECT COUNT(DISTINCT Artist.ArtistId) 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+WHERE Genre.Name = 'Rock';
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+51
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+51
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 25 TESTS. STATS SO FAR:
+MATCH: 25 (100%)
+################################################
+{'GOOD': 25, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 26 of 50 (SUBQUESTION 0, QUESTION 1): Who's the big cheese in the company?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT FirstName, LastName, Title 
+FROM Employee 
+WHERE ReportsTo IS NULL;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT FirstName, LastName, Title 
+FROM Employee 
+WHERE ReportsTo IS NULL;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Andrew|Adams|General Manager
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Andrew|Adams|General Manager
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 26 TESTS. STATS SO FAR:
+MATCH: 26 (100%)
+################################################
+{'GOOD': 26, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 27 of 50 (SUBQUESTION 0, QUESTION 1): What's the hottest track in town?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Track.Name, COUNT(*) as PurchaseCount 
+FROM Track 
+JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId 
+GROUP BY Track.TrackId 
+ORDER BY PurchaseCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Track.Name, COUNT(*) as PurchaseCount 
+FROM Track 
+JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId 
+GROUP BY Track.TrackId 
+ORDER BY PurchaseCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Balls to the Wall|2
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Balls to the Wall|2
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 27 TESTS. STATS SO FAR:
+MATCH: 27 (100%)
+################################################
+{'GOOD': 27, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 28 of 50 (SUBQUESTION 0, QUESTION 1): Which artist is raking in the most dough?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Artist.Name, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSales 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId 
+GROUP BY Artist.ArtistId 
+ORDER BY TotalSales DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Artist.Name, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSales 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId 
+GROUP BY Artist.ArtistId 
+ORDER BY TotalSales DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Iron Maiden|138.6
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Iron Maiden|138.6
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 28 TESTS. STATS SO FAR:
+MATCH: 28 (100%)
+################################################
+{'GOOD': 28, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 29 of 50 (SUBQUESTION 0, QUESTION 1): Who's the most devoted music fan?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Customer.FirstName, Customer.LastName, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSpent 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Customer.CustomerId 
+ORDER BY TotalSpent DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Customer.FirstName, Customer.LastName, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSpent 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Customer.CustomerId 
+ORDER BY TotalSpent DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Helena|Holý|49.62
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Helena|Holý|49.62
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 29 TESTS. STATS SO FAR:
+MATCH: 29 (100%)
+################################################
+{'GOOD': 29, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 30 of 50 (SUBQUESTION 0, QUESTION 1): Which genre is bringing home the bacon?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Genre.Name, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSales 
+FROM Genre 
+JOIN Track ON Genre.GenreId = Track.GenreId 
+JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId 
+GROUP BY Genre.GenreId 
+ORDER BY TotalSales DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Genre.Name, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSales 
+FROM Genre 
+JOIN Track ON Genre.GenreId = Track.GenreId 
+JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId 
+GROUP BY Genre.GenreId 
+ORDER BY TotalSales DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Rock|826.65
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Rock|826.65
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 30 TESTS. STATS SO FAR:
+MATCH: 30 (100%)
+################################################
+{'GOOD': 30, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 31 of 50 (SUBQUESTION 0, QUESTION 1): Who's the busiest beaver in sales?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Employee.FirstName, Employee.LastName, COUNT(DISTINCT Invoice.InvoiceId) as InvoiceCount 
+FROM Employee 
+JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Employee.EmployeeId 
+ORDER BY InvoiceCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Employee.FirstName, Employee.LastName, COUNT(DISTINCT Invoice.InvoiceId) as InvoiceCount 
+FROM Employee 
+JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Employee.EmployeeId 
+ORDER BY InvoiceCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Jane|Peacock|146
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Jane|Peacock|146
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 31 TESTS. STATS SO FAR:
+MATCH: 31 (100%)
+################################################
+{'GOOD': 31, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 32 of 50 (SUBQUESTION 0, QUESTION 1): What's the most popular playlist among the cool kids?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Playlist.Name, COUNT(*) as TrackCount 
+FROM Playlist 
+JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId 
+GROUP BY Playlist.PlaylistId 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Playlist.Name, COUNT(*) as TrackCount 
+FROM Playlist 
+JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId 
+GROUP BY Playlist.PlaylistId 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Music|3290
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Music|3290
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 32 TESTS. STATS SO FAR:
+MATCH: 32 (100%)
+################################################
+{'GOOD': 32, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 33 of 50 (SUBQUESTION 0, QUESTION 1): Which country is swimming in tunes?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Invoice.BillingCountry, COUNT(*) as TracksPurchased 
+FROM Invoice 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Invoice.BillingCountry 
+ORDER BY TracksPurchased DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Invoice.BillingCountry, COUNT(*) as TracksPurchased 
+FROM Invoice 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Invoice.BillingCountry 
+ORDER BY TracksPurchased DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+USA|494
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+USA|494
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 33 TESTS. STATS SO FAR:
+MATCH: 33 (100%)
+################################################
+{'GOOD': 33, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 34 of 50 (SUBQUESTION 0, QUESTION 1): Who's the most prolific wordsmith?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Composer, COUNT(*) as TrackCount 
+FROM Track 
+WHERE Composer IS NOT NULL 
+GROUP BY Composer 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Composer, COUNT(*) as TrackCount 
+FROM Track 
+WHERE Composer IS NOT NULL 
+GROUP BY Composer 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Steve Harris|80
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Steve Harris|80
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 34 TESTS. STATS SO FAR:
+MATCH: 34 (100%)
+################################################
+{'GOOD': 34, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 35 of 50 (SUBQUESTION 0, QUESTION 1): Which album is the heavyweight champion?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Album.Title, SUM(Track.Milliseconds) as TotalDuration 
+FROM Album 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+GROUP BY Album.AlbumId 
+ORDER BY TotalDuration DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Album.Title, SUM(Track.Milliseconds) as TotalDuration 
+FROM Album 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+GROUP BY Album.AlbumId 
+ORDER BY TotalDuration DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Lost, Season 3|70665582
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Lost, Season 3|70665582
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 35 TESTS. STATS SO FAR:
+MATCH: 35 (100%)
+################################################
+{'GOOD': 35, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 36 of 50 (SUBQUESTION 0, QUESTION 1): Who's the customer with the fattest wallet?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Customer.FirstName, Customer.LastName, SUM(Invoice.Total) as TotalSpent 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Customer.CustomerId 
+ORDER BY TotalSpent DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Customer.FirstName, Customer.LastName, SUM(Invoice.Total) as TotalSpent 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Customer.CustomerId 
+ORDER BY TotalSpent DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Helena|Holý|49.62
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Helena|Holý|49.62
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 36 TESTS. STATS SO FAR:
+MATCH: 36 (100%)
+################################################
+{'GOOD': 36, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 37 of 50 (SUBQUESTION 0, QUESTION 1): Which city is the music capital of our customer base?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT City, COUNT(*) as CustomerCount 
+FROM Customer 
+GROUP BY City 
+ORDER BY CustomerCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT City, COUNT(*) as CustomerCount 
+FROM Customer 
+GROUP BY City 
+ORDER BY CustomerCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+São Paulo|2
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+São Paulo|2
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 37 TESTS. STATS SO FAR:
+MATCH: 37 (100%)
+################################################
+{'GOOD': 37, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 38 of 50 (SUBQUESTION 0, QUESTION 1): What's the most common year for our customers' purchases?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT strftime('%Y', InvoiceDate) as Year, COUNT(*) as InvoiceCount 
+FROM Invoice 
+GROUP BY Year 
+ORDER BY InvoiceCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT strftime('%Y', InvoiceDate) as Year, COUNT(*) as InvoiceCount 
+FROM Invoice 
+GROUP BY Year 
+ORDER BY InvoiceCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+2024|83
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+2024|83
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 38 TESTS. STATS SO FAR:
+MATCH: 38 (100%)
+################################################
+{'GOOD': 38, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 39 of 50 (SUBQUESTION 0, QUESTION 1): Which artist is the king of short tunes?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Artist.Name, AVG(Track.Milliseconds) as AvgDuration 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+GROUP BY Artist.ArtistId 
+ORDER BY AvgDuration ASC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Artist.Name, AVG(Track.Milliseconds) as AvgDuration 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+GROUP BY Artist.ArtistId 
+ORDER BY AvgDuration ASC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Michele Campanella|51780.0
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Michele Campanella|51780.0
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 39 TESTS. STATS SO FAR:
+MATCH: 39 (100%)
+################################################
+{'GOOD': 39, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 40 of 50 (SUBQUESTION 0, QUESTION 1): Who's the employee with the golden touch?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Employee.FirstName, Employee.LastName, AVG(Invoice.Total) as AvgInvoiceTotal 
+FROM Employee 
+JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Employee.EmployeeId 
+ORDER BY AvgInvoiceTotal DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Employee.FirstName, Employee.LastName, AVG(Invoice.Total) as AvgInvoiceTotal 
+FROM Employee 
+JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Employee.EmployeeId 
+ORDER BY AvgInvoiceTotal DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Steve|Johnson|5.7155555555555555
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Steve|Johnson|5.7155555555555555
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 40 TESTS. STATS SO FAR:
+MATCH: 40 (100%)
+################################################
+{'GOOD': 40, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 41 of 50 (SUBQUESTION 0, QUESTION 1): Which genre is a one-hit wonder?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Genre.Name 
+FROM Genre 
+JOIN Track ON Genre.GenreId = Track.GenreId 
+GROUP BY Genre.GenreId 
+HAVING COUNT(*) = 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Genre.Name 
+FROM Genre 
+JOIN Track ON Genre.GenreId = Track.GenreId 
+GROUP BY Genre.GenreId 
+HAVING COUNT(*) = 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Opera
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Opera
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 41 TESTS. STATS SO FAR:
+MATCH: 41 (100%)
+################################################
+{'GOOD': 41, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 42 of 50 (SUBQUESTION 0, QUESTION 1): Who's the customer with the most eclectic taste?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Customer.FirstName, Customer.LastName, COUNT(DISTINCT Genre.GenreId) as GenreCount 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+JOIN Track ON InvoiceLine.TrackId = Track.TrackId 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+GROUP BY Customer.CustomerId 
+ORDER BY GenreCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Customer.FirstName, Customer.LastName, COUNT(DISTINCT Genre.GenreId) as GenreCount 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+JOIN Track ON InvoiceLine.TrackId = Track.TrackId 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+GROUP BY Customer.CustomerId 
+ORDER BY GenreCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Luis|Rojas|12
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Luis|Rojas|12
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 42 TESTS. STATS SO FAR:
+MATCH: 42 (100%)
+################################################
+{'GOOD': 42, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 43 of 50 (SUBQUESTION 0, QUESTION 1): Which album is the best bang for your buck?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Album.Title, AVG(InvoiceLine.UnitPrice) as AvgTrackPrice 
+FROM Album 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId 
+GROUP BY Album.AlbumId 
+ORDER BY AvgTrackPrice ASC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Album.Title, AVG(InvoiceLine.UnitPrice) as AvgTrackPrice 
+FROM Album 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+JOIN InvoiceLine ON Track.TrackId = InvoiceLine.TrackId 
+GROUP BY Album.AlbumId 
+ORDER BY AvgTrackPrice ASC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Restless and Wild|0.9899999999999999
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Restless and Wild|0.9899999999999999
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 43 TESTS. STATS SO FAR:
+MATCH: 43 (100%)
+################################################
+{'GOOD': 43, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 44 of 50 (SUBQUESTION 0, QUESTION 1): Who's the most loyal customer?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Customer.FirstName, Customer.LastName, MAX(Invoice.InvoiceDate) - MIN(Invoice.InvoiceDate) as LoyaltyPeriod 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Customer.CustomerId 
+ORDER BY LoyaltyPeriod DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Customer.FirstName, Customer.LastName, MAX(Invoice.InvoiceDate) - MIN(Invoice.InvoiceDate) as LoyaltyPeriod 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+GROUP BY Customer.CustomerId 
+ORDER BY LoyaltyPeriod DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Bjørn|Hansen|4
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Bjørn|Hansen|4
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 44 TESTS. STATS SO FAR:
+MATCH: 44 (100%)
+################################################
+{'GOOD': 44, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 45 of 50 (SUBQUESTION 0, QUESTION 1): Which artist is the master of all genres?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Artist.Name, COUNT(DISTINCT Genre.GenreId) as GenreCount 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+GROUP BY Artist.ArtistId 
+ORDER BY GenreCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Artist.Name, COUNT(DISTINCT Genre.GenreId) as GenreCount 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+GROUP BY Artist.ArtistId 
+ORDER BY GenreCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Iron Maiden|4
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Iron Maiden|4
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 45 TESTS. STATS SO FAR:
+MATCH: 45 (100%)
+################################################
+{'GOOD': 45, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 46 of 50 (SUBQUESTION 0, QUESTION 1): What's the most popular track length?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT ROUND(Milliseconds / 60000.0) as Minutes, COUNT(*) as TrackCount 
+FROM Track 
+GROUP BY Minutes 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT ROUND(Milliseconds / 60000.0) as Minutes, COUNT(*) as TrackCount 
+FROM Track 
+GROUP BY Minutes 
+ORDER BY TrackCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+4.0|1082
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+4.0|1082
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 46 TESTS. STATS SO FAR:
+MATCH: 46 (100%)
+################################################
+{'GOOD': 46, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 47 of 50 (SUBQUESTION 0, QUESTION 1): Who's the customer with the biggest music library?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Customer.FirstName, Customer.LastName, COUNT(DISTINCT InvoiceLine.TrackId) as UniqueTrackCount 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Customer.CustomerId 
+ORDER BY UniqueTrackCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Customer.FirstName, Customer.LastName, COUNT(DISTINCT InvoiceLine.TrackId) as UniqueTrackCount 
+FROM Customer 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Customer.CustomerId 
+ORDER BY UniqueTrackCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Manoj|Pareek|38
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Manoj|Pareek|38
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 47 TESTS. STATS SO FAR:
+MATCH: 47 (100%)
+################################################
+{'GOOD': 47, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 48 of 50 (SUBQUESTION 0, QUESTION 1): Which playlist is the most diverse?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Playlist.Name, COUNT(DISTINCT Genre.GenreId) as GenreCount 
+FROM Playlist 
+JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId 
+JOIN Track ON PlaylistTrack.TrackId = Track.TrackId 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+GROUP BY Playlist.PlaylistId 
+ORDER BY GenreCount DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Playlist.Name, COUNT(DISTINCT Genre.GenreId) as GenreCount 
+FROM Playlist 
+JOIN PlaylistTrack ON Playlist.PlaylistId = PlaylistTrack.PlaylistId 
+JOIN Track ON PlaylistTrack.TrackId = Track.TrackId 
+JOIN Genre ON Track.GenreId = Genre.GenreId 
+GROUP BY Playlist.PlaylistId 
+ORDER BY GenreCount DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Music|20
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Music|20
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 48 TESTS. STATS SO FAR:
+MATCH: 48 (100%)
+################################################
+{'GOOD': 48, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 49 of 50 (SUBQUESTION 0, QUESTION 1): Who's the employee with the Midas touch?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Employee.FirstName, Employee.LastName, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSales 
+FROM Employee 
+JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Employee.EmployeeId 
+ORDER BY TotalSales DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Employee.FirstName, Employee.LastName, SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TotalSales 
+FROM Employee 
+JOIN Customer ON Employee.EmployeeId = Customer.SupportRepId 
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId 
+JOIN InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId 
+GROUP BY Employee.EmployeeId 
+ORDER BY TotalSales DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Jane|Peacock|833.04
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Jane|Peacock|833.04
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 49 TESTS. STATS SO FAR:
+MATCH: 49 (100%)
+################################################
+{'GOOD': 49, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
+
+
+################################################
+############# QUESTION 50 of 50 (SUBQUESTION 0, QUESTION 1): Which artist is the hidden gem?
+
+SQL:
+
+
+<INTENT>
+None
+</INTENT>
+
+<DISAMBIGUATED QUESTION>
+None
+</DISAMBIGUATED QUESTION>
+
+<REQUIRED TABLES>
+None
+</REQUIRED TABLES>
+
+<THINKING>
+None
+</THINKING>
+
+<QUERY>
+SELECT Artist.Name, AVG(PlaylistAppearances) as AvgRating, COUNT(*) as TrackCount 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId LEFT 
+JOIN (SELECT TrackId, COUNT(*) as PlaylistAppearances 
+FROM PlaylistTrack 
+GROUP BY TrackId) PT ON Track.TrackId = PT.TrackId 
+GROUP BY Artist.ArtistId 
+HAVING TrackCount < 5 
+ORDER BY AvgRating DESC 
+LIMIT 1;
+</QUERY>
+
+<EXPECTED SQL>
+SELECT Artist.Name, AVG(PlaylistAppearances) as AvgRating, COUNT(*) as TrackCount 
+FROM Artist 
+JOIN Album ON Artist.ArtistId = Album.ArtistId 
+JOIN Track ON Album.AlbumId = Track.AlbumId LEFT 
+JOIN (SELECT TrackId, COUNT(*) as PlaylistAppearances 
+FROM PlaylistTrack 
+GROUP BY TrackId) PT ON Track.TrackId = PT.TrackId 
+GROUP BY Artist.ArtistId 
+HAVING TrackCount < 5 
+ORDER BY AvgRating DESC 
+LIMIT 1;
+</EXPECTED SQL>
+
+<RESULT>
+FIRST 10 ROWS:
+Alberto Turco & Nova Schola Gregoriana|5.0|1
+</RESULT>
+
+<EXPECTED RESULT>
+FIRST 10 ROWS:
+Alberto Turco & Nova Schola Gregoriana|5.0|1
+</EXPECTED RESULT>
+
+<EXPLANATION>
+MATCH
+</EXPLANATION>
+
+<EVALUATION>
+MATCH
+</EVALUATION>
+
+
+################################################
+COMPLETED 50 TESTS. STATS SO FAR:
+MATCH: 50 (100%)
+################################################
+{'GOOD': 50, 'BAD': 0, 'UNCLEAR': 0, 'IRRELEVANT': 0}
+################################################
+
