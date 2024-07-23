@@ -136,6 +136,9 @@ This demo comes with these sample databases:
 * [Chinook](https://github.com/lerocha/chinook-database)
 * [Northwind](https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs)
 
+For more information about the schema of these databases, we have included the Data Definition Language (DDL) files in the example_data/datalake/data/DDL folder.
+The populated databases thelselves can be found in the example_data/datalake/data folder, and can be queried by running "sqlite3 <database file name>" on the command line.
+
 Some sample questions that you can ask:
 
 * List 5 products with their categories
