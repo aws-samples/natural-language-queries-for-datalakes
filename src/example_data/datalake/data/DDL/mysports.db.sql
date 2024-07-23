@@ -76,12 +76,14 @@ CREATE TABLE Games ( -- This table contains information about individual games o
 );
 -- JOIN GRAPH: "Games": ["Sports", "Teams", "Venues", "Seasons", "GameStats", "Tickets", "Bets"]
 
-CREATE TABLE GameStats ( -- This table contains statistics for each game
+CREATE TABLE GameStats (
     GameStatID INTEGER PRIMARY KEY,
-    GameID INTEGER, -- References GameID in Games table. Range depends on number of games.
-    HomeTeamScore INTEGER, -- Score of the home team. Range depends on sport, typically 0-200.
-    AwayTeamScore INTEGER, -- Score of the away team. Range depends on sport, typically 0-200.
-    Duration INTEGER -- Duration of the game in minutes. Range typically 90-240, depends on sport.
+    GameID INTEGER, -- References GameID in Games table
+    HomeTeamScore INTEGER, -- Score of the home team
+    AwayTeamScore INTEGER, -- Score of the away team
+    Duration INTEGER, -- Duration of the game in minutes
+    WinnerID INTEGER, -- References TeamID of the winning team
+    Period TEXT -- Period or stage of the game (e.g., "Full Time", "First Half", "Overtime")
 );
 -- JOIN GRAPH: "GameStats": ["Games", "Teams"]
 
@@ -97,14 +99,16 @@ CREATE TABLE TeamStats ( -- This table contains aggregated statistics for teams 
 );
 -- JOIN GRAPH: "TeamStats": ["Teams", "Seasons"]
 
-CREATE TABLE PlayerStats ( -- This table contains statistics for individual players in a season
+CREATE TABLE PlayerStats (
     PlayerStatID INTEGER PRIMARY KEY,
-    PlayerID INTEGER, -- References PlayerID in Players table. Range depends on number of players.
-    SeasonID INTEGER, -- References SeasonID in Seasons table. Range depends on number of seasons.
-    TeamID INTEGER, -- References TeamID in Teams table. Range depends on number of teams.
-    GamesPlayed INTEGER, -- Number of games played. Range 0-100, typically 0-50.
-    MinutesPlayed INTEGER, -- Total minutes played. Range 0-5000, depends on sport and games played.
-    PointsScored INTEGER -- Total points scored. Range 0-2000, depends on sport.
+    PlayerID INTEGER, -- References PlayerID in Players table
+    SeasonID INTEGER, -- References SeasonID in Seasons table
+    TeamID INTEGER, -- References TeamID in Teams table
+    GamesPlayed INTEGER, -- Number of games played
+    MinutesPlayed INTEGER, -- Total minutes played
+    PointsScored INTEGER, -- Total points scored
+    Period TEXT, -- Period of the season (e.g., "Regular Season", "Playoffs")
+    Assists INTEGER -- Number of assists
 );
 -- JOIN GRAPH: "PlayerStats": ["Players", "Seasons", "Teams"]
 
@@ -757,14 +761,15 @@ CREATE TABLE TrainingFacilities ( -- This table contains information about team 
 );
 -- JOIN GRAPH: "TrainingFacilities": ["Teams"]
 
-CREATE TABLE Merchandise ( -- This table contains information about team merchandise
+CREATE TABLE Merchandise (
     MerchandiseID INTEGER PRIMARY KEY,
-    TeamID INTEGER, -- References TeamID in Teams table. Range depends on number of teams.
-    ItemType TEXT, -- Type of merchandise (e.g., "Jersey", "Cap", "Scarf"). 10-20 distinct values.
-    Price DECIMAL(10,2), -- Price of the item in dollars. Range 5-500, log-normally distributed.
-    StockQuantity INTEGER -- Current stock quantity. Range 0-10000, normally distributed around 1000.
+    TeamID INTEGER, -- References TeamID in Teams table
+    PlayerID INTEGER, -- References PlayerID in Players table
+    ItemType TEXT, -- Type of merchandise (e.g., "Jersey", "Cap", "Scarf")
+    Price DECIMAL(10,2), -- Price of the item in dollars
+    StockQuantity INTEGER -- Current stock quantity
 );
--- JOIN GRAPH: "Merchandise": ["Teams"]
+-- JOIN GRAPH: "Merchandise": ["Teams", "Players"]
 
 CREATE TABLE FanClubs ( -- This table contains information about fan clubs
     FanClubID INTEGER PRIMARY KEY,

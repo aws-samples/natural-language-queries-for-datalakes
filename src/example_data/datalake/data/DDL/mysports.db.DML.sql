@@ -95,16 +95,16 @@ INSERT INTO Games (GameID, SportID, HomeTeamID, AwayTeamID, VenueID, GameDate, S
 INSERT INTO Games (GameID, SportID, HomeTeamID, AwayTeamID, VenueID, GameDate, SeasonID, Attendance) VALUES (10, 5, 10, 7, 5, '2021-03-20', 5, 19500);
 
 -- GameStats table
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (1, 1, 24, 21, 180);
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (2, 2, 110, 105, 150);
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (3, 3, 3, 2, 180);
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (4, 4, 5, 3, 210);
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (5, 5, 2, 1, 90);
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (6, 6, 180, 175, 240);
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (7, 7, 30, 22, 80);
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (8, 8, 28, 17, 180);
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (9, 9, 98, 102, 150);
-INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration) VALUES (10, 10, 4, 1, 180);
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (1, 1, 24, 21, 180, 1, 'Full Time');
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (2, 2, 110, 105, 150, 2, 'Full Time');
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (3, 3, 3, 2, 180, 3, 'Full Time');
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (4, 4, 5, 3, 210, 4, 'Full Time');
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (5, 5, 2, 1, 90, 5, 'Full Time');
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (6, 6, 180, 175, 240, 6, 'Full Time');
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (7, 7, 30, 22, 80, 7, 'Full Time');
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (8, 8, 28, 17, 180, 8, 'Full Time');
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (9, 9, 98, 102, 150, 9, 'Full Time');
+INSERT INTO GameStats (GameStatID, GameID, HomeTeamScore, AwayTeamScore, Duration, WinnerID, Period) VALUES (10, 10, 4, 1, 180, 10, 'Full Time');
 
 -- TeamStats table
 INSERT INTO TeamStats (TeamStatID, TeamID, SeasonID, Wins, Losses, Draws, PointsScored, PointsConceded) VALUES (1, 1, 1, 12, 4, 0, 450, 350);
@@ -119,16 +119,16 @@ INSERT INTO TeamStats (TeamStatID, TeamID, SeasonID, Wins, Losses, Draws, Points
 INSERT INTO TeamStats (TeamStatID, TeamID, SeasonID, Wins, Losses, Draws, PointsScored, PointsConceded) VALUES (10, 10, 5, 32, 23, 5, 200, 190);
 
 -- PlayerStats table
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (1, 1, 1, 1, 16, 960, 40);
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (2, 2, 2, 2, 72, 2500, 2000);
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (3, 3, 3, NULL, 65, 5850, 3900);
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (4, 4, 4, NULL, 18, 5400, 1300);
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (5, 5, 5, 3, 60, 1200, 95);
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (6, 6, 6, 4, 162, 1458, 120);
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (7, 7, 7, 5, 38, 3420, 35);
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (8, 8, 8, 6, 14, 840, 550);
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (9, 9, 9, 7, 7, 560, 80);
-INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored) VALUES (10, 10, 10, NULL, 1, 36, NULL);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (1, 1, 1, 1, 16, 960, 40, 'Regular Season', 15);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (2, 2, 2, 2, 72, 2500, 2000, 'Regular Season', 500);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (3, 3, 3, NULL, 65, 5850, 3900, 'Regular Season', 100);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (4, 4, 4, NULL, 18, 5400, 1300, 'Regular Season', 5);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (5, 5, 5, 3, 60, 1200, 95, 'Regular Season', 80);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (6, 6, 6, 4, 162, 1458, 120, 'Regular Season', 40);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (7, 7, 7, 5, 38, 3420, 35, 'Regular Season', 20);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (8, 8, 8, 6, 14, 840, 550, 'Regular Season', 30);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (9, 9, 9, 7, 7, 560, 80, 'Regular Season', 10);
+INSERT INTO PlayerStats (PlayerStatID, PlayerID, SeasonID, TeamID, GamesPlayed, MinutesPlayed, PointsScored, Period, Assists) VALUES (10, 10, 10, NULL, 1, 36, NULL, 'Regular Season', 0);
 
 -- Contracts table
 INSERT INTO Contracts (ContractID, PlayerID, TeamID, StartDate, EndDate, AnnualSalary) VALUES (1, 1, 1, '2020-03-20', '2022-03-19', 25000000.00);
@@ -971,16 +971,16 @@ INSERT INTO TrainingFacilities (FacilityID, FacilityName, TeamID, Location, Size
 INSERT INTO TrainingFacilities (FacilityID, FacilityName, TeamID, Location, Size, OpeningYear) VALUES (10, 'Bell Sports Complex', 10, 'Brossard, Quebec', 55000, 2008);
 
 -- Merchandise table
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (1, 1, 'Jersey', 99.99, 5000);
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (2, 2, 'Cap', 29.99, 10000);
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (3, 3, 'Scarf', 24.99, 7500);
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (4, 4, 'T-Shirt', 34.99, 15000);
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (5, 5, 'Hoodie', 69.99, 3000);
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (6, 6, 'Replica Ball', 19.99, 8000);
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (7, 7, 'Poster', 9.99, 20000);
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (8, 8, 'Keychain', 4.99, 25000);
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (9, 9, 'Autographed Photo', 149.99, 1000);
-INSERT INTO Merchandise (MerchandiseID, TeamID, ItemType, Price, StockQuantity) VALUES (10, 10, 'Bobblehead', 24.99, 5000);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (1, 1, 1, 'Jersey', 99.99, 5000);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (2, 2, 2, 'Cap', 29.99, 10000);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (3, 3, 5, 'Scarf', 24.99, 7500);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (4, 4, 6, 'T-Shirt', 34.99, 15000);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (5, 5, 7, 'Hoodie', 69.99, 3000);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (6, 6, 8, 'Replica Ball', 19.99, 8000);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (7, 7, 9, 'Poster', 9.99, 20000);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (8, 8, 1, 'Keychain', 4.99, 25000);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (9, 9, 2, 'Autographed Photo', 149.99, 1000);
+INSERT INTO Merchandise (MerchandiseID, TeamID, PlayerID, ItemType, Price, StockQuantity) VALUES (10, 10, 5, 'Bobblehead', 24.99, 5000);
 
 -- FanClubs table
 INSERT INTO FanClubs (FanClubID, ClubName, TeamID, FoundedYear, MemberCount) VALUES (1, 'Patriots Nation', 1, 1994, 100000);
