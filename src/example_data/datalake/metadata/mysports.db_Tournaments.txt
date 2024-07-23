@@ -1,0 +1,15 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Tournaments">
+- Description: This table contains information about sports tournaments
+- Data:
+-- TournamentID: Primary key for the Tournaments table
+-- TournamentName: Name of the tournament (e.g., "World Cup", "Wimbledon"). 50-100 distinct values.
+-- SportID: References SportID in Sports table. Range 1-20, all values present.
+-- StartDate: Start date of the tournament. Range from 1950 to present.
+-- EndDate: End date of the tournament. Range from 1950 to present, always after StartDate.
+-- VenueID: References VenueID in Venues table. Range depends on number of venues.
+- Relationships:
+-- (Tournaments.SportID → Sports.SportID) - Table containing a list of all sports covered in the database
+-- (Tournaments.VenueID → Venues.VenueID) - Table containing information about sports venues
+-- (Tournaments.TournamentID → Games.TournamentID) - Table containing information about individual games or matches
+-- (Tournaments.TournamentID → Teams.TournamentID) - Table containing information about sports teams
+</METADATA>

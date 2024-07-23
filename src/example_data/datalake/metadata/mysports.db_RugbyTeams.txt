@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="RugbyTeams">
+- Description: This table contains specific information for rugby teams
+- Data:
+-- RugbyTeamID: Primary key for the RugbyTeams table
+-- TeamID: References TeamID in Teams table. Range depends on number of teams.
+-- WorldRanking: World Rugby ranking. Range 1-20, lower numbers less frequent.
+-- HomeGroundID: References VenueID in Venues table. Range depends on number of venues.
+- Relationships:
+-- (RugbyTeams.TeamID → Teams.TeamID) - Table containing information about sports teams
+-- (RugbyTeams.RugbyTeamID → RugbyPlayers.RugbyTeamID) - Table containing specific information for rugby players
+-- (RugbyTeams.HomeGroundID → Venues.VenueID) - Table containing information about sports venues
+</METADATA>

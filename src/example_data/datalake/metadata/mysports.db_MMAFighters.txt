@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="MMAFighters">
+- Description: This table contains specific information for MMA fighters
+- Data:
+-- MMAFighterID: Primary key for the MMAFighters table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- Stance: Fighting stance (e.g., "Orthodox", "Southpaw", "Switch"). 3-4 distinct values.
+-- ReachInches: Fighter's reach in inches. Range 60-90, normally distributed around 70.
+- Relationships:
+-- (MMAFighters.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (MMAFighters.MMAFighterID → MMAFightResults.WinnerID) - Table containing results of MMA fights
+-- (MMAFighters.MMAFighterID → MMAFightResults.LoserID) - Table containing results of MMA fights
+-- (MMAFighters.MMAFighterID → MMAFighterStats.MMAFighterID) - Table containing statistics for MMA fighters
+</METADATA>

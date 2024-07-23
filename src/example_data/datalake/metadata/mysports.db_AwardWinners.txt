@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="AwardWinners">
+- Description: This table contains information about award winners
+- Data:
+-- AwardWinnerID: Primary key for the AwardWinners table
+-- AwardID: References AwardID in Awards table. Range depends on number of awards.
+-- WinnerID: References ID of the winner (could be PlayerID or TeamID).
+-- WinnerType: Type of winner ("Player", "Team"). 2 distinct values.
+-- Year: Year the award was won. Range from 1950 to present.
+-- AchievementDetails: Details of the achievement (e.g., "28 goals in 38 games"). Many distinct values.
+- Relationships:
+-- (AwardWinners.AwardID → Awards.AwardID) - Table containing information about sports awards
+-- (AwardWinners.WinnerID → Players.PlayerID) - Table containing information about individual players (when WinnerType is "Player")
+-- (AwardWinners.WinnerID → Teams.TeamID) - Table containing information about sports teams (when WinnerType is "Team")
+</METADATA>

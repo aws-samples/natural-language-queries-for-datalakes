@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Boxers">
+- Description: This table contains specific information for boxers
+- Data:
+-- BoxerID: Primary key for the Boxers table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- Stance: Boxing stance ("Orthodox", "Southpaw"). 2 distinct values, about 90% "Orthodox".
+-- ReachInches: Boxer's reach in inches. Range 60-90, normally distributed around 70.
+- Relationships:
+-- (Boxers.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (Boxers.BoxerID → BoxingMatchResults.WinnerID) - Table containing results of boxing matches
+-- (Boxers.BoxerID → BoxingMatchResults.LoserID) - Table containing results of boxing matches
+-- (Boxers.BoxerID → BoxerStats.BoxerID) - Table containing statistics for boxers
+</METADATA>

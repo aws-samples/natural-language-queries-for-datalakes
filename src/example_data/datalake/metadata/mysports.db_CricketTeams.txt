@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="CricketTeams">
+- Description: This table contains specific information for cricket teams
+- Data:
+-- CricketTeamID: Primary key for the CricketTeams table
+-- TeamID: References TeamID in Teams table. Range depends on number of teams.
+-- ICCRanking: ICC ranking of the team. Range 1-20, lower numbers less frequent.
+-- HomeGroundID: References VenueID in Venues table. Range depends on number of venues.
+- Relationships:
+-- (CricketTeams.TeamID → Teams.TeamID) - Table containing information about sports teams
+-- (CricketTeams.CricketTeamID → CricketPlayers.CricketTeamID) - Table containing specific information for cricket players
+-- (CricketTeams.HomeGroundID → Venues.VenueID) - Table containing information about sports venues
+</METADATA>

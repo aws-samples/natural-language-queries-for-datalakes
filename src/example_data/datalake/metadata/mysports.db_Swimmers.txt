@@ -1,0 +1,10 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Swimmers">
+- Description: This table contains specific information for swimmers
+- Data:
+-- SwimmerID: Primary key for the Swimmers table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- Specialization: Swimmer's specialization (e.g., "Freestyle", "Butterfly"). 5-7 distinct values.
+- Relationships:
+-- (Swimmers.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (Swimmers.SwimmerID → SwimmingResults.SwimmerID) - Table containing results of swimming events
+</METADATA>

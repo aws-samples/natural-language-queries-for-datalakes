@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="BasketballGameStats">
+- Description: This table contains statistics for basketball games
+- Data:
+-- BasketballGameStatID: Primary key for the BasketballGameStats table
+-- GameStatID: References GameStatID in GameStats table. Range depends on number of game stats.
+-- HomeTeamRebounds: Rebounds for home team. Range 20-80, normally distributed around 40.
+-- AwayTeamRebounds: Rebounds for away team. Range 20-80, normally distributed around 40.
+-- HomeTeamAssists: Assists for home team. Range 10-40, normally distributed around 25.
+-- AwayTeamAssists: Assists for away team. Range 10-40, normally distributed around 25.
+- Relationships:
+-- (BasketballGameStats.GameStatID → GameStats.GameStatID) - Table containing statistics for games
+</METADATA>

@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Stadiums">
+- Description: This table contains information about sports stadiums
+- Data:
+-- StadiumID: Primary key for the Stadiums table
+-- StadiumName: Name of the stadium. Many distinct values.
+-- City: City where the stadium is located. 50-100 distinct values.
+-- Country: Country where the stadium is located. 20-50 distinct values.
+-- Capacity: Seating capacity of the stadium. Range 1000-100000, log-normally distributed.
+-- OpeningYear: Year the stadium opened. Range from 1800 to present, most values after 1950.
+- Relationships:
+-- (Stadiums.StadiumID → Games.VenueID) - Table containing information about individual games or matches
+-- (Stadiums.StadiumID → Teams.HomeStadiumID) - Table containing information about sports teams
+</METADATA>

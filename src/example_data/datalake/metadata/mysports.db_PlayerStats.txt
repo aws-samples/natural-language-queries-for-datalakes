@@ -1,0 +1,19 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="PlayerStats">
+- Description: This table contains statistics for players
+- Data:
+-- PlayerStatID: Primary key for the PlayerStats table
+-- PlayerID: References PlayerID in Players table
+-- SeasonID: References SeasonID in Seasons table
+-- TeamID: References TeamID in Teams table
+-- GameID: References GameID in Games table
+-- GamesPlayed: Number of games played
+-- MinutesPlayed: Total minutes played
+-- PointsScored: Total points scored
+-- Period: Period of the season (e.g., "Regular Season", "Playoffs")
+-- Assists: Number of assists
+- Relationships:
+-- (PlayerStats.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (PlayerStats.SeasonID → Seasons.SeasonID) - Table containing information about sports seasons
+-- (PlayerStats.TeamID → Teams.TeamID) - Table containing information about sports teams
+-- (PlayerStats.GameID → Games.GameID) - Table containing information about individual games or matches
+</METADATA>

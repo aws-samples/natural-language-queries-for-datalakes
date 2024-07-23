@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="BasketballPlayerStats">
+- Description: This table contains statistics for basketball players
+- Data:
+-- BasketballPlayerStatID: Primary key for the BasketballPlayerStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- PointsPerGame: Average points per game. Range 0-40, most values 5-25.
+-- Rebounds: Total rebounds. Range 0-1000, depends on games played and position.
+-- Assists: Total assists. Range 0-800, depends on games played and position.
+-- Steals: Total steals. Range 0-200, most values under 100.
+-- Blocks: Total blocks. Range 0-200, most values under 100.
+- Relationships:
+-- (BasketballPlayerStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (BasketballPlayerStats.BasketballPlayerStatID → BasketballPlayers.BasketballPlayerStatID) - Table containing specific information for basketball players
+</METADATA>

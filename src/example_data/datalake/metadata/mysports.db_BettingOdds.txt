@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="BettingOdds">
+- Description: This table contains betting odds for games
+- Data:
+-- OddsID: Primary key for the BettingOdds table
+-- GameID: References GameID in Games table. Range depends on number of games.
+-- ProviderID: References ProviderID in SportsBettingProviders table. Range depends on number of providers.
+-- HomeTeamOdds: Odds for home team winning. Range 1.01-20.00, log-normally distributed.
+-- AwayTeamOdds: Odds for away team winning. Range 1.01-20.00, log-normally distributed.
+-- DrawOdds: Odds for a draw (if applicable). Range 1.01-20.00, log-normally distributed.
+- Relationships:
+-- (BettingOdds.GameID → Games.GameID) - Table containing information about individual games or matches
+-- (BettingOdds.ProviderID → SportsBettingProviders.ProviderID) - Table containing information about sports betting providers
+</METADATA>

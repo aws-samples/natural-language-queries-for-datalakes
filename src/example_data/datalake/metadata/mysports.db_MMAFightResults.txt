@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="MMAFightResults">
+- Description: This table contains results of MMA fights
+- Data:
+-- MMAFightResultID: Primary key for the MMAFightResults table
+-- MMAFightID: References MMAFightID in MMAFights table. Range depends on number of fights.
+-- WinnerID: References MMAFighterID in MMAFighters table. Range depends on number of fighters.
+-- LoserID: References MMAFighterID in MMAFighters table. Range depends on number of fighters.
+-- Result: Result of the fight (e.g., "KO", "Submission", "Decision"). 5-7 distinct values.
+-- RoundEnded: Round in which the fight ended. Range 1-5, depends on scheduled rounds.
+- Relationships:
+-- (MMAFightResults.MMAFightID → MMAFights.MMAFightID) - Table containing information about MMA fights
+-- (MMAFightResults.WinnerID → MMAFighters.MMAFighterID) - Table containing specific information for MMA fighters
+-- (MMAFightResults.LoserID → MMAFighters.MMAFighterID) - Table containing specific information for MMA fighters
+</METADATA>

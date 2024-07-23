@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="GameStats">
+- Description: This table contains statistics for games
+- Data:
+-- GameStatID: Primary key for the GameStats table
+-- GameID: References GameID in Games table
+-- HomeTeamScore: Score of the home team
+-- AwayTeamScore: Score of the away team
+-- Duration: Duration of the game in minutes
+-- WinnerID: References TeamID of the winning team
+-- Period: Period or stage of the game (e.g., "Full Time", "First Half", "Overtime")
+- Relationships:
+-- (GameStats.GameID → Games.GameID) - Table containing information about individual games or matches
+-- (GameStats.WinnerID → Teams.TeamID) - Table containing information about sports teams
+</METADATA>

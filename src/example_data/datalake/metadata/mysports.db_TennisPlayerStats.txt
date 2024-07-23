@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="TennisPlayerStats">
+- Description: This table contains statistics for tennis players
+- Data:
+-- TennisPlayerStatID: Primary key for the TennisPlayerStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- ATPRanking: ATP ranking. Range 1-2000, lower numbers less frequent.
+-- GrandSlamTitles: Number of Grand Slam titles won. Range 0-20, most values 0.
+-- CareerTitles: Total career titles. Range 0-100, most values under 20.
+-- WinLossRatio: Win-loss ratio. Range 0.000-1.000, normally distributed around 0.500.
+- Relationships:
+-- (TennisPlayerStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (TennisPlayerStats.TennisPlayerStatID → TennisPlayers.TennisPlayerStatID) - Table containing specific information for tennis players
+</METADATA>

@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="SoccerTeams">
+- Description: This table contains specific information for soccer teams
+- Data:
+-- SoccerTeamID: Primary key for the SoccerTeams table
+-- TeamID: References TeamID in Teams table. Range depends on number of teams.
+-- LeaguePosition: Current position in the league. Range 1-20, evenly distributed.
+-- GoalDifference: Goal difference (goals scored minus goals conceded). Range -100 to 100, normally distributed around 0.
+- Relationships:
+-- (SoccerTeams.TeamID → Teams.TeamID) - Table containing information about sports teams
+-- (SoccerTeams.SoccerTeamID → SoccerPlayers.SoccerTeamID) - Table containing specific information for soccer players
+</METADATA>

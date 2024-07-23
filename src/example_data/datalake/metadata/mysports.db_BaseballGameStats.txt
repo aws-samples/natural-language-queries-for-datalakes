@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="BaseballGameStats">
+- Description: This table contains statistics for baseball games
+- Data:
+-- BaseballGameStatID: Primary key for the BaseballGameStats table
+-- GameStatID: References GameStatID in GameStats table. Range depends on number of game stats.
+-- HomeTeamHits: Hits for home team. Range 0-25, most values 4-12.
+-- AwayTeamHits: Hits for away team. Range 0-25, most values 4-12.
+-- HomeTeamErrors: Errors for home team. Range 0-5, most values 0-2.
+-- AwayTeamErrors: Errors for away team. Range 0-5, most values 0-2.
+- Relationships:
+-- (BaseballGameStats.GameStatID → GameStats.GameStatID) - Table containing statistics for games
+</METADATA>

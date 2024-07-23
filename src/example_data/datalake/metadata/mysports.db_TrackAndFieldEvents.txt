@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="TrackAndFieldEvents">
+- Description: This table contains information about track and field events
+- Data:
+-- EventID: Primary key for the TrackAndFieldEvents table
+-- EventName: Name of the event (e.g., "100m Sprint", "Long Jump"). 20-30 distinct values.
+-- EventType: Type of event ("Track", "Field"). 2 distinct values.
+-- WorldRecord: Current world record for the event. Range depends on the specific event.
+-- WorldRecordHolderID: References PlayerID in Players table. Range depends on number of players.
+- Relationships:
+-- (TrackAndFieldEvents.WorldRecordHolderID → Players.PlayerID) - Table containing information about individual players
+-- (TrackAndFieldEvents.EventID → TrackAndFieldResults.EventID) - Table containing results of track and field events
+</METADATA>

@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="FootballGameStats">
+- Description: This table contains statistics for football games
+- Data:
+-- FootballGameStatID: Primary key for the FootballGameStats table
+-- GameStatID: References GameStatID in GameStats table. Range depends on number of game stats.
+-- Possession: Ball possession percentage for home team. Range 0-100, normally distributed around 50.
+-- Corners: Number of corners for home team. Range 0-20, most values under 10.
+-- Fouls: Number of fouls committed by home team. Range 0-30, most values 10-20.
+-- Offsides: Number of offsides for home team. Range 0-10, most values under 5.
+- Relationships:
+-- (FootballGameStats.GameStatID → GameStats.GameStatID) - Table containing statistics for games
+</METADATA>

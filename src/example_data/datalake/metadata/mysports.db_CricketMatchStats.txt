@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="CricketMatchStats">
+- Description: This table contains statistics for cricket matches
+- Data:
+-- CricketMatchStatID: Primary key for the CricketMatchStats table
+-- GameStatID: References GameStatID in GameStats table. Range depends on number of game stats.
+-- HomeTeamRuns: Runs scored by home team. Range 50-700, depends on match format.
+-- AwayTeamRuns: Runs scored by away team. Range 50-700, depends on match format.
+-- HomeTeamWickets: Wickets lost by home team. Range 0-10.
+-- AwayTeamWickets: Wickets lost by away team. Range 0-10.
+- Relationships:
+-- (CricketMatchStats.GameStatID → GameStats.GameStatID) - Table containing statistics for games
+-- (CricketMatchStats.CricketMatchStatID → CricketMatches.CricketMatchStatID) - Table containing information about cricket matches
+</METADATA>

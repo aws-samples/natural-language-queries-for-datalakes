@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="MMAFighterStats">
+- Description: This table contains statistics for MMA fighters
+- Data:
+-- MMAFighterStatID: Primary key for the MMAFighterStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- Wins: Number of wins. Range 0-50, depends on career length.
+-- Losses: Number of losses. Range 0-30, usually less than wins.
+-- Draws: Number of draws. Range 0-5, most values 0-1.
+-- KOTKOs: Number of knockout/technical knockout wins. Range 0-30, usually less than total wins.
+- Relationships:
+-- (MMAFighterStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (MMAFighterStats.MMAFighterStatID → MMAFighters.MMAFighterStatID) - Table containing specific information for MMA fighters
+</METADATA>

@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Tickets">
+- Description: This table contains information about ticket sales
+- Data:
+-- TicketID: Primary key for the Tickets table
+-- GameID: References GameID in Games table. Range depends on number of games.
+-- SeatNumber: Seat number (e.g., "A12", "B34"). Many distinct values.
+-- Price: Price of the ticket in dollars. Range 10-1000, log-normally distributed.
+-- PurchaseDate: Date of ticket purchase. Range from past to future, clustered around game dates.
+-- CustomerID: References CustomerID in Customers table. Range depends on number of customers.
+- Relationships:
+-- (Tickets.GameID → Games.GameID) - Table containing information about individual games or matches
+-- (Tickets.CustomerID → Customers.CustomerID) - Table containing information about ticket customers
+</METADATA>

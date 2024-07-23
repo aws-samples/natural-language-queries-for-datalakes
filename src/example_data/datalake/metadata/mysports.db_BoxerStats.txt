@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="BoxerStats">
+- Description: This table contains statistics for boxers
+- Data:
+-- BoxerStatID: Primary key for the BoxerStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- Wins: Number of wins. Range 0-100, depends on career length.
+-- Losses: Number of losses. Range 0-50, usually less than wins.
+-- Draws: Number of draws. Range 0-10, most values 0-2.
+-- KOs: Number of knockout wins. Range 0-80, usually less than total wins.
+- Relationships:
+-- (BoxerStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (BoxerStats.BoxerStatID → Boxers.BoxerStatID) - Table containing specific information for boxers
+</METADATA>

@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Merchandise">
+- Description: This table contains information about sports merchandise
+- Data:
+-- MerchandiseID: Primary key for the Merchandise table
+-- TeamID: References TeamID in Teams table
+-- PlayerID: References PlayerID in Players table
+-- ItemType: Type of merchandise (e.g., "Jersey", "Cap", "Scarf")
+-- Price: Price of the item in dollars
+-- StockQuantity: Current stock quantity
+- Relationships:
+-- (Merchandise.TeamID → Teams.TeamID) - Table containing information about sports teams
+-- (Merchandise.PlayerID → Players.PlayerID) - Table containing information about individual players
+</METADATA>

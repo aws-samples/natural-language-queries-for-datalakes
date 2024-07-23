@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="BaseballPlayerStats">
+- Description: This table contains statistics for baseball players
+- Data:
+-- BaseballPlayerStatID: Primary key for the BaseballPlayerStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- BattingAverage: Batting average. Range 0.000-0.400, most values 0.200-0.300.
+-- HomeRuns: Number of home runs. Range 0-73, most values under 30.
+-- RBI: Runs batted in. Range 0-200, most values under 100.
+-- ERA: Earned run average (for pitchers). Range 0.00-10.00, most values 2.00-5.00.
+-- Strikeouts: Number of strikeouts (for pitchers). Range 0-383, depends on games played.
+- Relationships:
+-- (BaseballPlayerStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (BaseballPlayerStats.BaseballPlayerStatID → BaseballPlayers.BaseballPlayerStatID) - Table containing specific information for baseball players
+</METADATA>

@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="TennisMatchStats">
+- Description: This table contains statistics for tennis matches
+- Data:
+-- TennisMatchStatID: Primary key for the TennisMatchStats table
+-- GameStatID: References GameStatID in GameStats table. Range depends on number of game stats.
+-- Player1Aces: Number of aces for Player 1. Range 0-50, most values under 20.
+-- Player2Aces: Number of aces for Player 2. Range 0-50, most values under 20.
+-- Player1DoubleFaults: Number of double faults for Player 1. Range 0-20, most values under 10.
+-- Player2DoubleFaults: Number of double faults for Player 2. Range 0-20, most values under 10.
+- Relationships:
+-- (TennisMatchStats.GameStatID → GameStats.GameStatID) - Table containing statistics for games
+-- (TennisMatchStats.TennisMatchStatID → TennisMatches.TennisMatchStatID) - Table containing information about tennis matches
+</METADATA>

@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="MediaCoverage">
+- Description: This table contains information about media coverage of games
+- Data:
+-- CoverageID: Primary key for the MediaCoverage table
+-- GameID: References GameID in Games table. Range depends on number of games.
+-- NetworkName: Name of the broadcasting network. 20-30 distinct values.
+-- ViewershipMillions: Viewership in millions. Range 0.1-100, log-normally distributed.
+-- Revenue: Revenue generated from the broadcast in dollars. Range 10000-10000000, log-normally distributed.
+- Relationships:
+-- (MediaCoverage.GameID → Games.GameID) - Table containing information about individual games or matches
+</METADATA>

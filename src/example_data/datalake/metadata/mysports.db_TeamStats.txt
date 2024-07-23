@@ -1,0 +1,15 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="TeamStats">
+- Description: This table contains aggregated statistics for teams in a season
+- Data:
+-- TeamStatID: Primary key for the TeamStats table
+-- TeamID: References TeamID in Teams table. Range depends on number of teams.
+-- SeasonID: References SeasonID in Seasons table. Range depends on number of seasons.
+-- Wins: Number of wins. Range 0-100, typically 0-50.
+-- Losses: Number of losses. Range 0-100, typically 0-50.
+-- Draws: Number of draws (if applicable). Range 0-50, many sports will have 0.
+-- PointsScored: Total points scored. Range 0-10000, depends on sport.
+-- PointsConceded: Total points conceded. Range 0-10000, depends on sport.
+- Relationships:
+-- (TeamStats.TeamID → Teams.TeamID) - Table containing information about sports teams
+-- (TeamStats.SeasonID → Seasons.SeasonID) - Table containing information about sports seasons
+</METADATA>

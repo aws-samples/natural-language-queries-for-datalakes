@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="CricketMatches">
+- Description: This table contains information about cricket matches
+- Data:
+-- CricketMatchID: Primary key for the CricketMatches table
+-- GameID: References GameID in Games table. Range depends on number of games.
+-- Format: Match format (e.g., "Test", "ODI", "T20"). 3-5 distinct values.
+-- Overs: Number of overs in the match. Common values: 20, 50, or 450 (for Test matches).
+- Relationships:
+-- (CricketMatches.GameID → Games.GameID) - Table containing information about individual games or matches
+-- (CricketMatches.CricketMatchID → CricketMatchStats.CricketMatchID) - Table containing statistics for cricket matches
+</METADATA>

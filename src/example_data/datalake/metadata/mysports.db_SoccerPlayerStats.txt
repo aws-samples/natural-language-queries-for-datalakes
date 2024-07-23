@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="SoccerPlayerStats">
+- Description: This table contains statistics for soccer players
+- Data:
+-- SoccerPlayerStatID: Primary key for the SoccerPlayerStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- Goals: Number of goals scored. Range 0-50, most values under 20.
+-- Assists: Number of assists. Range 0-30, most values under 15.
+-- YellowCards: Number of yellow cards received. Range 0-20, most values under 10.
+-- RedCards: Number of red cards received. Range 0-5, most values 0 or 1.
+- Relationships:
+-- (SoccerPlayerStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (SoccerPlayerStats.SoccerPlayerStatID → SoccerPlayers.SoccerPlayerStatID) - Table containing specific information for soccer players
+</METADATA>

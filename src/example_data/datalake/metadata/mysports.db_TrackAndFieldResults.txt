@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="TrackAndFieldResults">
+- Description: This table contains results of track and field events
+- Data:
+-- ResultID: Primary key for the TrackAndFieldResults table
+-- EventID: References EventID in TrackAndFieldEvents table. Range depends on number of events.
+-- AthleteID: References TrackAndFieldAthleteID in TrackAndFieldAthletes table. Range depends on number of athletes.
+-- CompetitionDate: Date of the competition. Range from 1950 to present.
+-- Result: Result of the event (time in seconds or distance in meters). Range depends on the specific event.
+-- Rank: Athlete's rank in the event. Range typically 1-20.
+- Relationships:
+-- (TrackAndFieldResults.EventID → TrackAndFieldEvents.EventID) - Table containing information about track and field events
+-- (TrackAndFieldResults.AthleteID → TrackAndFieldAthletes.TrackAndFieldAthleteID) - Table containing specific information for track and field athletes
+</METADATA>

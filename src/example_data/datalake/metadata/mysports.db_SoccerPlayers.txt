@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="SoccerPlayers">
+- Description: This table contains specific information for soccer players
+- Data:
+-- SoccerPlayerID: Primary key for the SoccerPlayers table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- Position: Player's position (e.g., "Forward", "Midfielder"). 4-6 distinct values.
+-- PreferredFoot: Preferred foot ("Left", "Right", "Both"). 3 distinct values, about 70% "Right".
+- Relationships:
+-- (SoccerPlayers.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (SoccerPlayers.SoccerPlayerID → SoccerTeams.SoccerPlayerID) - Table containing specific information for soccer teams
+-- (SoccerPlayers.SoccerPlayerID → SoccerPlayerStats.SoccerPlayerID) - Table containing statistics for soccer players
+</METADATA>

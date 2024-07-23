@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="CricketPlayers">
+- Description: This table contains specific information for cricket players
+- Data:
+-- CricketPlayerID: Primary key for the CricketPlayers table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- BattingStyle: Batting style (e.g., "Right-handed", "Left-handed"). 2 distinct values, about 70% "Right-handed".
+-- BowlingStyle: Bowling style (e.g., "Right-arm fast", "Left-arm spin"). 8-10 distinct values.
+- Relationships:
+-- (CricketPlayers.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (CricketPlayers.CricketPlayerID → CricketTeams.CricketPlayerID) - Table containing specific information for cricket teams
+-- (CricketPlayers.CricketPlayerID → CricketPlayerStats.CricketPlayerID) - Table containing statistics for cricket players
+</METADATA>

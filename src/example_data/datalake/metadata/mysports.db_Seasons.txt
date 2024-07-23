@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Seasons">
+- Description: This table contains information about sports seasons
+- Data:
+-- SeasonID: Primary key for the Seasons table
+-- LeagueID: References LeagueID in Leagues table. Range depends on number of leagues.
+-- StartDate: Start date of the season. Typically in range 1950 to present.
+-- EndDate: End date of the season. Typically in range 1950 to present, always after StartDate.
+- Relationships:
+-- (Seasons.LeagueID → Leagues.LeagueID) - Table containing information about sports leagues
+-- (Seasons.SeasonID → Games.SeasonID) - Table containing information about individual games or matches
+-- (Seasons.SeasonID → TeamStats.SeasonID) - Table containing aggregated statistics for teams in a season
+-- (Seasons.SeasonID → PlayerStats.SeasonID) - Table containing statistics for players
+</METADATA>

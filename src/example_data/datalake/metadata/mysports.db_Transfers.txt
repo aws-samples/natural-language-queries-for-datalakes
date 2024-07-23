@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Transfers">
+- Description: This table contains information about player transfers between teams
+- Data:
+-- TransferID: Primary key for the Transfers table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- FromTeamID: References TeamID in Teams table for the originating team.
+-- ToTeamID: References TeamID in Teams table for the destination team.
+-- TransferDate: Date of the transfer. Range from 1950 to present.
+-- TransferFee: Transfer fee in dollars. Range 0-300000000, log-normally distributed.
+- Relationships:
+-- (Transfers.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (Transfers.FromTeamID → Teams.TeamID) - Table containing information about sports teams
+-- (Transfers.ToTeamID → Teams.TeamID) - Table containing information about sports teams
+</METADATA>

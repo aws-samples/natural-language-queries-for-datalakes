@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="RugbyPlayerStats">
+- Description: This table contains statistics for rugby players
+- Data:
+-- RugbyPlayerStatID: Primary key for the RugbyPlayerStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- Tries: Number of tries scored. Range 0-50, most values under 20.
+-- Conversions: Number of conversions. Range 0-100, depends on player role.
+-- PenaltyGoals: Number of penalty goals. Range 0-100, depends on player role.
+-- TacklesMade: Number of tackles made. Range 0-300, depends on position and games played.
+- Relationships:
+-- (RugbyPlayerStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (RugbyPlayerStats.RugbyPlayerStatID → RugbyPlayers.RugbyPlayerStatID) - Table containing specific information for rugby players
+</METADATA>

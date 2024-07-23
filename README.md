@@ -135,6 +135,7 @@ This demo comes with these sample databases:
 
 * [Chinook](https://github.com/lerocha/chinook-database)
 * [Northwind](https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs)
+* [MySports] (a database containing 87 tables of sports statistics we generated in order to test scalability of our SQL queries to huge scemas.)
 
 For more information about the schema of these databases, we have included the Data Definition Language (DDL) files in the example_data/datalake/data/DDL folder.
 The populated databases thelselves can be found in the example_data/datalake/data folder, and can be queried by running "sqlite3 <database file name>" on the command line.
@@ -156,7 +157,7 @@ Alternatively, you can edit the `src/utils/database_connections.py` and
 `src/utils/database_connections.py` files to connect to Amazon Athena, Postgresql
 databases, and more.
 
-## Data Lake security considerations
+## Data Lake security considerationscd -
 
 * **Input Validation and Sanitization**: Data Genie accepts natural language queries from users, which are then translated into SQL queries to retrieve data from the underlying data sources. It is essential to implement proper input validation and sanitization mechanisms to prevent SQL injection attacks and other code injection vulnerabilities. These mechanisms should apply to both user input and the generated SQL queries. Their implementation depends on the use case, they are not implemented in the provided demo.
 * **Access Controls and Authentication**: We recommend that you implement proper access controls and authentication mechanisms to restrict access to the underlying data sources (e.g., databases, Amazon Athena) only to authorized users or services. For instance, without being exhaustive, the Data Genie user should not have write permissions on the databases. You could also leverage services like [AWS Lake Formation](https://aws.amazon.com/lake-formation/) and [Amazon DataZone](https://aws.amazon.com/fr/datazone/) to govern your Data Lake and manage access control.

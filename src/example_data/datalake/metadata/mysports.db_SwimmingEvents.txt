@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="SwimmingEvents">
+- Description: This table contains information about swimming events
+- Data:
+-- EventID: Primary key for the SwimmingEvents table
+-- EventName: Name of the event (e.g., "100m Freestyle", "200m Butterfly"). 20-30 distinct values.
+-- StrokeType: Type of stroke ("Freestyle", "Butterfly", "Backstroke", "Breaststroke", "Medley"). 5 distinct values.
+-- Distance: Distance of the event in meters. Common values: 50, 100, 200, 400, 800, 1500.
+-- WorldRecord: Current world record for the event in seconds. Range 20-1000, depends on event.
+-- WorldRecordHolderID: References PlayerID in Players table. Range depends on number of players.
+- Relationships:
+-- (SwimmingEvents.WorldRecordHolderID → Players.PlayerID) - Table containing information about individual players
+-- (SwimmingEvents.EventID → SwimmingResults.EventID) - Table containing results of swimming events
+</METADATA>

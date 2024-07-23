@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="HockeyPlayers">
+- Description: This table contains specific information for hockey players
+- Data:
+-- HockeyPlayerID: Primary key for the HockeyPlayers table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- Position: Player's position (e.g., "Center", "Defenseman"). 6 distinct values.
+-- ShootingSide: Shooting side ("Left", "Right"). 2 distinct values, about 60% "Left".
+- Relationships:
+-- (HockeyPlayers.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (HockeyPlayers.HockeyPlayerID → HockeyTeams.HockeyPlayerID) - Table containing specific information for hockey teams
+-- (HockeyPlayers.HockeyPlayerID → HockeyPlayerStats.HockeyPlayerID) - Table containing statistics for hockey players
+</METADATA>
