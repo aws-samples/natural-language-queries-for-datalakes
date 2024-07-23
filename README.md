@@ -135,7 +135,7 @@ This demo comes with these sample databases:
 
 * [Chinook](https://github.com/lerocha/chinook-database)
 * [Northwind](https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs)
-* [MySports] (a database containing 87 tables of sports statistics we generated in order to test scalability of our SQL queries to huge scemas.)
+* [MySports] (a database containing 87 tables of sports statistics we generated in order to test scalability of our SQL queries to huge scemas.) 
 
 For more information about the schema of these databases, we have included the Data Definition Language (DDL) files in the example_data/datalake/data/DDL folder.
 The populated databases thelselves can be found in the example_data/datalake/data folder, and can be queried by running "sqlite3 <database file name>" on the command line.
