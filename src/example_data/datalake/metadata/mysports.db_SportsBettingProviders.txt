@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="SportsBettingProviders">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="SportsBettingProviders">
 - Description: This table contains information about sports betting providers
 - Data:
 -- ProviderID: Primary key for the SportsBettingProviders table

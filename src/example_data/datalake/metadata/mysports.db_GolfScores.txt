@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="GolfScores">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="GolfScores">
 - Description: This table contains scores for golf tournaments
 - Data:
 -- GolfScoreID: Primary key for the GolfScores table

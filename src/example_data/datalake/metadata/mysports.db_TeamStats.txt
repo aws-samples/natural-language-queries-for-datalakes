@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="TeamStats">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="TeamStats">
 - Description: This table contains aggregated statistics for teams in a season
 - Data:
 -- TeamStatID: Primary key for the TeamStats table

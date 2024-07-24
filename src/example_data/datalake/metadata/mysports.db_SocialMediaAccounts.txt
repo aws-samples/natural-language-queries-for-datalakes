@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="SocialMediaAccounts">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="SocialMediaAccounts">
 - Description: This table contains information about social media accounts of players and teams
 - Data:
 -- AccountID: Primary key for the SocialMediaAccounts table

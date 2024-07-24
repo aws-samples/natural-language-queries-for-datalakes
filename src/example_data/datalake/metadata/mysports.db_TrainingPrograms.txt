@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="TrainingPrograms">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="TrainingPrograms">
 - Description: This table contains information about team training programs
 - Data:
 -- ProgramID: Primary key for the TrainingPrograms table

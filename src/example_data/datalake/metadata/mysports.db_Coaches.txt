@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Coaches">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Coaches">
 - Description: This table contains information about team coaches
 - Data:
 -- CoachID: Primary key for the Coaches table

@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Sponsors">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Sponsors">
 - Description: This table contains information about sports sponsors
 - Data:
 -- SponsorID: Primary key for the Sponsors table

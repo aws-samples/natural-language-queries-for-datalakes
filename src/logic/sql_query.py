@@ -126,6 +126,7 @@ class SqlQuery():
                 
                 # Get sample rows
                 sql_query_get_sample_rows = f"SELECT * FROM {table} ORDER BY RANDOM() LIMIT 5;"
+                print(f"SQL CHANNEL = {channel}; QUERY: {sql_query_get_sample_rows}")
                 sql_result_sample_rows = db.run(sql_query_get_sample_rows)
                 sql_result_sample_rows = self.clean_sql_result(sql_result_sample_rows)
                 

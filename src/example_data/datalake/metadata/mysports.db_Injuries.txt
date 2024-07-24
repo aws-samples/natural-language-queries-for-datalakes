@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Injuries">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Injuries">
 - Description: This table contains information about player injuries
 - Data:
 -- InjuryID: Primary key for the Injuries table

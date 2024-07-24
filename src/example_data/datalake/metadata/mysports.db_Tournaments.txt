@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Tournaments">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Tournaments">
 - Description: This table contains information about sports tournaments
 - Data:
 -- TournamentID: Primary key for the Tournaments table

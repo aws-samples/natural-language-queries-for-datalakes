@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="BettingOdds">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="BettingOdds">
 - Description: This table contains betting odds for games
 - Data:
 -- OddsID: Primary key for the BettingOdds table

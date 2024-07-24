@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Sports">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Sports">
 - Description: This table contains a list of all sports covered in the database
 - Data:
 -- SportID: Primary key for the Sports table

@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Bets">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Bets">
 - Description: This table contains information about sports bets
 - Data:
 -- BetID: Primary key for the Bets table

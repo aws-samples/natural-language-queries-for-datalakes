@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Tickets">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Tickets">
 - Description: This table contains information about ticket sales
 - Data:
 -- TicketID: Primary key for the Tickets table

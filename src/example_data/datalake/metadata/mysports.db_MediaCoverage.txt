@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="MediaCoverage">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="MediaCoverage">
 - Description: This table contains information about media coverage of games
 - Data:
 -- CoverageID: Primary key for the MediaCoverage table

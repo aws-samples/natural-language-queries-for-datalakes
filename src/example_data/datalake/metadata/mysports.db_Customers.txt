@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Customers">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Customers">
 - Description: This table contains information about ticket customers
 - Data:
 -- CustomerID: Primary key for the Customers table

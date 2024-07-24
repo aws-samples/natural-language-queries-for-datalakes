@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="GameOfficials">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="GameOfficials">
 - Description: This table links referees to specific games
 - Data:
 -- GameOfficialID: Primary key for the GameOfficials table

@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="CricketPlayerStats">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="CricketPlayerStats">
 - Description: This table contains statistics for cricket players
 - Data:
 -- CricketPlayerStatID: Primary key for the CricketPlayerStats table

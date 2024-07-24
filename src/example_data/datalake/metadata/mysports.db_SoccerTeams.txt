@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="SoccerTeams">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="SoccerTeams">
 - Description: This table contains specific information for soccer teams
 - Data:
 -- SoccerTeamID: Primary key for the SoccerTeams table

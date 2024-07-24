@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="BasketballPlayerStats">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="BasketballPlayerStats">
 - Description: This table contains statistics for basketball players
 - Data:
 -- BasketballPlayerStatID: Primary key for the BasketballPlayerStats table

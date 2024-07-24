@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="TennisMatchStats">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="TennisMatchStats">
 - Description: This table contains statistics for tennis matches
 - Data:
 -- TennisMatchStatID: Primary key for the TennisMatchStats table

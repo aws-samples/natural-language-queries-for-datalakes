@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Boxers">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Boxers">
 - Description: This table contains specific information for boxers
 - Data:
 -- BoxerID: Primary key for the Boxers table

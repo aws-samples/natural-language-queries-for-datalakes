@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="RugbyPlayerStats">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="RugbyPlayerStats">
 - Description: This table contains statistics for rugby players
 - Data:
 -- RugbyPlayerStatID: Primary key for the RugbyPlayerStats table

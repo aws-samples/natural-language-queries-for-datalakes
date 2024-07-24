@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="TrackAndFieldResults">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="TrackAndFieldResults">
 - Description: This table contains results of track and field events
 - Data:
 -- ResultID: Primary key for the TrackAndFieldResults table

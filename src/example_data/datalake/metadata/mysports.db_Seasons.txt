@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Seasons">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Seasons">
 - Description: This table contains information about sports seasons
 - Data:
 -- SeasonID: Primary key for the Seasons table

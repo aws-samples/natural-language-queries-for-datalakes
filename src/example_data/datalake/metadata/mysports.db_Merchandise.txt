@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Merchandise">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Merchandise">
 - Description: This table contains information about sports merchandise
 - Data:
 -- MerchandiseID: Primary key for the Merchandise table

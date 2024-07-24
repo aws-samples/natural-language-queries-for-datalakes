@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="GolfCourses">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="GolfCourses">
 - Description: This table contains information about golf courses
 - Data:
 -- CourseID: Primary key for the GolfCourses table

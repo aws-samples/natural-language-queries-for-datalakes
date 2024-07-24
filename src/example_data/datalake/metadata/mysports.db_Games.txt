@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Games">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Games">
 - Description: This table contains information about individual games or matches
 - Data:
 -- GameID: Primary key for the Games table

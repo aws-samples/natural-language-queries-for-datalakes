@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="NutritionPlans">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="NutritionPlans">
 - Description: This table contains information about player nutrition plans
 - Data:
 -- NutritionPlanID: Primary key for the NutritionPlans table

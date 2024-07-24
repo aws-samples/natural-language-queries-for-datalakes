@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="AwardWinners">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="AwardWinners">
 - Description: This table contains information about award winners
 - Data:
 -- AwardWinnerID: Primary key for the AwardWinners table

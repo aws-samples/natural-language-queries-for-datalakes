@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="GolfPlayerStats">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="GolfPlayerStats">
 - Description: This table contains statistics for golf players
 - Data:
 -- GolfPlayerStatID: Primary key for the GolfPlayerStats table

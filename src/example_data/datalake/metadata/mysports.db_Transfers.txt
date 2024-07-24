@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Transfers">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Transfers">
 - Description: This table contains information about player transfers between teams
 - Data:
 -- TransferID: Primary key for the Transfers table

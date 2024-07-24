@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="MMAFightResults">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="MMAFightResults">
 - Description: This table contains results of MMA fights
 - Data:
 -- MMAFightResultID: Primary key for the MMAFightResults table

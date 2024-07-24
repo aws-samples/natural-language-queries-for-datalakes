@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Contracts">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Contracts">
 - Description: This table contains information about player contracts
 - Data:
 -- ContractID: Primary key for the Contracts table

@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="SoccerGameStats">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="SoccerGameStats">
 - Description: This table contains statistics for soccer games
 - Data:
 -- SoccerGameStatID: Primary key for the SoccerGameStats table

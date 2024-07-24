@@ -1,4 +1,4 @@
-<METADATA CHANNEL="sqlite" DATABASE="Sports.db" TABLE="Players">
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Players">
 - Description: This table contains information about individual players
 - Data:
 -- PlayerID: Primary key for the Players table
