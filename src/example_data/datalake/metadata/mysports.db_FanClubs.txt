@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="FanClubs">
+- Description: This table contains information about fan clubs
+- Data:
+-- FanClubID: Primary key for the FanClubs table
+-- ClubName: Name of the fan club. Many distinct values.
+-- TeamID: References TeamID in Teams table. Range depends on number of teams.
+-- FoundedYear: Year the fan club was founded. Range from 1900 to present.
+-- MemberCount: Number of members in the fan club. Range 10-1000000, log-normally distributed.
+- Relationships:
+-- (FanClubs.TeamID → Teams.TeamID) - Table containing information about sports teams
+</METADATA>

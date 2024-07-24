@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Awards">
+- Description: This table contains information about sports awards
+- Data:
+-- AwardID: Primary key for the Awards table
+-- AwardName: Name of the award (e.g., "MVP", "Golden Boot"). Many distinct values.
+-- SportID: References SportID in Sports table. Range 1-20, all values present.
+-- AwardType: Type of award ("Individual", "Team"). 2 distinct values.
+- Relationships:
+-- (Awards.SportID → Sports.SportID) - Table containing a list of all sports covered in the database
+-- (Awards.AwardID → AwardWinners.AwardID) - Table containing information about award winners
+</METADATA>

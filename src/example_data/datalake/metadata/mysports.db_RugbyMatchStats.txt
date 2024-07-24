@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="RugbyMatchStats">
+- Description: This table contains statistics for rugby matches
+- Data:
+-- RugbyMatchStatID: Primary key for the RugbyMatchStats table
+-- GameStatID: References GameStatID in GameStats table. Range depends on number of game stats.
+-- HomeTeamTries: Number of tries scored by home team. Range 0-10, most values 1-5.
+-- AwayTeamTries: Number of tries scored by away team. Range 0-10, most values 1-5.
+-- HomeTeamPenalties: Number of penalties scored by home team. Range 0-10, most values 1-5.
+-- AwayTeamPenalties: Number of penalties scored by away team. Range 0-10, most values 1-5.
+- Relationships:
+-- (RugbyMatchStats.GameStatID → GameStats.GameStatID) - Table containing statistics for games
+</METADATA>

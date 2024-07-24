@@ -1,0 +1,21 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Games">
+- Description: This table contains information about individual games or matches
+- Data:
+-- GameID: Primary key for the Games table
+-- SportID: References SportID in Sports table. Range 1-20, all values present.
+-- HomeTeamID: References TeamID in Teams table. Range depends on number of teams.
+-- AwayTeamID: References TeamID in Teams table. Range depends on number of teams.
+-- VenueID: References VenueID in Venues table. Range depends on number of venues.
+-- GameDate: Date of the game. Range from 1950 to present, most recent years more frequent.
+-- SeasonID: References SeasonID in Seasons table. Range depends on number of seasons.
+-- Attendance: Number of attendees. Range 0-100000, depends on venue capacity.
+- Relationships:
+-- (Games.SportID → Sports.SportID) - Table containing a list of all sports covered in the database
+-- (Games.HomeTeamID → Teams.TeamID) - Table containing information about sports teams
+-- (Games.AwayTeamID → Teams.TeamID) - Table containing information about sports teams
+-- (Games.VenueID → Venues.VenueID) - Table containing information about sports venues
+-- (Games.SeasonID → Seasons.SeasonID) - Table containing information about sports seasons
+-- (Games.GameID → GameStats.GameID) - Table containing statistics for games
+-- (Games.GameID → Tickets.GameID) - Table containing information about ticket sales
+-- (Games.GameID → Bets.GameID) - Table containing information about sports bets
+</METADATA>

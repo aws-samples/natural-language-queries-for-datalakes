@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="TennisPlayers">
+- Description: This table contains specific information for tennis players
+- Data:
+-- TennisPlayerID: Primary key for the TennisPlayers table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- Handedness: Player's dominant hand ("Left", "Right"). 2 distinct values, about 90% "Right".
+-- PlayingStyle: Playing style (e.g., "Serve-and-Volley", "Baseline"). 5-10 distinct values.
+- Relationships:
+-- (TennisPlayers.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (TennisPlayers.TennisPlayerID → TennisPlayerStats.TennisPlayerID) - Table containing statistics for tennis players
+</METADATA>

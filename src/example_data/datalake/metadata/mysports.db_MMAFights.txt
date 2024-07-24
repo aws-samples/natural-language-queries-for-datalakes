@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="MMAFights">
+- Description: This table contains information about MMA fights
+- Data:
+-- MMAFightID: Primary key for the MMAFights table
+-- GameID: References GameID in Games table. Range depends on number of games.
+-- WeightClass: Weight class of the fight (e.g., "Heavyweight", "Lightweight"). 8-10 distinct values.
+-- Rounds: Scheduled number of rounds. Common values: 3, 5.
+-- Title: Title at stake, if any (e.g., "UFC Heavyweight Championship"). Many distinct values, often NULL.
+- Relationships:
+-- (MMAFights.GameID → Games.GameID) - Table containing information about individual games or matches
+-- (MMAFights.MMAFightID → MMAFightResults.MMAFightID) - Table containing results of MMA fights
+</METADATA>

@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="BaseballPlayers">
+- Description: This table contains specific information for baseball players
+- Data:
+-- BaseballPlayerID: Primary key for the BaseballPlayers table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- Position: Player's position (e.g., "Pitcher", "Shortstop"). 9 distinct values.
+-- BattingHand: Batting hand ("Left", "Right", "Switch"). 3 distinct values.
+-- ThrowingHand: Throwing hand ("Left", "Right"). 2 distinct values.
+- Relationships:
+-- (BaseballPlayers.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (BaseballPlayers.BaseballPlayerID → BaseballTeams.BaseballPlayerID) - Table containing specific information for baseball teams
+-- (BaseballPlayers.BaseballPlayerID → BaseballPlayerStats.BaseballPlayerID) - Table containing statistics for baseball players
+</METADATA>

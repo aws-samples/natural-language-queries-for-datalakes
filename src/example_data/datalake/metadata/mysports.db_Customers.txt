@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Customers">
+- Description: This table contains information about ticket customers
+- Data:
+-- CustomerID: Primary key for the Customers table
+-- FirstName: Customer's first name. Many distinct values.
+-- LastName: Customer's last name. Many distinct values.
+-- Email: Customer's email address. Many distinct values, unique.
+-- Phone: Customer's phone number. Many distinct values.
+-- Address: Customer's address. Many distinct values.
+- Relationships:
+-- (Customers.CustomerID → Tickets.CustomerID) - Table containing information about ticket sales
+-- (Customers.CustomerID → Bets.CustomerID) - Table containing information about sports bets
+</METADATA>

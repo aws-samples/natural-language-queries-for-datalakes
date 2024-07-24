@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="SoccerGameStats">
+- Description: This table contains statistics for soccer games
+- Data:
+-- SoccerGameStatID: Primary key for the SoccerGameStats table
+-- GameStatID: References GameStatID in GameStats table. Range depends on number of game stats.
+-- HomeTeamPossession: Ball possession percentage for home team. Range 0-100, normally distributed around 50.
+-- AwayTeamPossession: Ball possession percentage for away team. Range 0-100, normally distributed around 50.
+-- HomeTeamShots: Shots on goal for home team. Range 0-30, most values 5-20.
+-- AwayTeamShots: Shots on goal for away team. Range 0-30, most values 5-20.
+- Relationships:
+-- (SoccerGameStats.GameStatID → GameStats.GameStatID) - Table containing statistics for games
+</METADATA>

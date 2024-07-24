@@ -1,0 +1,16 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="SponsorshipDeals">
+- Description: This table contains information about sponsorship deals
+- Data:
+-- DealID: Primary key for the SponsorshipDeals table
+-- SponsorID: References SponsorID in Sponsors table. Range depends on number of sponsors.
+-- EntityID: References ID of sponsored entity (could be TeamID, PlayerID, or TournamentID).
+-- EntityType: Type of sponsored entity ("Team", "Player", "Tournament"). 3 distinct values.
+-- StartDate: Start date of the sponsorship deal. Range from 1950 to present.
+-- EndDate: End date of the sponsorship deal. Range from 1950 to future, or NULL if ongoing.
+-- DealValue: Annual value of the deal in dollars. Range 10000-100000000, log-normally distributed.
+- Relationships:
+-- (SponsorshipDeals.SponsorID → Sponsors.SponsorID) - Table containing information about sports sponsors
+-- (SponsorshipDeals.EntityID → Teams.TeamID) - Table containing information about sports teams (when EntityType is "Team")
+-- (SponsorshipDeals.EntityID → Players.PlayerID) - Table containing information about individual players (when EntityType is "Player")
+-- (SponsorshipDeals.EntityID → Tournaments.TournamentID) - Table containing information about sports tournaments (when EntityType is "Tournament")
+</METADATA>

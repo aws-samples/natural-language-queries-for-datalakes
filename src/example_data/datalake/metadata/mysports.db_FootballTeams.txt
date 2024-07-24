@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="FootballTeams">
+- Description: This table contains specific information for football teams
+- Data:
+-- FootballTeamID: Primary key for the FootballTeams table
+-- TeamID: References TeamID in Teams table. Range depends on number of teams.
+-- Formation: Preferred formation (e.g., "4-4-2", "3-5-2"). 10-20 distinct values.
+-- LeaguePosition: Current position in the league. Range 1-20, evenly distributed.
+- Relationships:
+-- (FootballTeams.TeamID → Teams.TeamID) - Table containing information about sports teams
+-- (FootballTeams.FootballTeamID → FootballPlayers.FootballTeamID) - Table containing specific information for football players
+</METADATA>

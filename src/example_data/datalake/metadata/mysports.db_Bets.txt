@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Bets">
+- Description: This table contains information about sports bets
+- Data:
+-- BetID: Primary key for the Bets table
+-- CustomerID: References CustomerID in Customers table. Range depends on number of customers.
+-- GameID: References GameID in Games table. Range depends on number of games.
+-- BetType: Type of bet (e.g., "Win", "Over/Under", "Spread"). 10-20 distinct values.
+-- BetAmount: Amount of the bet in dollars. Range 1-10000, log-normally distributed.
+-- Odds: Betting odds. Range typically 1.01 to 1000.00.
+-- Outcome: Outcome of the bet ("Win", "Loss", "Push"). 3 distinct values.
+- Relationships:
+-- (Bets.CustomerID → Customers.CustomerID) - Table containing information about ticket customers
+-- (Bets.GameID → Games.GameID) - Table containing information about individual games or matches
+</METADATA>

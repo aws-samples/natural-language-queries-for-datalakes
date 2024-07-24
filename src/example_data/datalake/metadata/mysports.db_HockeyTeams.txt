@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="HockeyTeams">
+- Description: This table contains specific information for hockey teams
+- Data:
+-- HockeyTeamID: Primary key for the HockeyTeams table
+-- TeamID: References TeamID in Teams table. Range depends on number of teams.
+-- ConferenceRank: Rank within the conference. Range 1-16, evenly distributed.
+-- PenaltyKillPercentage: Penalty kill success rate. Range 0.00-100.00, normally distributed around 80.
+- Relationships:
+-- (HockeyTeams.TeamID → Teams.TeamID) - Table containing information about sports teams
+-- (HockeyTeams.HockeyTeamID → HockeyPlayers.HockeyTeamID) - Table containing specific information for hockey players
+</METADATA>

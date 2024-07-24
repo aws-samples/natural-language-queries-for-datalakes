@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="HockeyGameStats">
+- Description: This table contains statistics for hockey games
+- Data:
+-- HockeyGameStatID: Primary key for the HockeyGameStats table
+-- GameStatID: References GameStatID in GameStats table. Range depends on number of game stats.
+-- HomeTeamShots: Shots on goal for home team. Range 15-60, normally distributed around 30.
+-- AwayTeamShots: Shots on goal for away team. Range 15-60, normally distributed around 30.
+-- HomeTeamPenaltyMinutes: Penalty minutes for home team. Range 0-40, most values under 20.
+-- AwayTeamPenaltyMinutes: Penalty minutes for away team. Range 0-40, most values under 20.
+- Relationships:
+-- (HockeyGameStats.GameStatID → GameStats.GameStatID) - Table containing statistics for games
+</METADATA>

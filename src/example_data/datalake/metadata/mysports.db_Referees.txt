@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Referees">
+- Description: This table contains information about sports referees
+- Data:
+-- RefereeID: Primary key for the Referees table
+-- FirstName: Referee's first name. Many distinct values.
+-- LastName: Referee's last name. Many distinct values.
+-- DateOfBirth: Referee's date of birth. Range from 1950 to 1990, most values between 1970-1985.
+-- Nationality: Referee's nationality. 50-100 distinct values.
+-- SportID: References SportID in Sports table. Range 1-20, all values present.
+- Relationships:
+-- (Referees.SportID → Sports.SportID) - Table containing a list of all sports covered in the database
+-- (Referees.RefereeID → GameOfficials.RefereeID) - Table linking referees to specific games
+</METADATA>

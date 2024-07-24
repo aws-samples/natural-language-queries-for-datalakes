@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="GolfCourses">
+- Description: This table contains information about golf courses
+- Data:
+-- CourseID: Primary key for the GolfCourses table
+-- CourseName: Name of the golf course. Many distinct values.
+-- Location: Location of the course. Many distinct values.
+-- Holes: Number of holes. Usually 18, sometimes 9.
+-- Par: Par for the course. Range 68-72, most values 70-72.
+-- Length: Length of the course in yards. Range 5000-8000, normally distributed around 7000.
+- Relationships:
+-- (GolfCourses.CourseID → GolfTournaments.CourseID) - Table containing information about golf tournaments
+-- (GolfCourses.CourseID → GolfScores.CourseID) - Table containing scores for golf tournaments
+</METADATA>

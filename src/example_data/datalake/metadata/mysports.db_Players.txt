@@ -1,0 +1,18 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Players">
+- Description: This table contains information about individual players
+- Data:
+-- PlayerID: Primary key for the Players table
+-- FirstName: Player's first name (e.g., "LeBron", "Cristiano"). Many distinct values.
+-- LastName: Player's last name (e.g., "James", "Ronaldo"). Many distinct values.
+-- DateOfBirth: Player's date of birth. Range from 1950 to 2005, evenly distributed.
+-- Nationality: Player's nationality (e.g., "American", "Portuguese"). 50-100 distinct values.
+-- Height: Player's height in cm. Range 150-230, normally distributed around 180.
+-- Weight: Player's weight in kg. Range 50-150, normally distributed around 80.
+-- SportID: References SportID in Sports table. Range 1-20, all values present.
+- Relationships:
+-- (Players.SportID → Sports.SportID) - Table containing a list of all sports covered in the database
+-- (Players.PlayerID → Teams.PlayerID) - Table containing information about sports teams
+-- (Players.PlayerID → PlayerStats.PlayerID) - Table containing statistics for players
+-- (Players.PlayerID → Contracts.PlayerID) - Table containing information about player contracts
+-- (Players.PlayerID → Injuries.PlayerID) - Table containing information about player injuries
+</METADATA>

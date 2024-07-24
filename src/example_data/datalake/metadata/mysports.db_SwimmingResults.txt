@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="SwimmingResults">
+- Description: This table contains results of swimming events
+- Data:
+-- ResultID: Primary key for the SwimmingResults table
+-- EventID: References EventID in SwimmingEvents table. Range depends on number of events.
+-- SwimmerID: References SwimmerID in Swimmers table. Range depends on number of swimmers.
+-- CompetitionDate: Date of the competition. Range from 1950 to present.
+-- Time: Time of the swim in seconds. Range 20-1000, depends on event.
+-- Rank: Swimmer's rank in the event. Range typically 1-8.
+- Relationships:
+-- (SwimmingResults.EventID → SwimmingEvents.EventID) - Table containing information about swimming events
+-- (SwimmingResults.SwimmerID → Swimmers.SwimmerID) - Table containing specific information for swimmers
+</METADATA>

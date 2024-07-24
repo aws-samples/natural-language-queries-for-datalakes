@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="GolfTournaments">
+- Description: This table contains information about golf tournaments
+- Data:
+-- GolfTournamentID: Primary key for the GolfTournaments table
+-- TournamentID: References TournamentID in Tournaments table. Range depends on number of tournaments.
+-- CourseID: References CourseID in GolfCourses table. Range depends on number of courses.
+-- PurseAmount: Total purse amount in dollars. Range 100000-20000000, log-normally distributed.
+-- ParScore: Par score for the course. Range 68-72, most values 70-72.
+- Relationships:
+-- (GolfTournaments.TournamentID → Tournaments.TournamentID) - Table containing information about sports tournaments
+-- (GolfTournaments.CourseID → GolfCourses.CourseID) - Table containing information about golf courses
+-- (GolfTournaments.GolfTournamentID → GolfScores.GolfTournamentID) - Table containing scores for golf tournaments
+</METADATA>

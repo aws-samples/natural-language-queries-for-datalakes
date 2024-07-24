@@ -1,0 +1,16 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Venues">
+- Description: This table contains information about sports venues
+- Data:
+-- VenueID: Primary key for the Venues table
+-- VenueName: Name of the venue (e.g., "Madison Square Garden", "Wembley Stadium"). Many distinct values.
+-- City: City where the venue is located. 50-100 distinct values.
+-- Country: Country where the venue is located. 20-50 distinct values.
+-- Capacity: Seating capacity of the venue. Range 1000-100000, log-normally distributed.
+-- Opened: Date when the venue was opened. Range from 1800 to present, most values after 1950.
+-- SportID: References SportID in Sports table. Range 1-20, all values present.
+- Relationships:
+-- (Venues.SportID → Sports.SportID) - Table containing a list of all sports covered in the database
+-- (Venues.VenueID → Teams.VenueID) - Table containing information about sports teams
+-- (Venues.VenueID → Games.VenueID) - Table containing information about individual games or matches
+-- (Venues.VenueID → Tournaments.VenueID) - Table containing information about sports tournaments
+</METADATA>

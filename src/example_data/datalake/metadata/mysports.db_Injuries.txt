@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Injuries">
+- Description: This table contains information about player injuries
+- Data:
+-- InjuryID: Primary key for the Injuries table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- InjuryDate: Date of the injury. Range from 1950 to present.
+-- InjuryType: Type of injury (e.g., "Sprained Ankle", "Concussion"). 50-100 distinct values.
+-- Severity: Severity of the injury ("Minor", "Moderate", "Severe"). 3 distinct values.
+-- RecoveryTimeWeeks: Estimated recovery time in weeks. Range 1-52, log-normally distributed.
+- Relationships:
+-- (Injuries.PlayerID → Players.PlayerID) - Table containing information about individual players
+</METADATA>

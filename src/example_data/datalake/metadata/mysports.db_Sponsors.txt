@@ -1,0 +1,10 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Sponsors">
+- Description: This table contains information about sports sponsors
+- Data:
+-- SponsorID: Primary key for the Sponsors table
+-- SponsorName: Name of the sponsor company. Many distinct values.
+-- Industry: Industry of the sponsor (e.g., "Technology", "Automotive"). 20-30 distinct values.
+-- Founded: Date when the sponsor company was founded. Range from 1800 to present.
+- Relationships:
+-- (Sponsors.SponsorID → SponsorshipDeals.SponsorID) - Table containing information about sponsorship deals
+</METADATA>

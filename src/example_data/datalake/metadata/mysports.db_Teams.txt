@@ -1,0 +1,18 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Teams">
+- Description: This table contains information about sports teams
+- Data:
+-- TeamID: Primary key for the Teams table
+-- SportID: References SportID in Sports table. Range 1-20, all values present.
+-- TeamName: Full name of the team (e.g., "New York Yankees", "Manchester United"). Typically 100-500 distinct values.
+-- City: City where the team is based (e.g., "New York", "Manchester"). 50-100 distinct values.
+-- Country: Country of the team (e.g., "USA", "England"). 20-50 distinct values.
+-- Founded: Date when the team was founded. Range from 1800 to present, most values after 1900.
+- Relationships:
+-- (Teams.SportID → Sports.SportID) - Table containing a list of all sports covered in the database
+-- (Teams.TeamID → Players.TeamID) - Table containing information about individual players
+-- (Teams.TeamID → Coaches.TeamID) - Table containing information about team coaches
+-- (Teams.TeamID → TeamStats.TeamID) - Table containing aggregated statistics for teams in a season
+-- (Teams.TeamID → Games.HomeTeamID) - Table containing information about individual games or matches
+-- (Teams.TeamID → Games.AwayTeamID) - Table containing information about individual games or matches
+-- (Teams.TeamID → Venues.TeamID) - Table containing information about sports venues
+</METADATA>

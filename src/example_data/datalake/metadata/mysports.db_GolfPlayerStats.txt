@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="GolfPlayerStats">
+- Description: This table contains statistics for golf players
+- Data:
+-- GolfPlayerStatID: Primary key for the GolfPlayerStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- WorldRanking: World Golf Ranking. Range 1-1000, lower numbers less frequent.
+-- SeasonEarnings: Season earnings in dollars. Range 0-20000000, log-normally distributed.
+-- DrivingAccuracy: Driving accuracy percentage. Range 0.00-100.00, normally distributed around 60.
+-- GreenInRegulationPercentage: Green in regulation percentage. Range 0.00-100.00, normally distributed around 65.
+- Relationships:
+-- (GolfPlayerStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (GolfPlayerStats.GolfPlayerStatID → GolfPlayers.GolfPlayerStatID) - Table containing specific information for golf players
+</METADATA>

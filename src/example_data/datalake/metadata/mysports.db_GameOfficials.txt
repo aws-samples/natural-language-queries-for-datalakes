@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="GameOfficials">
+- Description: This table links referees to specific games
+- Data:
+-- GameOfficialID: Primary key for the GameOfficials table
+-- GameID: References GameID in Games table. Range depends on number of games.
+-- RefereeID: References RefereeID in Referees table. Range depends on number of referees.
+-- Role: Official's role in the game (e.g., "Head Referee", "Assistant Referee"). 3-5 distinct values.
+- Relationships:
+-- (GameOfficials.GameID → Games.GameID) - Table containing information about individual games or matches
+-- (GameOfficials.RefereeID → Referees.RefereeID) - Table containing information about sports referees
+</METADATA>

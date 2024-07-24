@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="HockeyPlayerStats">
+- Description: This table contains statistics for hockey players
+- Data:
+-- HockeyPlayerStatID: Primary key for the HockeyPlayerStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- Goals: Number of goals scored. Range 0-100, most values under 50.
+-- Assists: Number of assists. Range 0-150, depends on position and games played.
+-- PenaltyMinutes: Penalty minutes. Range 0-300, log-normally distributed.
+-- PlusMinus: Plus/minus statistic. Range -50 to 50, normally distributed around 0.
+- Relationships:
+-- (HockeyPlayerStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (HockeyPlayerStats.HockeyPlayerStatID → HockeyPlayers.HockeyPlayerStatID) - Table containing specific information for hockey players
+</METADATA>

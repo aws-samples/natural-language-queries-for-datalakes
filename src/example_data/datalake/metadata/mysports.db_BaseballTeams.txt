@@ -1,0 +1,11 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="BaseballTeams">
+- Description: This table contains specific information for baseball teams
+- Data:
+-- BaseballTeamID: Primary key for the BaseballTeams table
+-- TeamID: References TeamID in Teams table. Range depends on number of teams.
+-- HomeRunFactor: Home run factor for home stadium. Range 0.8-1.2, normally distributed around 1.0.
+-- DivisionRank: Rank within the division. Range 1-5, evenly distributed.
+- Relationships:
+-- (BaseballTeams.TeamID → Teams.TeamID) - Table containing information about sports teams
+-- (BaseballTeams.BaseballTeamID → BaseballPlayers.BaseballTeamID) - Table containing specific information for baseball players
+</METADATA>

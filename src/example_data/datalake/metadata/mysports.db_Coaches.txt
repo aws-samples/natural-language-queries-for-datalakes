@@ -1,0 +1,14 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Coaches">
+- Description: This table contains information about team coaches
+- Data:
+-- CoachID: Primary key for the Coaches table
+-- FirstName: Coach's first name. Many distinct values.
+-- LastName: Coach's last name. Many distinct values.
+-- DateOfBirth: Coach's date of birth. Range from 1940 to 1990, most values between 1960-1980.
+-- Nationality: Coach's nationality. 50-100 distinct values.
+-- SportID: References SportID in Sports table. Range 1-20, all values present.
+- Relationships:
+-- (Coaches.SportID → Sports.SportID) - Table containing a list of all sports covered in the database
+-- (Coaches.CoachID → Teams.CoachID) - Table containing information about sports teams
+-- (Coaches.CoachID → CoachingHistory.CoachID) - Table containing the coaching history of coaches
+</METADATA>

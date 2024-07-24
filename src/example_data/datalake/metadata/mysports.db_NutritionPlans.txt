@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="NutritionPlans">
+- Description: This table contains information about player nutrition plans
+- Data:
+-- NutritionPlanID: Primary key for the NutritionPlans table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- DietType: Type of diet (e.g., "High Protein", "Vegan", "Keto"). 10-15 distinct values.
+-- CalorieTarget: Daily calorie target. Range 1500-5000, normally distributed around 3000.
+-- ProteinPercentage: Percentage of calories from protein. Range 10-40, normally distributed around 25.
+-- StartDate: Start date of the nutrition plan. Range from 2000 to present.
+-- EndDate: End date of the nutrition plan. Range from 2000 to future, or NULL if ongoing.
+- Relationships:
+-- (NutritionPlans.PlayerID → Players.PlayerID) - Table containing information about individual players
+</METADATA>

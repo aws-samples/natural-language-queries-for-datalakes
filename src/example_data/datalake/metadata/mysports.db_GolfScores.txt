@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="GolfScores">
+- Description: This table contains scores for golf tournaments
+- Data:
+-- GolfScoreID: Primary key for the GolfScores table
+-- GolfTournamentID: References GolfTournamentID in GolfTournaments table. Range depends on number of tournaments.
+-- GolfPlayerID: References GolfPlayerID in GolfPlayers table. Range depends on number of players.
+-- Round: Round number. Range 1-4, evenly distributed.
+-- Score: Score for the round. Range 59-100, normally distributed around 72.
+- Relationships:
+-- (GolfScores.GolfTournamentID → GolfTournaments.GolfTournamentID) - Table containing information about golf tournaments
+-- (GolfScores.GolfPlayerID → GolfPlayers.GolfPlayerID) - Table containing specific information for golf players
+</METADATA>

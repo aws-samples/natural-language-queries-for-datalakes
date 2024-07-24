@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="Sports">
+- Description: This table contains a list of all sports covered in the database
+- Data:
+-- SportID: Primary key for the Sports table
+-- SportName: Name of the sport (e.g., "Football", "Basketball", "Tennis"). Typically 10-20 distinct values.
+- Relationships:
+-- (Sports.SportID → Teams.SportID) - Table containing information about sports teams
+-- (Sports.SportID → Players.SportID) - Table containing information about individual players
+-- (Sports.SportID → Venues.SportID) - Table containing information about sports venues
+-- (Sports.SportID → Leagues.SportID) - Table containing information about sports leagues
+-- (Sports.SportID → Tournaments.SportID) - Table containing information about sports tournaments
+</METADATA>

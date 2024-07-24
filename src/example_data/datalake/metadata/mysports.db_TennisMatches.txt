@@ -1,0 +1,15 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="TennisMatches">
+- Description: This table contains information about tennis matches
+- Data:
+-- TennisMatchID: Primary key for the TennisMatches table
+-- GameID: References GameID in Games table. Range depends on number of games.
+-- Player1ID: References TennisPlayerID in TennisPlayers table. Range depends on number of players.
+-- Player2ID: References TennisPlayerID in TennisPlayers table. Range depends on number of players.
+-- Surface: Court surface (e.g., "Clay", "Grass", "Hard"). 3-5 distinct values.
+-- Round: Tournament round (e.g., "Final", "Semi-Final", "Quarter-Final"). 7-10 distinct values.
+- Relationships:
+-- (TennisMatches.GameID → Games.GameID) - Table containing information about individual games or matches
+-- (TennisMatches.Player1ID → TennisPlayers.TennisPlayerID) - Table containing specific information for tennis players
+-- (TennisMatches.Player2ID → TennisPlayers.TennisPlayerID) - Table containing specific information for tennis players
+-- (TennisMatches.TennisMatchID → TennisMatchStats.TennisMatchID) - Table containing statistics for tennis matches
+</METADATA>

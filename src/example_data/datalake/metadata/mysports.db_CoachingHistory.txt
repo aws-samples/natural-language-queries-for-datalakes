@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="CoachingHistory">
+- Description: This table contains the coaching history of coaches
+- Data:
+-- CoachingHistoryID: Primary key for the CoachingHistory table
+-- CoachID: References CoachID in Coaches table. Range depends on number of coaches.
+-- TeamID: References TeamID in Teams table. Range depends on number of teams.
+-- StartDate: Start date of coaching tenure. Range from 1950 to present.
+-- EndDate: End date of coaching tenure. Range from 1950 to present, or NULL if current.
+-- Position: Coaching position (e.g., "Head Coach", "Assistant Coach"). 5-10 distinct values.
+- Relationships:
+-- (CoachingHistory.CoachID → Coaches.CoachID) - Table containing information about team coaches
+-- (CoachingHistory.TeamID → Teams.TeamID) - Table containing information about sports teams
+</METADATA>

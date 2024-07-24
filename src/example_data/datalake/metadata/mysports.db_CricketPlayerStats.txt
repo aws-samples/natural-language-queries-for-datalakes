@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="CricketPlayerStats">
+- Description: This table contains statistics for cricket players
+- Data:
+-- CricketPlayerStatID: Primary key for the CricketPlayerStats table
+-- PlayerStatID: References PlayerStatID in PlayerStats table. Range depends on number of player stats.
+-- BattingAverage: Batting average. Range 0-100, most values 20-50.
+-- BowlingAverage: Bowling average. Range 10-100, most values 20-40.
+-- Centuries: Number of centuries scored. Range 0-100, most values under 20.
+-- Wickets: Number of wickets taken. Range 0-1000, depends on player role.
+- Relationships:
+-- (CricketPlayerStats.PlayerStatID → PlayerStats.PlayerStatID) - Table containing statistics for players
+-- (CricketPlayerStats.CricketPlayerStatID → CricketPlayers.CricketPlayerStatID) - Table containing specific information for cricket players
+</METADATA>

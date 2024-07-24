@@ -1,0 +1,13 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="SocialMediaAccounts">
+- Description: This table contains information about social media accounts of players and teams
+- Data:
+-- AccountID: Primary key for the SocialMediaAccounts table
+-- EntityID: References ID of the account owner (could be PlayerID or TeamID).
+-- EntityType: Type of account owner ("Player", "Team"). 2 distinct values.
+-- Platform: Social media platform (e.g., "Twitter", "Instagram", "Facebook"). 5-7 distinct values.
+-- Username: Username on the platform. Many distinct values.
+-- Followers: Number of followers. Range 100-100000000, log-normally distributed.
+- Relationships:
+-- (SocialMediaAccounts.EntityID → Players.PlayerID) - Table containing information about individual players (when EntityType is "Player")
+-- (SocialMediaAccounts.EntityID → Teams.TeamID) - Table containing information about sports teams (when EntityType is "Team")
+</METADATA>

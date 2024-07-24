@@ -1,0 +1,10 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="SportsBettingProviders">
+- Description: This table contains information about sports betting providers
+- Data:
+-- ProviderID: Primary key for the SportsBettingProviders table
+-- ProviderName: Name of the betting provider. 20-30 distinct values.
+-- FoundedYear: Year the provider was founded. Range from 1950 to present.
+-- Headquarters: Location of the provider's headquarters. Many distinct values.
+- Relationships:
+-- (SportsBettingProviders.ProviderID → Bets.ProviderID) - Table containing information about sports bets
+</METADATA>

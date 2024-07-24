@@ -1,0 +1,12 @@
+<METADATA CHANNEL="sqlite" DATABASE="mysports.db" TABLE="RugbyPlayers">
+- Description: This table contains specific information for rugby players
+- Data:
+-- RugbyPlayerID: Primary key for the RugbyPlayers table
+-- PlayerID: References PlayerID in Players table. Range depends on number of players.
+-- Position: Player's position (e.g., "Fly-half", "Prop"). 15 distinct values.
+-- Caps: Number of international appearances. Range 0-150, most values under 50.
+- Relationships:
+-- (RugbyPlayers.PlayerID → Players.PlayerID) - Table containing information about individual players
+-- (RugbyPlayers.RugbyPlayerID → RugbyTeams.RugbyPlayerID) - Table containing specific information for rugby teams
+-- (RugbyPlayers.RugbyPlayerID → RugbyPlayerStats.RugbyPlayerID) - Table containing statistics for rugby players
+</METADATA>
