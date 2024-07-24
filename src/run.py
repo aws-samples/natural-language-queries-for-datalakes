@@ -7,7 +7,7 @@ dg = DataGenie()
 question = "List 5 products and their supplier name"
 
 
-answer = dg.answer(question)
+answer, sql = dg.answer(question)
 
 print("******************** RESULT **********************")
 print("*                                                *")

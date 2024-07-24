@@ -1,0 +1,14 @@
+[
+  {"QUESTION_NO": 1,
+    "GROUP_NO": 1,
+    "SUBQUESTION_NO": 0,
+    "QUESTION": "what artists' names start with 'The'?",
+    "DISAMBIGUATED_QUESTION": "List the Names of all Artists which start with 'The'",
+    "ANSWER_SQL": "SELECT Name FROM Artist WHERE Name LIKE 'The%';"}, 
+  {"QUESTION_NO": 2,
+    "GROUP_NO": 2,
+    "SUBQUESTION_NO": 0,
+    "QUESTION": "How many albums are by The Rolling Stones?",
+    "DISAMBIGUATED_QUESTION": "How many distinct albums are by the artist whose name is 'The Rolling Stones'?",
+    "ANSWER_SQL": "SELECT COUNT(DISTINCT a.AlbumId) AS NumAlbums FROM Album a JOIN Artist ar ON a.ArtistId = ar.ArtistId WHERE ar.Name = 'The Rolling Stones';"}
+]
