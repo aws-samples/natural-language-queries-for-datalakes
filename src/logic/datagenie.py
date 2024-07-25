@@ -53,8 +53,8 @@ class DataGenie():
             message_placeholder=message_placeholder,
             previous_display=display_response_2)
 
-        return answer, sql['sql_query']
-        
+        return {"response": answer, "sql_statement": sql['sql_query']}
+
     def index_catalog(self):
         cq = CatalogQuery(self.language_model)
     

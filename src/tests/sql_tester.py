@@ -140,7 +140,8 @@ class SQLTester():
 
             dg_answer, dg_sql = "UNKNOWN - DATA GENIE EXCEPTION", ""
             try:
-                dg_answer, dg_sql = self.datagenie.answer(question)
+                dg_answer = self.datagenie.answer(question)
+                generated_answer, dg_sql = dg_answer["response"], dg_answer["sql_statement"]
             except Exception as e:
                 dg_answer = f"DATA GENIE EXCEPTION: {e}"
                 print(dg_answer)
@@ -149,7 +150,7 @@ class SQLTester():
             # thinking, query = None, expected_sql
 
             # self._log(thinking, "THINKING")
-            self._log(dg_answer, "DATAGENIE RESULT")
+            self._log(generated_answer, "DATAGENIE RESULT")
             self._log(dg_sql, "DATAGENIE QUERY")
             self._log(expected_sql, "EXPECTED SQL")
             self._log(expected_disambiguated_question, "EXPECTED DISAMBIGUATED QUESTION")
