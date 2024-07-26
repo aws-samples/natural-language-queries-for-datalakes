@@ -7,7 +7,7 @@ dg = DataGenie()
 question = "List 5 products and their supplier name"
 
 dg_answer = dg.answer(question)
-answer, sql = dg_answer["response"], dg_answer["sql_statement"]
+answer = dg_answer["response"]
 
 print("******************** RESULT **********************")
 print("*                                                *")
@@ -16,7 +16,7 @@ print("*                                                *")
 print("**************************************************")
 print()   
 print("Your question: ", question)
-print
+print()
 print()
 print("Answer to the question: ")
 print(Bcolors.OKCYAN + answer['answer'] + Bcolors.ENDC)

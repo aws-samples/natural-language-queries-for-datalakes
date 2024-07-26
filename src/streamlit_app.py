@@ -62,7 +62,7 @@ if prompt := st.chat_input("Ask your question"):
         message_placeholder = st.empty()
         full_response = ""
         dg_answer = dg.answer(prompt, message_placeholder=message_placeholder)
-        response, sql = dg_answer["response"], dg_answer["sql_statement"]
+        response = dg_answer["response"]
         message_placeholder.markdown(response['display_response'])
     
     # Add assistant response to chat history

@@ -106,7 +106,7 @@ class SQLTester():
         group_count = -1
         for question_group in self.question_groups:
             group_count += 1
-            (question_count, question_group_no, subquestion_no, question, expected_disambiguated_question, expected_sql) = (question_group["QUESTION_NO"], question_group["GROUP_NO"], question_group["SUBQUESTION_NO"], question_group["QUESTION"], question_group["DISAMBIGUATED_QUESTION"], question_group["ANSWER_SQL"])
+            (question_count, question_group_no, subquestion_no, question, expected_sql) = (question_group["QUESTION_NO"], question_group["GROUP_NO"], question_group["SUBQUESTION_NO"], question_group["QUESTION"], question_group["ANSWER_SQL"])
             for keyword in ["FROM ","WHERE ", "JOIN ", "GROUP BY ", "ORDER BY ", "HAVING ", "LIMIT "]:
                 expected_sql = expected_sql.replace(keyword, f"\n{keyword}")  
             if subquestion_no == 0:
@@ -131,13 +131,6 @@ class SQLTester():
             log_header = f"\n\n################################################\n############# QUESTION {question_count} of {len(self.question_groups)} (SUBQUESTION {subquestion_no}, QUESTION {group_question_count}): {question}\n\nSQL:\n"
             self._log(log_header)
 
-            # disambiguated_question, intent, required_tables = runIntentAndDisambiguation(question, conversation_history_string, tables, jargon)
-            # disambiguated_question, intent, required_tables = None, None, None
-
-            # self._log(intent, "INTENT")
-            # self._log(disambiguated_question, "DISAMBIGUATED QUESTION")
-            # self._log(required_tables, "REQUIRED TABLES")
-
             dg_answer, dg_sql = "UNKNOWN - DATA GENIE EXCEPTION", ""
             try:
                 dg_answer = self.datagenie.answer(question)
@@ -146,14 +139,9 @@ class SQLTester():
                 dg_answer = f"DATA GENIE EXCEPTION: {e}"
                 print(dg_answer)
 
-            # thinking, query = generateSQL(disambiguated_question, ddl_dict, ddl_general_commment, jargon, required_tables)
-            # thinking, query = None, expected_sql
-
-            # self._log(thinking, "THINKING")
             self._log(generated_answer, "DATAGENIE RESULT")
             self._log(dg_sql, "DATAGENIE QUERY")
             self._log(expected_sql, "EXPECTED SQL")
-            self._log(expected_disambiguated_question, "EXPECTED DISAMBIGUATED QUESTION")
 
             data_text = self._runQuery(dg_sql, "GENERATED")
             data_text = str(data_text).strip()
