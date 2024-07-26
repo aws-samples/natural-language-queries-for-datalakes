@@ -1,0 +1,17 @@
+[
+  {"QUESTION_NO": 1,
+    "GROUP_NO": 1,
+    "SUBQUESTION_NO": 0,
+    "QUESTION": "How many leagues are there?",
+    "ANSWER_SQL": "SELECT COUNT(*) FROM Leagues;"}, 
+{"QUESTION_NO": 2,
+    "GROUP_NO": 2,
+    "SUBQUESTION_NO": 0,
+    "QUESTION": "Which league has the most teams?",
+    "ANSWER_SQL": "SELECT l.LeagueName, COUNT(t.TeamID) as TeamCount FROM Leagues l JOIN Teams t ON l.SportID = t.SportID GROUP BY l.LeagueID ORDER BY TeamCount DESC LIMIT 1;"}, 
+  {"QUESTION_NO": 3,
+    "GROUP_NO": 3,
+    "SUBQUESTION_NO": 0,
+    "QUESTION": "Who scored the most points in a single game?",
+    "ANSWER_SQL": "SELECT p.FirstName, p.LastName, ps.PointsScored FROM Players p JOIN PlayerStats ps ON p.PlayerID = ps.PlayerID ORDER BY ps.PointsScored DESC LIMIT 1;"}
+]

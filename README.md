@@ -146,6 +146,14 @@ Some sample questions that you can ask:
 * List all song titles which contain the word "free". Please also tell me who is the singer.
 * How many orders contain products from suppliers from France?
 
+You can also run a battery of test quesitons with expected answers. To do this:
+* Updatie the corresponding JSON file in the tests/test_sets directory
+* update tests/run_tests.py, setting the database_name variable in it to the database you want to test
+* cd to the src directory
+* make sure that the data is indexed by running run_me_to_index_catalog.py (see above)
+* export your temporary AWS credentials or otherwise ensure the AWS CLI is permissioned to access the Bedrock service in your AWS account
+* run the run_tests.py file
+
 ## How to use your own data
 
 If you want to use your own data instead of the sample databases:
