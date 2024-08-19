@@ -16,7 +16,7 @@ print("*                                                *")
 print("**************************************************")
 print()   
 print("Your question: ", question)
-print()
+print
 print()
 print("Answer to the question: ")
 print(Bcolors.OKCYAN + answer['answer'] + Bcolors.ENDC)
