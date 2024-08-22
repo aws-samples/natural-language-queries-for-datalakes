@@ -1,7 +1,6 @@
 print("TESTER STARTING")
 
 ################### ENVIRONMENT SMOKE TESTS ###################
-import sys
 import os
 cwd = os.getcwd()
 if not cwd.endswith("src"):
@@ -19,10 +18,10 @@ except Exception as e:
 ################### ENVIRONMENT SMOKE TESTS DONE ###################
 
 from tests.sql_tester import SQLTester
+from logic.config import dgConfig
 
-databases_to_test = ["northwind"]
-# databases_to_test = ["northwind", "mysports"]
-# databases_to_test = ["Chinook", "northwind", "mysports"]
+# find all files containing test configurations for each database (in the src/tests/test_sets directory) and extract the database name (e.g.: "Chinook") from the file name (<database>_tests.json), so we can test each dtabase for which we have tests defined
+databases_to_test = [file.replace("_tests.json", "") for file in os.listdir(dgConfig.TEST_QUESTIONS_DIR)]
 
 final_stats = {}
 for database_name in databases_to_test:

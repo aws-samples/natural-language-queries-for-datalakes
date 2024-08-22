@@ -11,5 +11,5 @@ class dgConfig():
     # Path to system and test logs
     LOG_FILE_DIR = "./logs"
 
-    # Path to Sqlite databases
+    # Path to accuracy test case files
     TEST_QUESTIONS_DIR = "./tests/test_sets"

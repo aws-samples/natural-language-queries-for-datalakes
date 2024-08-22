@@ -141,12 +141,11 @@ By testing and evaluating Data Genie, you can identify areas for improvement and
 
 To test and evaluate Data Genie, follow these steps:
 
-1. Update the corresponding JSON file in the tests/test_sets directory with your test questions and expected answers.
-2. Update the tests/run_tests.py file, setting the database_name variable to the database you want to test.
-3. Navigate to the src directory.
-4. Export your temporary AWS credentials or ensure the AWS CLI is permissioned to access the Bedrock service in your AWS account.
-5. Ensure the data is indexed by running run_me_to_index_catalog.py (see the instructions above).
-6. Run the run_tests.py file.
+1. Update the corresponding JSON file in the tests/test_sets directory with your test questions and expected answers. (The tester will auto-detect files in this directory and test each one.)
+2. Navigate to the src directory.
+3. Export your temporary AWS credentials or ensure the AWS CLI is permissioned to access the Bedrock service in your AWS account.
+4. Ensure the data is indexed by running run_me_to_index_catalog.py (see the instructions above).
+5. Run the run_tests.py file.
 
 The test suite will execute the test questions and compare the results to the expected answers. This will help you evaluate the performance of Data Genie and identify areas for improvement.
 
