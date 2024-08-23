@@ -1,0 +1,2 @@
+Retail shop database describing retail inventory items, orders, customers and suppliers.
+tables: "Categories", "CustomerCustomerDemo", "CustomerDemographics", "Customers", "EmployeeTerritories", "Employees", "Order Details", "Orders", "Products", "Regions", "Shippers", "Suppliers", "Territories"

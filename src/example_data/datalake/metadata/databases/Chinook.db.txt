@@ -1,0 +1,2 @@
+Music database describing albums, tracks, artists, playlists and purchases.
+tables: "Album", "Artist", "Customer", "Employee", "Genre", "Invoice", "InvoiceLine", "MediaType", "Playlist", "PlaylistTrack", "Track"
