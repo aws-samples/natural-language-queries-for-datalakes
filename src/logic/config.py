@@ -8,3 +8,8 @@ class dgConfig():
     # Path to Sqlite databases
     SQLITE_DATABASES_DIR = "./example_data/datalake/data"
     
+    # Path to system and test logs
+    LOG_FILE_DIR = "./logs"
+
+    # Path to accuracy test case files
+    TEST_QUESTIONS_DIR = "./tests/test_sets"

@@ -10,3 +10,4 @@ deploy.sh
 .venv/
 cdk.out
 .DS_Store
+logs

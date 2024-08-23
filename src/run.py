@@ -6,8 +6,8 @@ dg = DataGenie()
 
 question = "List 5 products and their supplier name"
 
-
-answer = dg.answer(question)
+dg_answer = dg.answer(question)
+answer = dg_answer["response"]
 
 print("******************** RESULT **********************")
 print("*                                                *")

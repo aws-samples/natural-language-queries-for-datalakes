@@ -63,7 +63,7 @@ of their supplier".
 
 Example questions that you can ask:
 
-* For Northwhind database:
+* For Northwind database:
   * List 5 products and the name of their supplier
   * List 5 customers who bought products from suppliers in France. Give their names, which product and qty ordered
   * What are the top three categories in terms of number of orders?
@@ -129,22 +129,44 @@ The deployment takes 5 to 10 minutes.
 7. Log in to the Streamlit app with the user you created, index the business data catalog
 and start asking questions!
 
+
+## Test and Evaluate Data Genie
+
+# Why Evaluate Data Genie?
+
+Data Genie is a work in progress, and its algorithms can be improved to fit the specificities of each data lake.
+By testing and evaluating Data Genie, you can identify areas for improvement and compare the performance of different algorithms or approaches.
+
+# Evaluation process
+
+To test and evaluate Data Genie, follow these steps:
+
+1. Update the corresponding JSON file in the tests/test_sets directory with your test questions and expected answers. (The tester will auto-detect files in this directory and test each one.)
+2. Navigate to the src directory.
+3. Export your temporary AWS credentials or ensure the AWS CLI is permissioned to access the Bedrock service in your AWS account.
+4. Ensure the data is indexed by running run_me_to_index_catalog.py (see the instructions above).
+5. Run the run_tests.py file.
+
+The test suite will execute the test questions and compare the results to the expected answers. This will help you evaluate the performance of Data Genie and identify areas for improvement.
+
+
 ## What sample data is included?
 
 This demo comes with these sample databases:
 
 * [Chinook](https://github.com/lerocha/chinook-database)
-* [Northwind](https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs)
-* [MySports] (a database containing 87 tables of sports statistics we generated in order to test scalability of our SQL queries to huge scemas.) 
+* [Northwind](https://github.com/microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs) (We added a few more rows to this database to be able to answer additional questions.)
+* [MySports] (a database containing 87 tables of sports statistics we generated in order to test scalability of our SQL queries to huge schemas.) 
 
 For more information about the schema of these databases, we have included the Data Definition Language (DDL) files in the example_data/datalake/data/DDL folder.
-The populated databases thelselves can be found in the example_data/datalake/data folder, and can be queried by running "sqlite3 <database file name>" on the command line.
+The populated databases themselves can be found in the example_data/datalake/data folder, and can be queried by running "sqlite3 <database file name>" on the command line.
 
 Some sample questions that you can ask:
 
 * List 5 products with their categories
 * List all song titles which contain the word "free". Please also tell me who is the singer.
 * How many orders contain products from suppliers from France?
+
 
 ## How to use your own data
 

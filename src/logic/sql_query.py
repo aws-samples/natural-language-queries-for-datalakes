@@ -3,12 +3,14 @@ import re
 from utils.bcolors import Bcolors
 import ast
 import json
+from utils.logger import Logger
 
 class SqlQuery():
     
     def __init__(self, language_model, database_connectors):
         self.language_model = language_model
         self.database_connectors = database_connectors        
+        self.logger = Logger()
     
     def set_db(self, tables_to_use):
         
@@ -229,7 +231,10 @@ class SqlQuery():
         
         sql_query = generated_text.split("<sql>")[1].split("</sql>")[0]
         explanation = generated_text.split("<sql_explanation>")[1].split("</sql_explanation>")[0]
-        
+
+        self.logger.log(sql_query, "SQL_QUERY: sql_query")
+        self.logger.log(explanation, "SQL_QUERY: explanation")
+
         # Execute SQL query
 
         if channel=='athenadb' or channel=='postgresql' or channel=='sqlite':
@@ -237,7 +242,9 @@ class SqlQuery():
             sql_result = db.run(sql_query)
             sql_result = self.clean_sql_result(sql_result)
             print(f"GOT SQL RESULT: <<<{sql_result}>>>")
-            
+
+            self.logger.log(sql_result, "SQL_QUERY: sql_result")
+
             # Display SQL result
             header_2 = "\n\n### Step 2b: Result of SQL query execution\n"
             display_text += header_2 + sql_result + "\n"

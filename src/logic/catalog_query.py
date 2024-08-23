@@ -8,6 +8,7 @@ from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain.indexes.vectorstore import VectorStoreIndexWrapper
 from utils.bcolors import Bcolors
 from logic.config import dgConfig
+from utils.logger import Logger
 
 # Directory to save the vector database
 VECTOR_DATABASE_DIR = "./database/"
@@ -20,6 +21,7 @@ class CatalogQuery():
         self.language_model = language_model
         self.embeddings = language_model.embeddings
         self.vectorstore_faiss = None
+        self.logger = Logger()
 
     def _get_vectorstore_full_path(self):
         return os.path.join(VECTOR_DATABASE_DIR,VECTOR_DATABASE_FILE)
@@ -295,6 +297,11 @@ Your third question here
         catalog_for_each_table = [elt[0].page_content for elt, _ in catalog_for_each_table]
         # Get channel
         channel = self._get_channel_name_from_metadata_document(catalog_for_each_table[0])
+
+        self.logger.log(question_list, "QUERY_CATALOG: question_list")
+        self.logger.log(database, "QUERY_CATALOG: Most popular database")
+        self.logger.log(datacatalog_documents, "QUERY_CATALOG: vector search results")
+        self.logger.log(result_list, "QUERY_CATALOG: tables from graph")
 
         return {
             'channel': channel,
