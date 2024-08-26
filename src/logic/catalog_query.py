@@ -218,6 +218,8 @@ Do not write any commentary before or after the <ENTITIES> tag.
     
         entities = self._stripTag(generated_text, "ENTITIES")
         entities_dict_list = json.loads(entities)
+        if dgConfig.USE_PROMPT_THAT_SPLITS_QUESTION_INTO_ENTITIES:
+            entities_dict_list.append({"entity": "ORIGINAL QUESTION", "description": query, "database": "UNKNOWN"})
         return entities_dict_list, display_text
 
     def _get_channel_name_from_metadata_document(self, document):
