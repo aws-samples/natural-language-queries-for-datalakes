@@ -179,6 +179,21 @@ Alternatively, you can edit the `src/utils/database_connections.py` and
 `src/utils/database_connections.py` files to connect to Amazon Athena, Postgresql
 databases, and more.
 
+
+## How to view a basic (simplified for small schemas) versions of DataGenie
+
+The simplified version of DataGenie contains only the original workflow: 
+* Break user question into sub-questions
+* Run vector search to find 3 tables that best match each of these sub-quesitons, plus 3 more for the original user question verbatim
+* Determine the database to use based on the 1 table that best matches the original user question
+* Sample 5 random rows from each of these matching tables
+* Send the metadata descriptions of the matching tables and their sample data to the LLM to form SQL the query, and execute it
+
+To run it:
+* Clone the "SIMPLE_DEMO_V1" tag
+* Follow the "Install and run locally" instructions above
+
+
 ## Data Lake security considerations
 
 * **Input Validation and Sanitization**: Data Genie accepts natural language queries from users, which are then translated into SQL queries to retrieve data from the underlying data sources. It is essential to implement proper input validation and sanitization mechanisms to prevent SQL injection attacks and other code injection vulnerabilities. These mechanisms should apply to both user input and the generated SQL queries. Their implementation depends on the use case, they are not implemented in the provided demo.

@@ -52,8 +52,7 @@ class DataGenie():
             tables_to_use=tables_to_use,
             message_placeholder=message_placeholder,
             previous_display=display_response_2)
-
-        return {"response": answer, "sql_statement": sql['sql_query']}
+        return {"response": answer, "sql_statement": sql['sql_query'], "table_list": tables_to_use["table"], "database_list": [tables_to_use["database"]]}
     
         
     def index_catalog(self):

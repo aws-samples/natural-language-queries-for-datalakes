@@ -120,7 +120,7 @@ class CatalogQuery():
 
     def _split_question_for_table_search(self, query, display_response="", message_placeholder=None):
 
-        prompt_split_questions = f"""You are a data anlytics expert.
+        prompt = f"""You are a data anlytics expert.
 Given an input question, we want to generate a SQL query to answer this question.
 But before doing that, we want to find the required tables. We may need to perform some joins, so we need to find all the tables that are needed.
 We are going to perform a vector search in the data catalog to find the tables.
@@ -140,7 +140,32 @@ Write an <ENTITIES> XML tag, containing a JSON list of dictionaries, each contai
 - "database": the database name (from the <DATABASES> tag) where data to answer the sub-question is most likely to be found.
 """
 
-        prompt_entities = f"""
+        print("\nPrompt for question split:")
+        print(Bcolors.OKGREEN + prompt + Bcolors.ENDC)
+        
+        header = f"### Step 1.b: Split question for table search\n\n"
+        
+        previous_display = display_response
+        def concatenate_texts(s):
+            return previous_display + header + s
+
+        def callback(completion):
+            s = self._format_output(completion)
+            if message_placeholder is not None:
+                message_placeholder.markdown(concatenate_texts(s) + "▌")
+
+        generated_text = self.language_model.invoke_with_stream_callback(prompt, callback)
+
+        display_text = concatenate_texts(self._format_output(generated_text))
+    
+        entities = self._stripTag(generated_text, "ENTITIES")
+        entities_dict_list = json.loads(entities)
+        return entities_dict_list, display_text
+
+
+    def _split_question_into_entities_for_table_search(self, query, display_response="", message_placeholder=None):
+
+        prompt = f"""
 System: You are an expert data analyst and SQL specialist.
 
 User: Read the list of available databases and their descriptions in the <DATABASES> tag below.
@@ -196,12 +221,10 @@ For example, if the question asks about "Nike kicks", you should write something
 Do not write any commentary before or after the <ENTITIES> tag.
         """
 
-        prompt = prompt_entities if dgConfig.USE_PROMPT_THAT_SPLITS_QUESTION_INTO_ENTITIES else prompt_split_questions
-
-        print("\nPrompt for question split:")
+        print("\nPrompt for question entities:")
         print(Bcolors.OKGREEN + prompt + Bcolors.ENDC)
         
-        header = f"### Step 1.b: Split question for table search\n\n"
+        header = f"### Step 1.b: Split question into entities for table search\n\n"
         
         previous_display = display_response
         def concatenate_texts(s):
@@ -218,9 +241,8 @@ Do not write any commentary before or after the <ENTITIES> tag.
     
         entities = self._stripTag(generated_text, "ENTITIES")
         entities_dict_list = json.loads(entities)
-        if dgConfig.USE_PROMPT_THAT_SPLITS_QUESTION_INTO_ENTITIES:
-            entities_dict_list.append({"entity": "ORIGINAL QUESTION", "description": query, "database": "UNKNOWN"})
         return entities_dict_list, display_text
+
 
     def _get_channel_name_from_metadata_document(self, document):
         """
@@ -229,6 +251,7 @@ Do not write any commentary before or after the <ENTITIES> tag.
         channel_name = document.split("CHANNEL=\"")[1].split("\"")[0]
         return channel_name
 
+
     def _get_database_name_from_metadata_document(self, document):
         """
         Get the database name from the metadata document.
@@ -236,12 +259,27 @@ Do not write any commentary before or after the <ENTITIES> tag.
         database_name = document.split("DATABASE=\"")[1].split("\"")[0]
         return database_name    
 
+
     def _get_table_name_from_metadata_document(self, document):
         """
         Get the table name from the metadata document.
         """
         table_name = document.split("TABLE=\"")[1].split("\"")[0]
         return table_name    
+
+
+    def _find_database_from_question(self, query):
+        """
+        Find the database from the question.
+        """
+        
+        relevant_metadata, scores = self.find_relevant_metadata(query, k=1)
+
+        # Extract database name, knowing that it is in the relevant_metadata string in the following format: <DATABASE=\"{database}\" TABLE=\"{table}\"...
+        database = self._get_database_name_from_metadata_document(relevant_metadata[0].page_content)
+
+        return database
+
 
     def _find_most_popular_database(self, entities_dict_list):
         """
@@ -305,19 +343,10 @@ Do not write any commentary before or after the <ENTITIES> tag.
         return result_set, display
 
 
-    def _get_tables_list(self, datacatalog_documents, display_response="", message_placeholder=None):
-
-        # Get database name
-        database = self._get_database_name_from_metadata_document(list(datacatalog_documents)[0])
+    def _get_tables_list(self, datacatalog_documents, database, display_response="", message_placeholder=None):
 
         # Get list of tables
         required_tables = [self._get_table_name_from_metadata_document(document) for document in datacatalog_documents]
-
-        # if we have an ER diagram graph for this database, then use it to add to the required table list any additional unmentioned tables that are needed to join those tables together
-        if dgConfig.USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS and os.path.isfile(f"{dgConfig.DATA_CATALOG_DIR}/graphs/{database}.dict"):
-            # find first viable path between the selected tables
-            valid_path = GraphPathFinder(database).findValidPath(list(required_tables))
-            required_tables = valid_path
 
         # display result
         header = f"#### Database and list of tables found\n\n"
@@ -332,8 +361,28 @@ Do not write any commentary before or after the <ENTITIES> tag.
         return required_tables, display
 
 
+    def _add_to_tables_list_from_graph(self, required_tables, database, display_response="", message_placeholder=None):
+
+        # find first viable path between the selected tables
+        required_tables_new = GraphPathFinder(database).findValidPath(list(required_tables))
+        additions = required_tables_new.difference(required_tables)
+
+        # display result
+        header = f"#### List of tables expanded using graph search for tables required to complete join path\n\n"
+        display = display_response + header
+        new_display = f"Database: {database}\\\n"
+        new_display += f"Added tables: {additions}\n\n"
+        new_display += f"New list of tables: {required_tables_new}\n\n"
+        print(new_display)
+        display += new_display
+        if message_placeholder:
+            message_placeholder.markdown(display + "▌")
+
+        return required_tables_new, display
+
+
     #define a function that infers the channel/database/table and sets the database for querying
-    def query_catalog(self, query, message_placeholder=None, SQL_TESTER=None):
+    def query_catalog(self, query, message_placeholder=None):
 
         print()
         print("******************* STEP 1.a *********************")
@@ -357,17 +406,26 @@ Do not write any commentary before or after the <ENTITIES> tag.
         print("**************************************************")
         print()
         
-        # Split the question into multiple questions
-        entities_dict_list, display_response = self._split_question_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
+        if dgConfig.USE_PROMPT_THAT_SPLITS_QUESTION_INTO_ENTITIES:
+            # Split the question into linguisitc entities
+            entities_dict_list, display_response = self._split_question_into_entities_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
+        else:
+            # Split the question into multiple questions
+            entities_dict_list, display_response = self._split_question_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
 
         print("\nEntity list: ")
         print(entities_dict_list)
 
-        # find the most popular database
-        database = self._find_most_popular_database(entities_dict_list)
-
-        print("\nMost popular database: ")
-        print(database)
+        if dgConfig.USE_LLM_INSTEAD_OF_VECTOR_SEARCH_TO_IDENTIFY_DATABASE:
+            # find the most popular database
+            database = self._find_most_popular_database(entities_dict_list)
+            print("\nMost popular database: ")
+            print(database)
+        else:
+            # Split the question into multiple questions
+            database = self._find_database_from_question(query)
+            print("\nMost vector similar database: ")
+            print(database)
 
         print()
         print("******************* STEP 1.c *********************")
@@ -390,14 +448,24 @@ Do not write any commentary before or after the <ENTITIES> tag.
         print("**************************************************")
         print()
         
+        # Get database name from first metadata match
+        database_name_from_first_metadata = self._get_database_name_from_metadata_document(list(datacatalog_documents)[0])
+
         # Perform vector search on the list of questions to find the tables
-        result_list, display_response = self._get_tables_list(datacatalog_documents, display_response=display_response, message_placeholder=message_placeholder)
+        required_tables, display_response = self._get_tables_list(datacatalog_documents, database_name_from_first_metadata, display_response=display_response, message_placeholder=message_placeholder)
+
+        self.logger.log(set(required_tables), "QUERY_CATALOG: tables from vector search")
+
+        # if we have an ER diagram graph for this database, then use it to add to the required table list any additional unmentioned tables that are needed to join those tables together
+        if dgConfig.USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS and os.path.isfile(f"{dgConfig.DATA_CATALOG_DIR}/graphs/{database}.dict"):
+            required_tables, display_response = self._add_to_tables_list_from_graph(required_tables, database_name_from_first_metadata, display_response=display_response, message_placeholder=message_placeholder)
+            self.logger.log(set(required_tables), "QUERY_CATALOG: tables from vector search plus graph search")
 
         ##################################
         # Prepare result for the next step
         ##################################
         # Get data catalog document for each table
-        catalog_for_each_table = [self.find_relevant_metadata(f"DATABASE=\"{database}\" TABLE=\"{table}\"", k=1) for table in result_list]
+        catalog_for_each_table = [self.find_relevant_metadata(f"DATABASE=\"{database}\" TABLE=\"{table}\"", k=1) for table in required_tables]
         catalog_for_each_table = [elt[0].page_content for elt, _ in catalog_for_each_table]
         # Get channel
         channel = self._get_channel_name_from_metadata_document(catalog_for_each_table[0])
@@ -405,14 +473,12 @@ Do not write any commentary before or after the <ENTITIES> tag.
         self.logger.log(entities_dict_list, "QUERY_CATALOG: entities_dict_list")
         self.logger.log(database, "QUERY_CATALOG: Most popular database")
         self.logger.log(datacatalog_documents, "QUERY_CATALOG: vector search results")
-        self.logger.log(result_list, "QUERY_CATALOG: tables from graph")
+        self.logger.log(set(required_tables), "QUERY_CATALOG: tables from graph")
 
         return {
             'channel': channel,
             'database': database,
-            'table': result_list,
+            'table': required_tables,
             'document': catalog_for_each_table,
             'display_response': display_response,
         }
-
-        return None

@@ -14,6 +14,9 @@ class dgConfig():
     # Path to accuracy test case files
     TEST_QUESTIONS_DIR = "./tests/test_sets"
 
+    # Choose whether to use most popular database from the initial quesiton decomposition prompt (if True), or to do a vector search with K=1 throught the table metadata using the original user quesiton to identify the database (if False)
+    USE_LLM_INSTEAD_OF_VECTOR_SEARCH_TO_IDENTIFY_DATABASE = False
+
     # Choose whether to split the quesiton into grammar entities (like "the Chicago Bulls basketball team") (if True), or sub-questions (like "Which basketball team is called The Chicago Bulls?") (if False)
     USE_PROMPT_THAT_SPLITS_QUESTION_INTO_ENTITIES = True
 
