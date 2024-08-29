@@ -365,7 +365,7 @@ Do not write any commentary before or after the <ENTITIES> tag.
 
         # find first viable path between the selected tables
         required_tables_new = GraphPathFinder(database).findValidPath(list(required_tables))
-        additions = required_tables_new.difference(required_tables)
+        additions = set(required_tables_new).difference(set(required_tables))
 
         # display result
         header = f"#### List of tables expanded using graph search for tables required to complete join path\n\n"
