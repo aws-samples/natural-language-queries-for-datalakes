@@ -1,9 +1,27 @@
-# Natural Language Queries for Datalakes - Data Genie
+# Natural Language Queries for Datalakes
 
-Data Genie is a generative AI demo that allows you to query and explore
+This repo contains a generative AI demo that allows you to query and explore
 your data lake using natural language. It leverages the power of Amazon Bedrock.
 It comes with some example data in SQLite databases, but you can connect it to
 your data lake through Amazon Athena, JDBC or other.
+
+## Which version to install?
+
+Data Genie comes in two flavors:
+* a simplified version that helps beginners understand the workflow
+* a more advanced version which more features
+
+The simplified version contains only the original workflow: 
+* Break user question into sub-questions
+* Run vector search to find 3 tables that best match each of these sub-quesitons, plus 3 more for the original user question verbatim
+* Determine the database to use based on the 1 table that best matches the original user question
+* Sample 5 random rows from each of these matching tables
+* Send the metadata descriptions of the matching tables and their sample data to the LLM to form SQL the query, and execute it
+
+To run it:
+* Checkout the "SIMPLE_DEMO_V1" tag with the `git checkout SIMPLE_DEMO_V1`command
+
+For the more advanced version, checkout the HEAD of the main branch with the `git checkout HEAD` command.
 
 ## Prerequisites
 
@@ -180,20 +198,6 @@ Alternatively, you can edit the `src/utils/database_connections.py` and
 databases, and more.
 
 
-## How to view a basic (simplified for small schemas) versions of DataGenie
-
-The simplified version of DataGenie contains only the original workflow: 
-* Break user question into sub-questions
-* Run vector search to find 3 tables that best match each of these sub-quesitons, plus 3 more for the original user question verbatim
-* Determine the database to use based on the 1 table that best matches the original user question
-* Sample 5 random rows from each of these matching tables
-* Send the metadata descriptions of the matching tables and their sample data to the LLM to form SQL the query, and execute it
-
-To run it:
-* Clone the "SIMPLE_DEMO_V1" tag
-* Follow the "Install and run locally" instructions above
-
-
 ## Data Lake security considerations
 
 * **Input Validation and Sanitization**: Data Genie accepts natural language queries from users, which are then translated into SQL queries to retrieve data from the underlying data sources. It is essential to implement proper input validation and sanitization mechanisms to prevent SQL injection attacks and other code injection vulnerabilities. These mechanisms should apply to both user input and the generated SQL queries. Their implementation depends on the use case, they are not implemented in the provided demo.
@@ -242,4 +246,3 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This application is licensed under the MIT-0 License. See the [LICENSE](LICENSE) file.
-
