@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from langchain.sql_database import SQLDatabase
-from logic.config import dgConfig
+from config import dgConfig
 
 class DatabaseConnectors():
 
