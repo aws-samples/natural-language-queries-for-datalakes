@@ -6,9 +6,12 @@ from langchain.sql_database import SQLDatabase
 import json
 import ast
 import traceback
-from logic.datagenie import DataGenie
-from logic.config import dgConfig
+from config import dgConfig
 from utils.logger import Logger
+if dgConfig.ENABLE_ADVANCED_MODE:
+	from logic_advanced.datagenie import DataGenie
+else:
+	from logic.datagenie import DataGenie
 
 
 class SQLTester():
@@ -95,16 +98,20 @@ class SQLTester():
 		GOOD_EXTRA_TABLE = "GOOD:TABLE MATCH PLUS EXTRA TABLES"
 		BAD_MISSING_TABLES = "BAD:TABLE SET INCOMPLETE"
 
+		UNCLEAR_EXCEPTION_THROWN = "UNCLEAR:EXCEPTION THROWN SOMEWHERE IN DG EXECUTION"
+
 		stats_database = {
 			GOOD_DATABASE_MATCH: 0,
 			GOOD_EXTRA_DATABASES: 0,
-			BAD_MISSING_DATABASES: 0
+			BAD_MISSING_DATABASES: 0,
+			UNCLEAR_EXCEPTION_THROWN: 0
 		}
 
 		stats_table = {
 			GOOD_TABLE_MATCH: 0,
 			GOOD_EXTRA_TABLE: 0,
-			BAD_MISSING_TABLES: 0
+			BAD_MISSING_TABLES: 0,
+			UNCLEAR_EXCEPTION_THROWN: 0
 		}
 
 		stats_result = {
@@ -118,13 +125,12 @@ class SQLTester():
 			IRRELEVANT_NOT_A_SQL_QUESTON: 0
 		}
 
-		log_header = f"\n\n################################################\n############# TEST RUNNER STARTING WITH QUESTION {start_with}, RUNNING UP TO {run_up_to}, LIMITING TO GROUP {run_only_group} ####\n"
+		log_header = f"\n\n################################################\n############# TEST RUNNER STARTING {self.database_name} WITH QUESTION {start_with}, RUNNING UP TO {run_up_to}, LIMITING TO GROUP {run_only_group} ####\n"
 		self.logger.log(log_header)
 
 		question_count = 0
 		group_count = -1
 		for question_group in self.question_groups:
-			question_count += 1
 			group_count += 1
 			question_no = question_group["QUESTION_NO"]
 			question_group_no = question_group["GROUP_NO"]
@@ -152,14 +158,19 @@ class SQLTester():
 				print(f"SKIPPING QUESTION {question_no} IN GROUP {group_count+1} TO RUN ONLY GROUP {run_only_group}")
 				continue
 
+			question_count += 1
+
 			conversation_history_string = "\n\n".join(conversation_history)
 
-			log_header = f"\n\n################################################\n############# QUESTION {question_no} of {len(self.question_groups)} (GROUP {question_group_no}, SUBQUESTION {subquestion_no}, QUESTION {group_question_count} IN THIS GROUP): {question}\n\nSQL:\n"
+			log_header = f"\n\n################################################\n############# {self.database_name} QUESTION {question_no} of {len(self.question_groups)} (GROUP {question_group_no}, SUBQUESTION {subquestion_no}, QUESTION {group_question_count} IN THIS GROUP): {question}\n\nSQL:\n"
 			self.logger.log(log_header)
+			self.logger.set_question_number(question_no)
+			self.logger.log(question, "QUESTION")
 
-			generated_answer = dg_sql = dg_databases = dg_tables = "UNKNOWN - DATA GENIE EXCEPTION"
+			generated_answer = dg_sql = UNCLEAR_EXCEPTION_THROWN
+			dg_databases = dg_tables = [UNCLEAR_EXCEPTION_THROWN]
 			try:
-				dg_answer = self.datagenie.answer(question)
+				dg_answer = self.datagenie.answer(question) 
 				generated_answer, dg_sql, dg_tables, dg_databases = dg_answer["response"], dg_answer["sql_statement"], dg_answer["table_list"], dg_answer["database_list"]
 			except Exception as e:
 				generated_answer = f"DATA GENIE EXCEPTION: {e}\nSTACK TRACE: {traceback.format_exc()}"
@@ -170,7 +181,9 @@ class SQLTester():
 			database_set_evaluation = "UNKNOWN"
 			dg_databases = set(dg_databases)
 			expected_databases = set(expected_databases)
-			if dg_databases == expected_databases:
+			if dg_databases == {UNCLEAR_EXCEPTION_THROWN}:
+				database_set_evaluation = UNCLEAR_EXCEPTION_THROWN
+			elif dg_databases == expected_databases:
 				database_set_evaluation = GOOD_DATABASE_MATCH
 			elif expected_databases.issubset(dg_databases):
 				database_set_evaluation = GOOD_EXTRA_DATABASES
@@ -187,7 +200,9 @@ class SQLTester():
 			table_set_evaluation = "UNKNOWN"
 			dg_tables = set(dg_tables)
 			expected_tables = set(expected_tables)
-			if dg_tables == expected_tables:
+			if dg_tables == {UNCLEAR_EXCEPTION_THROWN}:
+				table_set_evaluation = UNCLEAR_EXCEPTION_THROWN
+			elif dg_tables == expected_tables:
 				table_set_evaluation = GOOD_TABLE_MATCH
 			elif expected_tables.issubset(dg_tables):
 				table_set_evaluation = GOOD_EXTRA_TABLE
@@ -244,10 +259,11 @@ class SQLTester():
 				stats_result[evaluation] = 0
 			stats_result[evaluation] += 1
 
+			parameters = dgConfig().getParametersString()
 			result_stats_text = f"""\n
-			################################################
-			COMPLETED {question_count} TESTS ({self.database_name} ; dgConfig.USE_LLM_INSTEAD_OF_VECTOR_SEARCH_TO_IDENTIFY_DATABASE = {dgConfig.USE_LLM_INSTEAD_OF_VECTOR_SEARCH_TO_IDENTIFY_DATABASE} ; USE_PROMPT_THAT_SPLITS_QUESTION_INTO_ENTITIES = {dgConfig.USE_PROMPT_THAT_SPLITS_QUESTION_INTO_ENTITIES}; USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS = {dgConfig.USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS}). STATS SO FAR:
-			"""
+################################################################################################################################################
+COMPLETED {question_count} TESTS ({self.database_name} ; {parameters}). STATS SO FAR:
+"""
 
 			result_stats_text += f"\n###################### DATABASE SELECTION STATS ##########################\n"
 			for stat, stat_count in stats_database.items():
@@ -256,7 +272,7 @@ class SQLTester():
 				percent = int(round((100 * stat_count / (question_count)), 0))
 				result_stats_text += f"{stat}: {stat_count} ({percent}%)\n"
 
-			result_stats_text += f"\n###################### DATABASE SELECTION STATS ##########################\n"
+			result_stats_text += f"\n###################### TABLE SELECTION STATS ##########################\n"
 			for stat, stat_count in stats_table.items():
 				if stat_count == 0:
 					continue
@@ -271,4 +287,5 @@ class SQLTester():
 				result_stats_text += f"{stat}: {stat_count} ({percent}%)\n"
 			result_stats_text += f"\n################################################\n\n"
 			self.logger.log(result_stats_text)
+			self.logger.save_stats()
 		return result_stats_text

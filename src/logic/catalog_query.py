@@ -1,13 +1,13 @@
-import os
+import ast
+import os 
 import json
-import re
+import boto3
+import pathlib
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain.indexes.vectorstore import VectorStoreIndexWrapper
 from utils.bcolors import Bcolors
-from logic.config import dgConfig
-from collections import Counter
-from logic.graph_search import GraphPathFinder
+from config import dgConfig
 from utils.logger import Logger
 
 # Directory to save the vector database
@@ -23,20 +23,12 @@ class CatalogQuery():
         self.vectorstore_faiss = None
         self.logger = Logger()
 
-        self.database_descriptions = ""
-        for doc in DirectoryLoader(dgConfig.DATA_CATALOG_DIR+"/databases", glob="**/*.txt", loader_cls=TextLoader).load():
-            db = doc.metadata["source"].split("/")[-1].replace(".txt", "")
-            self.database_descriptions += f"\n\nDATABASE: {db}\nDESCRIPTION: {doc.page_content}\n"
-
-
-
     def _get_vectorstore_full_path(self):
         return os.path.join(VECTOR_DATABASE_DIR,VECTOR_DATABASE_FILE)
         
-
     def index_catalog(self):
         # Load the documents
-        loader = DirectoryLoader(dgConfig.DATA_CATALOG_DIR+"/tables", glob="**/*.txt", loader_cls=TextLoader)
+        loader = DirectoryLoader(dgConfig.DATA_CATALOG_DIR, glob="**/*.txt", loader_cls=TextLoader)
         docs = loader.load()
         # TODO implement a solution if documents are to large
         
@@ -59,11 +51,6 @@ class CatalogQuery():
     # k is the number of documents retrieved by default
     def find_relevant_metadata(self, question, k=5):
         if self.vectorstore_faiss is None:
-            
-            if not os.path.exists(self._get_vectorstore_full_path()):
-                print("Vector database not found. Please index the catalog first.")
-                assert False
-
             self.vectorstore_faiss = FAISS.load_local(
                                         self._get_vectorstore_full_path(),
                                         self.embeddings,
@@ -110,35 +97,28 @@ class CatalogQuery():
         s = s.replace("\n---", "")
 
         return s
-
-    def _stripTag(self, text, tag):
-        text = re.sub(f"\n","<BR>",text)
-        text = re.sub(f"^.*<{tag}>","",text)
-        text = re.sub(f"</{tag}>.*$","",text)
-        text = re.sub(f"<BR>","\n",text)
-        return text
-
+       
     def _split_question_for_table_search(self, query, display_response="", message_placeholder=None):
-
         prompt = f"""You are a data anlytics expert.
 Given an input question, we want to generate a SQL query to answer this question.
 But before doing that, we want to find the required tables. We may need to perform some joins, so we need to find all the tables that are needed.
 We are going to perform a vector search in the data catalog to find the tables.
-Your task is to create an comprehensive list of sub-questions that we will ask to the data catalog.
-Each sub-question must be about a table that you think will be needed.
-Each sub-question must contain enough context, because our data catalog could contain similar tables in different databases for different contexts.
+Your task is to create an comprehensive list of questions that we will ask to the data catalog.
+Each question must be about a table that you think will be needed.
+Each question must contain enough context, because our data catalog could contain similar tables in different databases for different contexts.
 
-<DATABASES>
-{self.database_descriptions}
-</DATABASES>
+<question>{query}</question>
 
-<QUESTION>{query}</QUESTION>
-
-Write an <ENTITIES> XML tag, containing a JSON list of dictionaries, each containing 3 keys:
-- "entity": the main theme of the sub-question.
-- "description": the sub-question.
-- "database": the database name (from the <DATABASES> tag) where data to answer the sub-question is most likely to be found.
-"""
+Give your answer in the following format:
+<answer>
+Your first question here
+---
+Your second question here
+---
+Your third question here
+...
+</answer>
+        """
 
         print("\nPrompt for question split:")
         print(Bcolors.OKGREEN + prompt + Bcolors.ENDC)
@@ -154,103 +134,22 @@ Write an <ENTITIES> XML tag, containing a JSON list of dictionaries, each contai
             if message_placeholder is not None:
                 message_placeholder.markdown(concatenate_texts(s) + "▌")
 
-        generated_text = self.language_model.invoke_with_stream_callback(prompt, callback)
+        generated_text = self.language_model.invoke_with_stream_callback(dgConfig.LLM_VERSION_FOR_ENTITY_DECOMPOSITION, prompt, callback)
 
         display_text = concatenate_texts(self._format_output(generated_text))
     
-        entities = self._stripTag(generated_text, "ENTITIES")
-        entities_dict_list = json.loads(entities)
-        return entities_dict_list, display_text
-
-
-    def _split_question_into_entities_for_table_search(self, query, display_response="", message_placeholder=None):
-
-        prompt = f"""
-System: You are an expert data analyst and SQL specialist.
-
-User: Read the list of available databases and their descriptions in the <DATABASES> tag below.
-Then read the user question in the <QUESTION> tag below.
-
-<DATABASES>
-{self.database_descriptions}
-</DATABASES>
-
-<QUESTION>
-{query}
-</QUESTION>
-
-Follow these steps:
-1. Identify core elements of the question:
-   - Main entities (e.g., people, objects, events)
-   - Actions or relationships
-   - Measures or attributes
-   - Time frames or scopes
-   - Comparisons or rankings
-   - Specific domains or sports mentioned
-
-2. Create context-rich descriptions:
-   - Combine core elements into coherent, specific descriptions
-   - Include domain-specific terms from the original question
-   - Create variations with and without specific domain terms
-
-3. Generate broader and narrower descriptions:
-   - Create some descriptions that are more general (for normalized schemas)
-   - Create some that are very specific (for denormalized or domain-specific tables)
-
-4. Include potential table name hints:
-   - Incorporate likely table name fragments based on the question's domain
-
-5. Add related concept descriptions:
-   - Think about related information that might be in separate tables
-   - Create descriptions for these related concepts
-
-6. Format for vector store querying:
-   - Structure each description as a clear, concise phrase
-   - Prefix each with the database name and "question:" prompt
-
-7. Review and refine:
-   - Ensure the set of descriptions covers general and specific interpretations
-   - Check that all key aspects of the original question are represented
-
-Write an <ENTITIES> XML tag, containing a JSON list of dictionaries, each containing 3 keys:
-- "entity": the entity name.
-- "description": its complete and unambiguous description.
-- "database": the database name (from the <DATABASES> tag) where it is most likely to be found.
-Make sure to include the original wording of the entity name in the description, along with common, non-jargon synonyms for obsure or industry terms.
-For example, if the question asks about "Nike kicks", you should write something like "Sports footwear, specifically sneakers (kicks) made by the company Nike".
-Do not write any commentary before or after the <ENTITIES> tag.
-        """
-
-        print("\nPrompt for question entities:")
-        print(Bcolors.OKGREEN + prompt + Bcolors.ENDC)
-        
-        header = f"### Step 1.b: Split question into entities for table search\n\n"
-        
-        previous_display = display_response
-        def concatenate_texts(s):
-            return previous_display + header + s
-
-        def callback(completion):
-            s = self._format_output(completion)
-            if message_placeholder is not None:
-                message_placeholder.markdown(concatenate_texts(s) + "▌")
-
-        generated_text = self.language_model.invoke_with_stream_callback(prompt, callback)
-
-        display_text = concatenate_texts(self._format_output(generated_text))
+        answer = generated_text.split("<answer>")[1].split("</answer>")[0]
+        question_list = answer.split("---")
+        # Trim question_list and remove empty questions
+        question_list = [question.strip() for question in question_list if question.strip()]
+        return question_list, display_text
     
-        entities = self._stripTag(generated_text, "ENTITIES")
-        entities_dict_list = json.loads(entities)
-        return entities_dict_list, display_text
-
-
     def _get_channel_name_from_metadata_document(self, document):
         """
         Get the channel name from the metadata document.
         """
         channel_name = document.split("CHANNEL=\"")[1].split("\"")[0]
         return channel_name
-
 
     def _get_database_name_from_metadata_document(self, document):
         """
@@ -259,14 +158,12 @@ Do not write any commentary before or after the <ENTITIES> tag.
         database_name = document.split("DATABASE=\"")[1].split("\"")[0]
         return database_name    
 
-
     def _get_table_name_from_metadata_document(self, document):
         """
         Get the table name from the metadata document.
         """
         table_name = document.split("TABLE=\"")[1].split("\"")[0]
         return table_name    
-
 
     def _find_database_from_question(self, query):
         """
@@ -280,24 +177,7 @@ Do not write any commentary before or after the <ENTITIES> tag.
 
         return database
 
-
-    def _find_most_popular_database(self, entities_dict_list):
-        """
-        Find the most popular database from the entity list.
-        """
-
-        # Extract the 'database' values into a list
-        databases = [entity['database'] for entity in entities_dict_list]
-
-        # Use Counter to count the occurrences of each value
-        database_counts = Counter(databases)
-
-        # Find the most common value
-        most_common_database = max(database_counts, key=database_counts.get)
-
-        return most_common_database
-
-    def _vectorsearch_from_questions(self, query, entities_dict_list, database_filter, display_response="", message_placeholder=None):
+    def _vectorsearch_from_questions(self, query, question_list, database, display_response="", message_placeholder=None):
         """
         Perform vector search on the list of questions to find the tables.
         """
@@ -306,27 +186,21 @@ Do not write any commentary before or after the <ENTITIES> tag.
         header = f"### Step 1.c: Table search\n\n"
         display = display_response + header
 
-        # Query vector database for each question
-        for entity_dict in entities_dict_list:
-            print(f"LOOKING FOR VECTORS FOR ENTITY {entity_dict}")
-            # Add database name to the question
-            database = entity_dict['database']
-            if database_filter is not None and database != database_filter:
-                print(f"IGNORING ENTITY BECAUSE ITS DATABASE IS {database} != {database_filter}")
-                continue
+        # Add original query to question list
+        question_list.append(query)
 
-            question = entity_dict['description']
-            extended_question = f'DATABASE="{database}"\n Question: {question}'
+        # Query vector database for each question
+        for question in question_list:
+            # Add database name to the question
+            extended_question = f"DATABASE={database}\n Question: {question}"
 
             result, _ = self.find_relevant_metadata(extended_question, k=3)
-            new_display = f"**For database: ** {database}, question:** {question}\\\n**Potential tables are:** "
+            new_display = "**For question:** " + question + "\\\n"
+            new_display += "**Potential tables are:** "
 
             table_names_list = []
             for r in result:
                 document = r.page_content
-                if database_filter is not None and f' DATABASE="{database_filter}" ' not in document:
-                    print(f"IGNORING DOCUMENT <<<{document[:100]}...>>> BECAUSE ITS DATABASE DOES NOT MATCH {database_filter}")
-                    continue
                 result_list.append(document)
                 table_names_list.append(self._get_table_name_from_metadata_document(document))
             
@@ -343,7 +217,10 @@ Do not write any commentary before or after the <ENTITIES> tag.
         return result_set, display
 
 
-    def _get_tables_list(self, datacatalog_documents, database, display_response="", message_placeholder=None):
+    def _get_tables_list(self, datacatalog_documents, display_response="", message_placeholder=None):
+
+        # Get database name
+        database = self._get_database_name_from_metadata_document(list(datacatalog_documents)[0])
 
         # Get list of tables
         required_tables = [self._get_table_name_from_metadata_document(document) for document in datacatalog_documents]
@@ -357,30 +234,9 @@ Do not write any commentary before or after the <ENTITIES> tag.
         display += new_display
         if message_placeholder:
             message_placeholder.markdown(display + "▌")
-
+    
         return required_tables, display
-
-
-    def _add_to_tables_list_from_graph(self, required_tables, database, display_response="", message_placeholder=None):
-
-        # find first viable path between the selected tables
-        required_tables_new = GraphPathFinder(database).findValidPath(list(required_tables))
-        additions = set(required_tables_new).difference(set(required_tables))
-
-        # display result
-        header = f"#### List of tables expanded using graph search for tables required to complete join path\n\n"
-        display = display_response + header
-        new_display = f"Database: {database}\\\n"
-        new_display += f"Added tables: {additions}\n\n"
-        new_display += f"New list of tables: {required_tables_new}\n\n"
-        print(new_display)
-        display += new_display
-        if message_placeholder:
-            message_placeholder.markdown(display + "▌")
-
-        return required_tables_new, display
-
-
+   
     #define a function that infers the channel/database/table and sets the database for querying
     def query_catalog(self, query, message_placeholder=None):
 
@@ -392,8 +248,14 @@ Do not write any commentary before or after the <ENTITIES> tag.
         print("*                                                *")
         print("**************************************************")
         print()
+        
+        # Split the question into multiple questions
+        database = self._find_database_from_question(query)
+        
+        print("\nDatabase found: ", database)
 
-        display_response = f"""### Step 1.a - Table search\n\n"""        
+        display_response = f"""### Step 1.a - Table search
+**Database found:** \n\n```\n{database}\n```\n\n"""
         if message_placeholder is not None:
             message_placeholder.markdown(display_response + "▌")
 
@@ -406,26 +268,11 @@ Do not write any commentary before or after the <ENTITIES> tag.
         print("**************************************************")
         print()
         
-        if dgConfig.USE_PROMPT_THAT_SPLITS_QUESTION_INTO_ENTITIES:
-            # Split the question into linguisitc entities
-            entities_dict_list, display_response = self._split_question_into_entities_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
-        else:
-            # Split the question into multiple questions
-            entities_dict_list, display_response = self._split_question_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
+        # Split the question into multiple questions
+        question_list, display_response = self._split_question_for_table_search(query, display_response=display_response, message_placeholder=message_placeholder)
 
-        print("\nEntity list: ")
-        print(entities_dict_list)
-
-        if dgConfig.USE_LLM_INSTEAD_OF_VECTOR_SEARCH_TO_IDENTIFY_DATABASE:
-            # find the most popular database
-            database = self._find_most_popular_database(entities_dict_list)
-            print("\nMost popular database: ")
-            print(database)
-        else:
-            # Split the question into multiple questions
-            database = self._find_database_from_question(query)
-            print("\nMost vector similar database: ")
-            print(database)
+        print("Question list: ")
+        print(question_list)
 
         print()
         print("******************* STEP 1.c *********************")
@@ -437,48 +284,31 @@ Do not write any commentary before or after the <ENTITIES> tag.
         print()
         
         # Perform vector search on the list of questions to find the tables
-        datacatalog_documents, display_response = self._vectorsearch_from_questions(query, entities_dict_list, database_filter=database, display_response=display_response, message_placeholder=message_placeholder)
+        datacatalog_documents, display_response = self._vectorsearch_from_questions(query, question_list, database=database, display_response=display_response, message_placeholder=message_placeholder)
       
-        print()
-        print("******************* STEP 1.d *********************")
-        print("*                                                *")
-        print("*                  Catalog Query                 *")
-        print("* Perform graph search to find additional tables *")
-        print("*                                                *")
-        print("**************************************************")
-        print()
-        
-        # Get database name from first metadata match
-        database_name_from_first_metadata = self._get_database_name_from_metadata_document(list(datacatalog_documents)[0])
-
-        # Perform vector search on the list of questions to find the tables
-        required_tables, display_response = self._get_tables_list(datacatalog_documents, database_name_from_first_metadata, display_response=display_response, message_placeholder=message_placeholder)
-
-        self.logger.log(set(required_tables), "QUERY_CATALOG: tables from vector search")
-
-        # if we have an ER diagram graph for this database, then use it to add to the required table list any additional unmentioned tables that are needed to join those tables together
-        if dgConfig.USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS and os.path.isfile(f"{dgConfig.DATA_CATALOG_DIR}/graphs/{database}.dict"):
-            required_tables, display_response = self._add_to_tables_list_from_graph(required_tables, database_name_from_first_metadata, display_response=display_response, message_placeholder=message_placeholder)
-            self.logger.log(set(required_tables), "QUERY_CATALOG: tables from vector search plus graph search")
+        # Extract list of tables and database name from previous results
+        result_list, display_response = self._get_tables_list(datacatalog_documents, display_response=display_response, message_placeholder=message_placeholder)
 
         ##################################
         # Prepare result for the next step
         ##################################
         # Get data catalog document for each table
-        catalog_for_each_table = [self.find_relevant_metadata(f"DATABASE=\"{database}\" TABLE=\"{table}\"", k=1) for table in required_tables]
+        catalog_for_each_table = [self.find_relevant_metadata(f"DATABASE=\"{database}\" TABLE=\"{table}\"", k=1) for table in result_list]
         catalog_for_each_table = [elt[0].page_content for elt, _ in catalog_for_each_table]
         # Get channel
         channel = self._get_channel_name_from_metadata_document(catalog_for_each_table[0])
 
-        self.logger.log(entities_dict_list, "QUERY_CATALOG: entities_dict_list")
+        self.logger.log(question_list, "QUERY_CATALOG: question_list")
         self.logger.log(database, "QUERY_CATALOG: Most popular database")
         self.logger.log(datacatalog_documents, "QUERY_CATALOG: vector search results")
-        self.logger.log(set(required_tables), "QUERY_CATALOG: tables from graph")
+        self.logger.log(result_list, "QUERY_CATALOG: tables from graph")
 
         return {
             'channel': channel,
             'database': database,
-            'table': required_tables,
+            'table': result_list,
             'document': catalog_for_each_table,
             'display_response': display_response,
         }
+
+        return None

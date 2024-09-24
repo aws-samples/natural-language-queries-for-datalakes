@@ -34,6 +34,7 @@ You need to enable third-party models in your AWS account in the Amazon Bedrock 
 in the us-west-2 region. If needed, you can change the Bedrock region in the
 `src/utils/llm.py` file.
 The models used in this demo are Titan Embeddings G1 and Anthropic Claude 3 Sonnet.
+You can also enable other models like Anthropic Claude 3.5 Sonnet and then select them via the LLM settings in the config.py class.
 
 ### Python Version
 This code has been tested with Python 3.8 and Python 3.9.
@@ -58,6 +59,15 @@ pip3 install -r requirements.txt
 ```
 
 ### Usage
+
+#### Running on an EC2 (since Cloud9 has been deprecated)
+
+1. Follow https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html to set up your EC2 instance
+
+2. Configure your new EC2's security group to allow access via port 8080 from the laptop/desktop you'll use to test the web UI: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/changing-security-group.html
+
+3: Follow the Cloud9 instrructions below, using a web browser to access the Streamlit app via https://<public ip of your ec2>:8080
+
 
 #### Running Data Genie from Cloud9 with Streamlit Locally
 
@@ -163,7 +173,7 @@ To test and evaluate Data Genie, follow these steps:
 2. Navigate to the src directory.
 3. Export your temporary AWS credentials or ensure the AWS CLI is permissioned to access the Bedrock service in your AWS account.
 4. Ensure the data is indexed by running run_me_to_index_catalog.py (see the instructions above).
-5. Run the run_tests.py file.
+5. Run the run_tests.py file. (Optionally, you can add a database name to limit testing to that database, or both a database name and question number to limit testing to that one question, i.e. run_tests.py Chinook 5)
 
 The test suite will execute the test questions and compare the results to the expected answers. This will help you evaluate the performance of Data Genie and identify areas for improvement.
 

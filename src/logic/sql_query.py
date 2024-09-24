@@ -4,6 +4,7 @@ from utils.bcolors import Bcolors
 import ast
 import json
 from utils.logger import Logger
+from config import dgConfig
 
 class SqlQuery():
     
@@ -223,7 +224,7 @@ class SqlQuery():
             if message_placeholder is not None:
                 message_placeholder.markdown(concatenate_texts(s) + "▌")
 
-        generated_text = self.language_model.invoke_with_stream_callback(prompt, callback)
+        generated_text = self.language_model.invoke_with_stream_callback(dgConfig.LLM_VERSION_FOR_SQL, prompt, callback)
 
         display_text = concatenate_texts(self._format_output(generated_text))
 
