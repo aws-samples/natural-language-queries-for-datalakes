@@ -8,10 +8,10 @@ import ast
 import traceback
 from config import dgConfig
 from utils.logger import Logger
-if dgConfig.ENABLE_ADVANCED_MODE:
-	from logic_advanced.datagenie import DataGenie
-else:
-	from logic.datagenie import DataGenie
+# if dgConfig.ENABLE_ADVANCED_MODE:
+# 	from logic_advanced.datagenie import DataGenie
+# else:
+from logic.datagenie import DataGenie
 
 
 class SQLTester():

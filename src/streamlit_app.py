@@ -3,10 +3,10 @@ from utils.auth import Auth
 from config_stack import Config
 from config import dgConfig
 
-if dgConfig.ENABLE_ADVANCED_MODE:
-	from logic_advanced.datagenie import DataGenie
-else:
-	from logic.datagenie import DataGenie
+# if dgConfig.ENABLE_ADVANCED_MODE:
+# 	from logic_advanced.datagenie import DataGenie
+# else:
+from logic.datagenie import DataGenie
 
 # Perform auth and stop if not authenticated
 # Also display sidebar

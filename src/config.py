@@ -1,6 +1,6 @@
 class dgConfig():
-    # Set to True if you want to enable experimental features in the logic_advanced directories instead of the simplified logic (in the "logic" directory)
-    ENABLE_ADVANCED_MODE = False
+    # # Set to True if you want to enable experimental features in the logic_advanced directories instead of the simplified logic (in the "logic" directory)
+    # ENABLE_ADVANCED_MODE = False
 
     # Set to True if you want to enable auth for the Streamlit frontend
     ENABLE_AUTH = False
