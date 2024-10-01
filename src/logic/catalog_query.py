@@ -28,7 +28,7 @@ class CatalogQuery():
         
     def index_catalog(self):
         # Load the documents
-        loader = DirectoryLoader(dgConfig.DATA_CATALOG_DIR, glob="**/*.txt", loader_cls=TextLoader)
+        loader = DirectoryLoader(dgConfig.DATA_CATALOG_DIR+"/tables", glob="**/*.txt", loader_cls=TextLoader)
         docs = loader.load()
         # TODO implement a solution if documents are to large
         
@@ -155,6 +155,7 @@ Your third question here
         """
         Get the database name from the metadata document.
         """
+        print(f"DOCUMENT: <<<{document}>>>")
         database_name = document.split("DATABASE=\"")[1].split("\"")[0]
         return database_name    
 
