@@ -1,8 +1,12 @@
 import streamlit as st
 from utils.auth import Auth
 from config_stack import Config
+from config import dgConfig
+
+# if dgConfig.ENABLE_ADVANCED_MODE:
+# 	from logic_advanced.datagenie import DataGenie
+# else:
 from logic.datagenie import DataGenie
-from logic.config import dgConfig
 
 # Perform auth and stop if not authenticated
 # Also display sidebar

@@ -1,9 +1,27 @@
-# Natural Language Queries for Datalakes - Data Genie
+# Natural Language Queries for Datalakes
 
-Data Genie is a generative AI demo that allows you to query and explore
+This repo contains a generative AI demo that allows you to query and explore
 your data lake using natural language. It leverages the power of Amazon Bedrock.
 It comes with some example data in SQLite databases, but you can connect it to
 your data lake through Amazon Athena, JDBC or other.
+
+## Which version to install?
+
+Data Genie comes in two flavors:
+* a simplified version that helps beginners understand the workflow
+* a more advanced version which more features
+
+The simplified version contains only the original workflow: 
+* Break user question into sub-questions
+* Run vector search to find 3 tables that best match each of these sub-quesitons, plus 3 more for the original user question verbatim
+* Determine the database to use based on the 1 table that best matches the original user question
+* Sample 5 random rows from each of these matching tables
+* Send the metadata descriptions of the matching tables and their sample data to the LLM to form SQL the query, and execute it
+
+To run it:
+* Checkout the "SIMPLE_DEMO_V1" tag with the `git checkout SIMPLE_DEMO_V1`command
+
+For the more advanced version, checkout the HEAD of the main branch with the `git checkout HEAD` command.
 
 ## Prerequisites
 
@@ -16,6 +34,7 @@ You need to enable third-party models in your AWS account in the Amazon Bedrock 
 in the us-west-2 region. If needed, you can change the Bedrock region in the
 `src/utils/llm.py` file.
 The models used in this demo are Titan Embeddings G1 and Anthropic Claude 3 Sonnet.
+You can also enable other models like Anthropic Claude 3.5 Sonnet and then select them via the LLM settings in the config.py class.
 
 ### Python Version
 This code has been tested with Python 3.8 and Python 3.9.
@@ -40,6 +59,15 @@ pip3 install -r requirements.txt
 ```
 
 ### Usage
+
+#### Running on an EC2 (since Cloud9 has been deprecated)
+
+1. Follow https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html to set up your EC2 instance
+
+2. Configure your new EC2's security group to allow access via port 8080 from the laptop/desktop you'll use to test the web UI: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/changing-security-group.html
+
+3: Follow the Cloud9 instrructions below, using a web browser to access the Streamlit app via https://<public ip of your ec2>:8080
+
 
 #### Running Data Genie from Cloud9 with Streamlit Locally
 
@@ -145,7 +173,7 @@ To test and evaluate Data Genie, follow these steps:
 2. Navigate to the src directory.
 3. Export your temporary AWS credentials or ensure the AWS CLI is permissioned to access the Bedrock service in your AWS account.
 4. Ensure the data is indexed by running run_me_to_index_catalog.py (see the instructions above).
-5. Run the run_tests.py file.
+5. Run the run_tests.py file. (Optionally, you can add a database name to limit testing to that database, or both a database name and question number to limit testing to that one question, i.e. run_tests.py Chinook 5)
 
 The test suite will execute the test questions and compare the results to the expected answers. This will help you evaluate the performance of Data Genie and identify areas for improvement.
 
@@ -178,6 +206,7 @@ If you want to use your own data instead of the sample databases:
 Alternatively, you can edit the `src/utils/database_connections.py` and
 `src/utils/database_connections.py` files to connect to Amazon Athena, Postgresql
 databases, and more.
+
 
 ## Data Lake security considerations
 
@@ -227,4 +256,3 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 ## License
 
 This application is licensed under the MIT-0 License. See the [LICENSE](LICENSE) file.
-

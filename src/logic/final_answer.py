@@ -1,4 +1,5 @@
 from utils.bcolors import Bcolors
+from config import dgConfig
 
 class FinalAnswer():
     
@@ -59,7 +60,7 @@ class FinalAnswer():
             if message_placeholder is not None:
                 message_placeholder.markdown(concatenate_texts(s) + "▌")
 
-        generated_text = self.language_model.invoke_with_stream_callback(prompt, callback)
+        generated_text = self.language_model.invoke_with_stream_callback(dgConfig.LLM_VERSION_FOR_RESULT_SUMMARY, prompt, callback)
         
         print(Bcolors.OKCYAN + generated_text + Bcolors.ENDC)
 

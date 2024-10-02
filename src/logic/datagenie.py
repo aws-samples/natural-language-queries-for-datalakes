@@ -1,7 +1,7 @@
 from logic.catalog_query import CatalogQuery
 from logic.sql_query import SqlQuery
 from logic.final_answer import FinalAnswer
-from logic.config import dgConfig
+from config import dgConfig
 from utils.llm import LanguageModel
 from utils.database_connectors import DatabaseConnectors
 
@@ -53,7 +53,7 @@ class DataGenie():
             message_placeholder=message_placeholder,
             previous_display=display_response_2)
 
-        return {"response": answer, "sql_statement": sql['sql_query']}
+        return {"response": answer, "sql_statement": sql['sql_query'], "table_list": tables_to_use["table"], "database_list": [tables_to_use["database"]]}
     
         
     def index_catalog(self):

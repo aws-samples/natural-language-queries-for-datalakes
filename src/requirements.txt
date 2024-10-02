@@ -4,3 +4,4 @@ streamlit-cognito-auth==1.2.0
 faiss-cpu==1.8.0
 sqlalchemy==2.0.21
 langchain==0.1.16
+openpyxl==3.1.5

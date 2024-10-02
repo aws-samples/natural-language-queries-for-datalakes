@@ -1,6 +1,7 @@
 import boto3
 from langchain_community.embeddings import BedrockEmbeddings
 import json
+from config import dgConfig
 
 class LanguageModel():
     
@@ -9,17 +10,18 @@ class LanguageModel():
         # Create bedrock client
         bedrock_client = boto3.client(
             'bedrock-runtime',
-            region_name='us-west-2',
+            region_name=dgConfig.AWS_BEDROCK_REGION,
             )
         self.bedrock_client = bedrock_client
 
         # Create embeddings model object
         self.embeddings = BedrockEmbeddings(
             client=bedrock_client, 
-            model_id="amazon.titan-embed-text-v1"
+            model_id=dgConfig.VECTOR_EMBEDDING_MODEL
         )
-                    
-    def invoke_with_stream_callback(self, prompt, callback):
+
+
+    def invoke_with_stream_callback(self, model, user_prompt, callback, system_prompt=None):
         """
         Params:
         prompt: prompt to send to LLM
@@ -27,18 +29,22 @@ class LanguageModel():
         """
         
         body = {
-            "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": 4000,
+            "messages": [{"role": "user", "content": user_prompt}],
+            "max_tokens": 4096,
             "temperature": 0, 
             "top_p": 0,
             "top_k": 250,
             "anthropic_version":"",
         }
+
+        if system_prompt:
+            body["system"] = system_prompt
+
         body = json.dumps(body)
         
         response = self.bedrock_client.invoke_model_with_response_stream(
             body=body,
-            modelId="anthropic.claude-3-sonnet-20240229-v1:0",
+            modelId=model,
             accept='application/json',
             contentType='application/json'
         )

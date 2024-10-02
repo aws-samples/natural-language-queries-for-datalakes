@@ -7,7 +7,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain.indexes.vectorstore import VectorStoreIndexWrapper
 from utils.bcolors import Bcolors
-from logic.config import dgConfig
+from config import dgConfig
 from utils.logger import Logger
 
 # Directory to save the vector database
@@ -28,7 +28,7 @@ class CatalogQuery():
         
     def index_catalog(self):
         # Load the documents
-        loader = DirectoryLoader(dgConfig.DATA_CATALOG_DIR, glob="**/*.txt", loader_cls=TextLoader)
+        loader = DirectoryLoader(dgConfig.DATA_CATALOG_DIR+"/tables", glob="**/*.txt", loader_cls=TextLoader)
         docs = loader.load()
         # TODO implement a solution if documents are to large
         
@@ -134,7 +134,7 @@ Your third question here
             if message_placeholder is not None:
                 message_placeholder.markdown(concatenate_texts(s) + "▌")
 
-        generated_text = self.language_model.invoke_with_stream_callback(prompt, callback)
+        generated_text = self.language_model.invoke_with_stream_callback(dgConfig.LLM_VERSION_FOR_ENTITY_DECOMPOSITION, prompt, callback)
 
         display_text = concatenate_texts(self._format_output(generated_text))
     
@@ -155,6 +155,7 @@ Your third question here
         """
         Get the database name from the metadata document.
         """
+        print(f"DOCUMENT: <<<{document}>>>")
         database_name = document.split("DATABASE=\"")[1].split("\"")[0]
         return database_name    
 
