@@ -6,6 +6,7 @@ from langchain.sql_database import SQLDatabase
 import json
 import ast
 import traceback
+import pandas as pd
 from config import dgConfig
 from utils.logger import Logger
 # if dgConfig.ENABLE_ADVANCED_MODE:
@@ -13,6 +14,19 @@ from utils.logger import Logger
 # else:
 from logic.datagenie import DataGenie
 
+GOOD_RESULT_MATCH = "GOOD:RESULTS MATCH"
+GOOD_RESULT_EXTRA_COLUMNS = "GOOD:RESULT HAS EXTRA COLUMNS"
+GOOD_BOTH_EMPTY = "GOOD:BOTH RESULTS ARE EMPTY"
+BAD_RESULT_WRONG_ORDER = "BAD:RESULTS MATCH BUT ORDER IS DIFFERENT"
+BAD_RESULT_WRONG_ORDER_EXTRA_COLUMNS = "BAD:RESULTS MATCH WITH EXTRA COLUMNS BUT ORDER IS DIFFERENT"
+BAD_MISSING_COLUMNS = "BAD:MISSING COLUMNS"
+BAD_EXTRA_ROWS = "BAD:GENERATED HAS MORE ROWS THAN EXPECTED"
+BAD_MISSING_ROWS = "BAD:GENERATED HAS FEWER ROWS THAN EXPECTED"
+BAD_RESULT_MISMATCH = "BAD:RESULT MISMATCH"
+BAD_RESULT_GENERATED_QUERY_PRODUCED_NO_DATA = "BAD:GENERATED QUERY PRODUCED NO DATA"
+BAD_RESULT_GENERATED_QUERY_PRODUCED_A_SQL_ERROR = "BAD:GENERATED QUERY PRODUCED A SQL ERROR"
+UNCLEAR_RESULT_EXPECTED_QUERY_PRODUCED_NO_DATA = "UNCLEAR:EXPECTED QUERY PRODUCED NO DATA"
+UNCLEAR_RESULT_EXPECTED_QUERY_PRODUCED_A_SQL_ERROR = "UNCLEAR:EXPECTED QUERY PRODUCED A SQL ERROR"
 
 class SQLTester():
 	def __init__(self, database_name="Chinook"):
@@ -52,25 +66,62 @@ class SQLTester():
 			print(data_text)
 		return data_text
 
-	def _equalWithExtraColumns(self, expected, generated):
-		print(f"COMPARING EXPECTED:\n{expected}\nWITH GENERATED:\n{generated}\n")
+
+	def _compare_dataframes(self, expected, generated):
+		# Check if both are empty
+		if expected.empty and generated.empty:
+			return GOOD_BOTH_EMPTY
+
+		# Check if expected is empty
+		if expected.empty:
+			return UNCLEAR_RESULT_EXPECTED_QUERY_PRODUCED_NO_DATA
+		
+		# Check if generated is empty when expected is not
+		if generated.empty:
+			return BAD_RESULT_GENERATED_QUERY_PRODUCED_NO_DATA
+		
+		# Check for missing columns
+		missing_columns = set(expected.columns) - set(generated.columns)
+		if missing_columns:
+			return BAD_MISSING_COLUMNS
+		
+		# Check for extra columns in generated
+		extra_columns_flag = len(generated.columns) > len(expected.columns)
+		
+		# Align columns and remove extra columns
+		common_columns = list(set(expected.columns.tolist()).intersection(set(generated.columns.tolist())))
+		expected_aligned = expected[common_columns]
+		generated_aligned = generated[common_columns]
+		
+		# Check for exact match
+		if expected_aligned.equals(generated_aligned):
+			return GOOD_RESULT_EXTRA_COLUMNS if extra_columns_flag else GOOD_RESULT_MATCH
+		
+		# Try sorting and check again
+		expected_sorted = expected_aligned.sort_values(by=list(expected_aligned.columns)).reset_index(drop=True)
+		generated_sorted = generated_aligned.sort_values(by=list(generated_aligned.columns)).reset_index(drop=True)
+		
+		if expected_sorted.equals(generated_sorted):
+			return BAD_RESULT_WRONG_ORDER_EXTRA_COLUMNS if extra_columns_flag else BAD_RESULT_WRONG_ORDER
+
+		if len(expected_sorted) < len(generated_sorted):
+			return BAD_MISSING_ROWS
+
+		if len(expected_sorted) > len(generated_sorted):
+			return BAD_EXTRA_ROWS
+
+		# If all checks fail, return NO MATCH
+		return BAD_RESULT_MISMATCH
+
+
+	def _compare_csvs(self, expected_csv, result_csv, delimiter):
 		try:
-			if not expected and not generated:
-				return True, "BOTH RESULTS ARE EMPTY"
-			elif not expected or not generated:
-				return False, "ONE OF THE RESULTS IS EMPTY"
-			else:
-				expected_data = expected.split("\n")
-				generated_data = generated.split("\n")
-				if len(generated_data) < len(generated_data):
-					return False, f"GENERATED DATA HAS FEWER ROWS THAN EXPECTED"
-				for i in range(len(expected_data)):
-					if expected_data[i] not in generated_data[i]:
-						return False, f"RESULTS ARE NOT A SUBSET AT ROW {i}: EXPECTED {expected_data[i]} NOT IN GENERATED {generated_data[i]}"
-				return True, "RESULTS ARE A SUBSET FOR ALL COLUMNS IN EXPECTED DATASET"
+			expected_df = pd.read_csv(io.StringIO(expected_csv), sep=delimiter, skipinitialspace=True)
+			result_df = pd.read_csv(io.StringIO(result_csv), sep=delimiter, skipinitialspace=True)
+			return compare_dataframes(expected_df, result_df)
 		except Exception as e:
 			print(f"ERROR: {e}")
-			return False, f"ERROR {e} TRYING TO COMPARE RESULTS"
+			return f"ERROR {e} TRYING TO COMPARE RESULTS:\n{expected_csv}\nTO\n{result_csv}\nWITH DELIMITER {delimiter}"
 
 
 	def run_tests(self, start_with=0, run_up_to=None, run_only_group=None):
@@ -79,14 +130,6 @@ class SQLTester():
 			suffix += f"_start_{start_with}"
 		if run_only_group:
 			suffix += f"_group_{run_only_group}"
-
-		GOOD_RESULT_MATCH = "GOOD:RESULTS MATCH"
-		GOOD_RESULT_EXTRA_COLUMNS = "GOOD:RESULT HAS EXTRA COLUMNS"
-		BAD_RESULT_MISMATCH = "BAD:RESULT MISMATCH"
-		BAD_RESULT_GENERATED_QUERY_PRODUCED_NO_DATA = "BAD:GENERATED QUERY PRODUCED NO DATA"
-		BAD_RESULT_GENERATED_QUERY_PRODUCED_A_SQL_ERROR = "BAD:GENERATED QUERY PRODUCED A SQL ERROR"
-		UNCLEAR_RESULT_EXPECTED_QUERY_PRODUCED_NO_DATA = "UNCLEAR:EXPECTED QUERY PRODUCED NO DATA"
-		UNCLEAR_RESULT_EXPECTED_QUERY_PRODUCED_A_SQL_ERROR = "UNCLEAR:EXPECTED QUERY PRODUCED A SQL ERROR"
 		
 		IRRELEVANT_NOT_A_SQL_QUESTON = "IRRELEVANT:NOT A SQL QUESTION"
 
@@ -117,6 +160,12 @@ class SQLTester():
 		stats_result = {
 			GOOD_RESULT_MATCH: 0,
 			GOOD_RESULT_EXTRA_COLUMNS: 0,
+			GOOD_BOTH_EMPTY: 0,
+			BAD_RESULT_WRONG_ORDER: 0,
+			BAD_RESULT_WRONG_ORDER_EXTRA_COLUMNS: 0,
+			BAD_MISSING_COLUMNS: 0,
+			BAD_EXTRA_ROWS: 0,
+			BAD_MISSING_ROWS: 0,
 			BAD_RESULT_MISMATCH: 0,
 			BAD_RESULT_GENERATED_QUERY_PRODUCED_NO_DATA: 0,
 			BAD_RESULT_GENERATED_QUERY_PRODUCED_A_SQL_ERROR: 0,
@@ -242,11 +291,7 @@ class SQLTester():
 				explanation = evaluation = BAD_RESULT_GENERATED_QUERY_PRODUCED_A_SQL_ERROR
 			else:
 				print(f"CONTINUING TO DATA COMPARISON")
-				subset, explanation = self._equalWithExtraColumns(expected_data_text, data_text)
-				if subset: 
-					evaluation = GOOD_RESULT_EXTRA_COLUMNS
-				else:
-					evaluation = BAD_RESULT_MISMATCH
+				explanation = self._compare_csvs(expected_data_text, data_text, "|")
 
 			self.logger.log(data_text_trimmed, "RESULT")
 			self.logger.log(expected_data_text_trimmed, "EXPECTED RESULT")

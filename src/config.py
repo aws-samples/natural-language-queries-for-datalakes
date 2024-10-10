@@ -41,12 +41,14 @@ class dgConfig():
     LLM_VERSION_FOR_RESULT_SUMMARY = "anthropic.claude-3-sonnet-20240229-v1:0"
 
     def getParametersString(self):
-        parameters = ""
+        parameters = []
         for attr_name in dir(dgConfig):
-            if not attr_name.startswith('__') and not attr_name.endswith('_DIR'):
-                val = f"{getattr(dgConfig, attr_name)}__"
+            if not attr_name.startswith('__') and not attr_name.endswith('_DIR') and not attr_name == "getParametersString":
+                val = f"{getattr(dgConfig, attr_name)}"
                 if "/" not in val:
                     if val.startswith("anthropic.claude"):
                         val = val.replace("anthropic.claude", "Claude").split("-20")[0].replace("-","")
-                    parameters += val
-        return parameters
+                    parameters.append(f"{attr_name}_{val}")
+        return "__".join(parameters)
+
+print(dgConfig().getParametersString())
