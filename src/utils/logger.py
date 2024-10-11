@@ -25,7 +25,7 @@ class Logger():
 
 		date_time_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
-		parameters = dgConfig().getParametersString()
+		parameters = dgConfig().getParametersString(short=True)
 
 		if original_prefix != LOG_FILE_PREFIX: # if the prefix changed, re-initialize the file
 

@@ -40,7 +40,7 @@ class dgConfig():
     # Choose which Bedrock LLM version to call to analyze and summarize the SQL query results
     LLM_VERSION_FOR_RESULT_SUMMARY = "anthropic.claude-3-sonnet-20240229-v1:0"
 
-    def getParametersString(self):
+    def getParametersString(self, short=False):
         parameters = []
         for attr_name in dir(dgConfig):
             if not attr_name.startswith('__') and not attr_name.endswith('_DIR') and not attr_name == "getParametersString":
@@ -48,7 +48,10 @@ class dgConfig():
                 if "/" not in val:
                     if val.startswith("anthropic.claude"):
                         val = val.replace("anthropic.claude", "Claude").split("-20")[0].replace("-","")
-                    parameters.append(f"{attr_name}_{val}")
+                    if short:
+                        parameters.append(f"{val}")
+                    else:
+                        parameters.append(f"{attr_name}_{val}")
         return "__".join(parameters)
 
 print(dgConfig().getParametersString())
