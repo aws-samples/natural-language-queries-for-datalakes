@@ -34,7 +34,11 @@ class Logger():
 				# if the logs directory is not present then create it. 
 				os.makedirs(dgConfig.LOG_FILE_DIR)
 
-			LOG_FILE_NAME = f"{dgConfig.LOG_FILE_DIR}/{LOG_FILE_PREFIX}__{parameters}__{date_time_str}.log"
+			file_suffix = f"__{date_time_str}.log"
+			file_name = f"{LOG_FILE_PREFIX}__{parameters}"
+			if len(file_name) > (250-len(file_suffix)):
+				file_name = file_name[:250-len(file_suffix)]
+			LOG_FILE_NAME = f"{dgConfig.LOG_FILE_DIR}/{file_name}{file_suffix}.log"
 			with open(LOG_FILE_NAME, "w") as logfile:
 				logfile.write(f"DATAGENIE LOG START: {datetime.datetime.now().strftime('%I:%M%p on %B %d, %Y')}")
 
