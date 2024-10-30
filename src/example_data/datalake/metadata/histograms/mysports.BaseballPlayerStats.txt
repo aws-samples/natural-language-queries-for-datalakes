@@ -1,0 +1,8 @@
+File: mysports.BaseballPlayerStats.txt 
+BaseballPlayerStatID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+PlayerStatID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+BattingAverage: NUMERIC FROM 0.0 TO 0.31 like [0.31, 0.305, 0.29, 0.285, 0.28, 0.275, 0.27, 0.26, 0.185, 0.0]
+HomeRuns: INTEGER FROM 0 TO 45 like [0, 45, 40, 35, 30, 25, 20, 15, 10]
+RBI: INTEGER FROM 0 TO 110 like [110, 100, 95, 85, 80, 75, 60, 55, 5, 0]
+ERA: NUMERIC FROM 2.75 TO 3.5 like [None, 3.5, 2.75]
+Strikeouts: INTEGER FROM 180 TO 220 like [None, 220, 180]

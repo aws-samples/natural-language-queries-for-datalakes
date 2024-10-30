@@ -1,0 +1,5 @@
+File: northwind.Sales Totals by Amount.txt 
+SaleAmount: has all NULL values
+OrderID: INTEGER has only NULL values
+CompanyName: TEXT has only NULL values
+ShippedDate: DATETIME has only NULL values

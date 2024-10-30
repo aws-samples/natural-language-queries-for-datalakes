@@ -1,0 +1,10 @@
+File: Chinook.Track.txt 
+TrackId: INTEGER FROM 1 TO 3503 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Name: TEXT FROM "40" TO Último Pau-De-Arara like ['Wrathchild', 'The Trooper', 'The Number Of The Beast', 'Iron Maiden', 'Hallowed Be Thy Name', '2 Minutes To Midnight', 'The Evil That Men Do', 'Sanctuary', 'Running Free', 'Fear Of The Dark']
+AlbumId: INTEGER FROM 1 TO 347 like [141, 23, 73, 229, 230, 251, 83, 231, 253, 24]
+MediaTypeId: INTEGER FROM 1 TO 5 like [1, 2, 3, 5, 4]
+GenreId: INTEGER FROM 1 TO 25 like [1, 7, 3, 4, 2, 19, 6, 24, 21, 14]
+Composer: TEXT FROM A. F. Iommi, W. Ward, T. Butler, J. Osbourne TO roger glover like [None, 'Steve Harris', 'U2', 'Jagger/Richards', 'Billy Corgan', 'Kurt Cobain', 'Bill Berry-Peter Buck-Mike Mills-Michael Stipe', 'The Tea Party', 'Miles Davis', 'Gilberto Gil']
+Milliseconds: INTEGER FROM 1071 TO 5286953 like [240091, 368770, 321828, 289750, 285753, 284447, 282488, 282174, 272796, 269557]
+Bytes: INTEGER FROM 38747 TO 1059546140 like [17760384, 10323804, 1059546140, 1054423946, 587051735, 577829804, 574325829, 570152232, 558872190, 555244214]
+UnitPrice: NUMERIC FROM 0.99 TO 1.99 like [0.99, 1.99]

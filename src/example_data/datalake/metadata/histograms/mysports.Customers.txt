@@ -1,0 +1,7 @@
+File: mysports.Customers.txt 
+CustomerID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+FirstName: TEXT FROM Alice TO John like ['John', 'Jane', 'Hannah', 'George', 'Fiona', 'Edward', 'Diana', 'Charlie', 'Bob', 'Alice']
+LastName: TEXT FROM Brown TO Wilson like ['Wilson', 'Williams', 'Taylor', 'Smith', 'Moore', 'Miller', 'Johnson', 'Doe', 'Davis', 'Brown']
+Email: TEXT FROM alice.williams@email.com TO john.doe@email.com like ['john.doe@email.com', 'jane.smith@email.com', 'hannah.taylor@email.com', 'george.moore@email.com', 'fiona.wilson@email.com', 'edward.miller@email.com', 'diana.davis@email.com', 'charlie.brown@email.com', 'bob.johnson@email.com', 'alice.williams@email.com']
+Phone: TEXT FROM 012-345-6789 TO 901-234-5678 like ['901-234-5678', '890-123-4567', '789-012-3456', '678-901-2345', '567-890-1234', '456-789-0123', '345-678-9012', '234-567-8901', '123-456-7890', '012-345-6789']
+Address: TEXT FROM 123 Main St, Anytown, USA TO 987 Cedar Ln, Anytown, USA like ['987 Cedar Ln, Anytown, USA', '864 Spruce Ave, Somewhere, USA', '789 Pine Rd, Nowhere, USA', '753 Ash Rd, Anytown, USA', '654 Maple Dr, Somewhere, USA', '456 Oak Ave, Somewhere, USA', '321 Elm St, Everywhere, USA', '246 Birch Blvd, Nowhere, USA', '135 Walnut St, Everywhere, USA', '123 Main St, Anytown, USA']

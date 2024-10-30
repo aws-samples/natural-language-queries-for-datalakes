@@ -1,0 +1,8 @@
+File: mysports.Bets.txt 
+BetID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+CustomerID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+GameID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+BetType: TEXT FROM Over/Under TO Win like ['Win', 'Spread', 'Over/Under']
+BetAmount: INTEGER FROM 50 TO 200 like [200, 150, 120, 110, 100, 90, 80, 75, 60, 50]
+Odds: NUMERIC FROM 1.7 TO 2.2 like [2.2, 2.15, 2.1, 2.05, 1.95, 1.9, 1.85, 1.8, 1.75, 1.7]
+Outcome: TEXT FROM Loss TO Win like ['Win', 'Loss', 'Push']

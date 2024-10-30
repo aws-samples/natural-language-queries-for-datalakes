@@ -1,0 +1,8 @@
+File: mysports.BasketballPlayerStats.txt 
+BasketballPlayerStatID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+PlayerStatID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+PointsPerGame: NUMERIC FROM 15.6 TO 27.5 like [27.5, 24.1, 22.3, 21.9, 20.5, 19.2, 18.7, 17.3, 16.8, 15.6]
+Rebounds: INTEGER FROM 200 TO 900 like [900, 850, 800, 750, 700, 600, 350, 300, 250, 200]
+Assists: INTEGER FROM 100 TO 800 like [800, 750, 700, 450, 400, 300, 250, 200, 150, 100]
+Steals: INTEGER FROM 40 TO 150 like [150, 130, 120, 110, 100, 90, 80, 70, 50, 40]
+Blocks: INTEGER FROM 15 TO 180 like [180, 160, 120, 100, 80, 70, 30, 25, 20, 15]

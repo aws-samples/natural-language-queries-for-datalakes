@@ -1,0 +1,5 @@
+File: northwind.Sales by Category.txt 
+CategoryID: INTEGER has only NULL values
+CategoryName: TEXT has only NULL values
+ProductName: TEXT has only NULL values
+ProductSales: has all NULL values

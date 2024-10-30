@@ -1,0 +1,6 @@
+File: Chinook.InvoiceLine.txt 
+InvoiceLineId: INTEGER FROM 1 TO 2240 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+InvoiceId: INTEGER FROM 1 TO 412 like [5, 12, 19, 26, 33, 40, 47, 54, 61, 68]
+TrackId: INTEGER FROM 1 TO 3500 like [2, 8, 9, 20, 32, 48, 66, 84, 161, 162]
+UnitPrice: NUMERIC FROM 0.99 TO 1.99 like [0.99, 1.99]
+Quantity: INTEGER FROM 1 TO 1 like [1]

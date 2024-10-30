@@ -1,0 +1,6 @@
+File: mysports.GolfTournaments.txt 
+GolfTournamentID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+TournamentID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+CourseID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+PurseAmount: INTEGER FROM 6000000 TO 11500000 like [11500000, 10000000, 9500000, 9000000, 8500000, 8000000, 7500000, 7000000, 6500000, 6000000]
+ParScore: INTEGER FROM 70 TO 72 like [72, 71, 70]

@@ -1,0 +1,7 @@
+File: mysports.FootballGameStats.txt 
+FootballGameStatID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+GameStatID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+Possession: NUMERIC FROM 47.2 TO 55.2 like [55.2, 54.8, 53.6, 52.8, 52.1, 51.5, 50.9, 49.3, 48.7, 47.2]
+Corners: INTEGER FROM 4 TO 9 like [8, 7, 6, 5, 9, 4]
+Fouls: INTEGER FROM 9 TO 16 like [12, 11, 16, 15, 14, 13, 10, 9]
+Offsides: INTEGER FROM 1 TO 4 like [2, 4, 3, 1]

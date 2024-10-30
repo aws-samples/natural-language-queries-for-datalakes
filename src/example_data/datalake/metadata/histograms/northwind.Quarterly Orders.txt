@@ -1,0 +1,5 @@
+File: northwind.Quarterly Orders.txt 
+CustomerID: TEXT has only NULL values
+CompanyName: TEXT has only NULL values
+City: TEXT has only NULL values
+Country: TEXT has only NULL values
