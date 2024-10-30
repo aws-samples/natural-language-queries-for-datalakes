@@ -203,6 +203,10 @@ If you want to use your own data instead of the sample databases:
 1. Remove the sample files from `src/example_data/metadata` and `src/example_data/data`.
 2. Put your table descriptions files (business data catalog) in the `src/example_data/metadata` folder.
 3. Put your databases in the `src/example_data/data` folder in SQLite format.
+Optional:
+4. Put graphs of table join relationships for your database in the `src/example_data/metadata_advanced/graphs` folder.
+5. Put historgram descriptions of data in each column for your database in the `src/example_data/metadata_advanced/histrograms` folder.
+6. Put the complete information about each table that you want the SQL generator to have access to, including the DDL, comments and historgrams into the `src/example_data/metadata_advanced/DDL-annotated` folder.
 Alternatively, you can edit the `src/utils/database_connections.py` and
 `src/utils/database_connections.py` files to connect to Amazon Athena, Postgresql
 databases, and more.

@@ -9,7 +9,7 @@ class Metadata():
 		# Get table info from the database (schema and sample rows)
 		table_info = []
 		for table in set(tables):
-			ddl_file = f"{dgConfig.SQLITE_DATABASES_DIR}/DDL-annotated/{database}.{table}.sql"
+			ddl_file = f"{dgConfig.DATA_CATALOG_ADVANCED_DIR}/DDL-annotated/{database}.{table}.sql"
 			try:
 				with open(ddl_file, 'r') as f:
 					table_ddl = f.read()

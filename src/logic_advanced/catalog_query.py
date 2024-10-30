@@ -576,10 +576,10 @@ Format this filtered table list as a JSON list of table names, without any comme
 
 
         # if we have an ER diagram graph for this database, then use it to add to the required table list any additional unmentioned tables that are needed to join those tables together
-        if dgConfig.USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS and os.path.isfile(f"{dgConfig.DATA_CATALOG_DIR}/graphs/{database}.dict"):
+        if dgConfig.USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS and os.path.isfile(f"{dgConfig.DATA_CATALOG_ADVANCED_DIR}/graphs/{database}.dict"):
             required_tables, display_response = self._add_to_tables_list_from_graph(required_tables, database_name_from_first_metadata, display_response=display_response, message_placeholder=message_placeholder)
             self.logger.log(set(required_tables), "QUERY_CATALOG: tables from vector search plus graph search")
-            updated_graph_file = "updated_graph.html"
+            updated_graph_file = "logs/updated_graph.html"
             self.graph_path_finder.graphToHtml(updated_graph_file)
             with open(updated_graph_file, "r") as f:
                 html_string = f.read()

@@ -8,6 +8,9 @@ class dgConfig():
     # Path to data catalog files 
     DATA_CATALOG_DIR = "./example_data/datalake/metadata"
     
+    # Path to graph search data catalog files (graphs, histograms, annoatated DDL)
+    DATA_CATALOG_ADVANCED_DIR = "./example_data/datalake/metadata_advanced"
+
     # Path to Sqlite databases
     SQLITE_DATABASES_DIR = "./example_data/datalake/data"
     

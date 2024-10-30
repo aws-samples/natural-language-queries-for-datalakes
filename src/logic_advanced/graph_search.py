@@ -10,7 +10,7 @@ class GraphPathFinder():
 	
 	def __init__(self, database_name):
 		# Database name should be something.db
-		with open(f"{dgConfig.DATA_CATALOG_DIR}/graphs/{database_name}.dict") as f:
+		with open(f"{dgConfig.DATA_CATALOG_ADVANCED_DIR}/graphs/{database_name}.dict") as f:
 			data = f.read()
 			# print("Data type before reconstruction : ", type(data)) 
 			# reconstructing the data as a dictionary 
