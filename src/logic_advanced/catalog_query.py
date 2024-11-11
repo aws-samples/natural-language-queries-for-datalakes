@@ -155,10 +155,17 @@ class CatalogQuery():
         s = s.replace("</database>", "")
         s = s.replace("<tables>", "- Tables: **")
         s = s.replace("</tables>", "**")
-        s = s.replace("<explanation>", "\n##### Explanation: \n")
-        s = s.replace("</explanation>", "\n")
+        s = s.replace("<DISAMBIGUATED_QUESTION>", "\n##### Disambiguated question: \n")
+        s = s.replace("</DISAMBIGUATED_QUESTION>", "\n")
+        s = s.replace("<DATABASE>", "\n##### Database selected: \n")
+        s = s.replace("</DATABASE>", "\n")        
+        s = s.replace("<ENTITIES>", "\n##### Entities generated: \n")
+        s = s.replace("</ENTITIES>", "\n")
+        s = s.replace("<FILTERED_TABLES>", "\n##### List after LLM filtering (tables not required removed): \n")
+        s = s.replace("</FILTERED_TABLES>", "\n")          
+        s = s.replace("<THINKING>", "\n##### Thinking: \n")
+        s = s.replace("</THINKING>", "\n")                                   
         s = s.replace("\n---", "")
-
         return s
 
     def _stripTag(self, text, tag):
@@ -413,7 +420,7 @@ Format this filtered table list as a JSON list of table names, without any comme
                 result, _ = self.find_relevant_metadata_with_db_filter(extended_question, k=3, database_filter=database)
             else:
                 result, _ = self.find_relevant_metadata(extended_question, k=3)
-            new_display = f"**For database: ** {database}, question:** {question}\\\n**Potential tables are:** "
+            new_display = f"**For database:** {database}\\\n**Question:** {question}\\\n**Potential tables are:** "
 
             table_names_list = []
             for r in result:
