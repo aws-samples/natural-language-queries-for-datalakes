@@ -212,6 +212,27 @@ Alternatively, you can edit the `src/utils/database_connections.py` and
 databases, and more.
 
 
+## Standard Mode
+
+![Architecture diagram standard](img/archi_standrard.jpg)
+
+"Standard Mode" demonstrates the use of vector search to enable narrowing a large universe of tables down to a much smaller number of tables whose descriptions are synonymous to the user's question, and uses those tables along with a sample of data from each table to form the final SQL query.
+To activate standard mode, update the config.py file to set:
+* ENABLE_ADVANCED_MODE = False
+
+## Advanced Mode
+
+![Architecture diagram advanced](img/archi_advanced.jpg)
+
+"Advanced Mode" demonstrates several additional tricks we can use to improve query accuracy, controlled by the options listed below, wchih can be toggled in the config.py file:
+* ENABLE_ADVANCED_MODE = True to activate Advanced mode
+* USE_LLM_INSTEAD_OF_VECTOR_SEARCH_TO_IDENTIFY_DATABASE = True to let the LLM decide which database matches the question the best, or set to False to use vector search to use the database of the best matching table instead
+* SEARCH_FOR_ENTITIES_INSTEAD_OF_SUBQUESTIONS = True to split the question into multiple entities (like "the Chicago Bulls basketball team"), or set to False to split it into multiple related sub-quesitons (like "Which basketball team is called The Chicago Bulls?")
+* USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS = True to enable graph search to provide a list of valid join paths to the final SQL composition prompt
+* USE_ADVANCED_VECTOR_SEARCH_INSTEAD_OF_DEFAULT_TOP_3 = True to do a wider vector search and then re-rank the results using an LLM instead of a hard-coded cut-off of 3 vector search results
+* USE_LLM_TABLE_FILTER = True to use an extra LLM prompt to remove tables that came back from the vector search but don't seem to relate to the user question
+
+
 ## Data Lake security considerations
 
 * **Input Validation and Sanitization**: Data Genie accepts natural language queries from users, which are then translated into SQL queries to retrieve data from the underlying data sources. It is essential to implement proper input validation and sanitization mechanisms to prevent SQL injection attacks and other code injection vulnerabilities. These mechanisms should apply to both user input and the generated SQL queries. Their implementation depends on the use case, they are not implemented in the provided demo.
