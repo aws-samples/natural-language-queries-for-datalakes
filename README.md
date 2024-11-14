@@ -212,26 +212,71 @@ Alternatively, you can edit the `src/utils/database_connections.py` and
 databases, and more.
 
 
-## Standard Mode
+## Exploring Data Genie Workflow
+
+Let's explore how Data Genie works and how you can optimize its performance for your use case. The application offers two modes of operation: Standard and Advanced.
+
+### Understanding the Standard Mode
+In standard mode, Data Genie uses vector search to break the question into several variants, then to identify the 3 most semantically relevant tables from your data lake for each of these sub-quesitons. It then samples their data to generate SQL queries. While effective for straightforward queries, you might notice limitations with more complex questions requiring multiple joins or semantic understanding, or joining distant tables.
+
+Let's start with the simpler workflow:
+
+1. Configure Data Genie for standard mode by setting in `config.py`:
+```python
+ENABLE_ADVANCED_MODE = False
+```
+
+2. Try these example questions:
+- "List all products in the Beverages category" (works well with direct table relationships)
+- "Show me sales performance by region and category" (may be less accurate due to complex joins)
+
+### Exploring Advanced Mode Features
+The advanced mode introduces several enhancements:
+- Graph search helps find valid and optimal join paths between tables
+- Enhanced vector search with LLM reranking improves table selection by avoiding both artificially over-filtering the table list and leaving it unnecessarily large
+- Entity recognition helps break down complex queries
+
+Let's see how advanced mode improves query accuracy:
+
+1. Enable advanced mode and its features in `config.py`:
+```python
+ENABLE_ADVANCED_MODE = True
+USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS = True
+USE_ADVANCED_VECTOR_SEARCH_INSTEAD_OF_DEFAULT_TOP_3 = True
+```
+
+2. Try the same questions again - notice how the results improve, especially for complex queries requiring multiple joins.
+
+3. Test these advanced scenarios:
+- "What's the revenue trend for each sales region over time?" (demonstrates graph search capabilities to connect tables via other tables the quesiton doesn't mention)
+- "Find customers who purchased organic products" (shows semantic understanding)
+
+For detailed configuration options, see the [Configuration Options](#configuration-options) section below.
+
+## Configuration Options
+
+### Standard Mode
 
 ![Architecture diagram standard](img/archi_standrard.jpg)
 
-"Standard Mode" demonstrates the use of vector search to enable narrowing a large universe of tables down to a much smaller number of tables whose descriptions are synonymous to the user's question, and uses those tables along with a sample of data from each table to form the final SQL query.
+"Standard Mode" demonstrates the use of vector search to enable narrowing a large universe of tables down to a much smaller number of tables whose descriptions are synonymous with the user's question, and uses those tables along with a sample of data from each table to form the final SQL query.
 To activate standard mode, update the config.py file to set:
-* ENABLE_ADVANCED_MODE = False
-
-## Advanced Mode
+```python
+ENABLE_ADVANCED_MODE = False
+```
+### Advanced Mode
 
 ![Architecture diagram advanced](img/archi_advanced.jpg)
 
-"Advanced Mode" demonstrates several additional tricks we can use to improve query accuracy, controlled by the options listed below, wchih can be toggled in the config.py file:
-* ENABLE_ADVANCED_MODE = True to activate Advanced mode
-* USE_LLM_INSTEAD_OF_VECTOR_SEARCH_TO_IDENTIFY_DATABASE = True to let the LLM decide which database matches the question the best, or set to False to use vector search to use the database of the best matching table instead
-* SEARCH_FOR_ENTITIES_INSTEAD_OF_SUBQUESTIONS = True to split the question into multiple entities (like "the Chicago Bulls basketball team"), or set to False to split it into multiple related sub-quesitons (like "Which basketball team is called The Chicago Bulls?")
-* USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS = True to enable graph search to provide a list of valid join paths to the final SQL composition prompt
-* USE_ADVANCED_VECTOR_SEARCH_INSTEAD_OF_DEFAULT_TOP_3 = True to do a wider vector search and then re-rank the results using an LLM instead of a hard-coded cut-off of 3 vector search results
-* USE_LLM_TABLE_FILTER = True to use an extra LLM prompt to remove tables that came back from the vector search but don't seem to relate to the user question
-
+"Advanced Mode" demonstrates several additional tricks we can use to improve query accuracy, controlled by the options listed below, which can be toggled in the config.py file:
+```python
+ENABLE_ADVANCED_MODE = True # to activate Advanced mode
+USE_LLM_INSTEAD_OF_VECTOR_SEARCH_TO_IDENTIFY_DATABASE = True # to let the LLM decide which database matches the question the best, or set to False to use vector search to use the database of the best matching table instead
+SEARCH_FOR_ENTITIES_INSTEAD_OF_SUBQUESTIONS = True # to split the question into multiple entities (like "the Chicago Bulls basketball team"), or set to False to split it into multiple related sub-questions (like "Which basketball team is called The Chicago Bulls?")
+USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS = True # to enable graph search to provide a list of valid join paths to the final SQL composition prompt
+USE_ADVANCED_VECTOR_SEARCH_INSTEAD_OF_DEFAULT_TOP_3 = True # to do a wider vector search and then re-rank the results using an LLM instead of a hard-coded cut-off of 3 vector search results
+USE_LLM_TABLE_FILTER = True # to use an extra LLM prompt to remove tables that came back from the vector search but don't seem to relate to the user question
+```
 
 ## Data Lake security considerations
 
