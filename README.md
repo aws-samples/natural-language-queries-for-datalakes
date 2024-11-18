@@ -9,7 +9,7 @@ your data lake through Amazon Athena, JDBC or other.
 
 Data Genie comes in two flavors:
 * a legacy version, which is a simplified version that helps beginners understand the workflow
-* the current version which more features, which contains more advanced algorithms
+* the current version with more features, which contains more advanced algorithms
 
 The legacy version contains only the original workflow: 
 * Break user question into sub-questions
