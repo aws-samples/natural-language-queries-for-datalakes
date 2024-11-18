@@ -10,7 +10,7 @@ It features a web interface in which users can ask their question in natural lan
 <kbd>![User interface 1](img/data_genie_1.png)</kbd>
 
 It uses a combination of semantic search and graph search to find which
-tables are required to answer the user question:
+database and tables are required to answer the user question:
 
 <kbd>![Graph search](img/data_genie_3.png)</kbd>
 
