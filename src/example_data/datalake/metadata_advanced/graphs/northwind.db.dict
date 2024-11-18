@@ -1,0 +1,15 @@
+{
+    "Categories": {"Products"},
+    "CustomerDemographics": {"CustomerCustomerDemo"},
+    "Customers": {"CustomerCustomerDemo", "Orders"},
+    "CustomerCustomerDemo": {"CustomerDemographics", "Customers"},
+    "Employees": {"EmployeeTerritories", "Orders"},
+    "Suppliers": {"Products"},
+    "Products": {"Categories", "Order Details", "Suppliers"},
+    "Regions": {"Territories"},
+    "Shippers": {"Orders"},
+    "Orders": {"Customers", "Employees", "Order Details", "Shippers"},
+    "Territories": {"EmployeeTerritories", "Regions"},
+    "EmployeeTerritories": {"Employees", "Territories"},
+    "Order Details": {"Orders", "Products"}
+}

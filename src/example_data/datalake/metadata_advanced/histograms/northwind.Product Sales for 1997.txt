@@ -1,0 +1,4 @@
+File: northwind.Product Sales for 1997.txt 
+CategoryName: TEXT has only NULL values
+ProductName: TEXT has only NULL values
+ProductSales: has all NULL values

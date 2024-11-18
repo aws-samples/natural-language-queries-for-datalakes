@@ -1,0 +1,6 @@
+File: mysports.BaseballPlayers.txt 
+BaseballPlayerID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+PlayerID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+Position: TEXT FROM Catcher TO Third Base like ['Pitcher', 'Third Base', 'Shortstop', 'Second Base', 'Right Field', 'Left Field', 'First Base', 'Center Field', 'Catcher']
+BattingHand: TEXT FROM Left TO Switch like ['Right', 'Left', 'Switch']
+ThrowingHand: TEXT FROM Left TO Right like ['Right', 'Left']

@@ -1,0 +1,9 @@
+File: mysports.Games.txt 
+GameID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+SportID: INTEGER FROM 1 TO 9 like [5, 2, 1, 9, 8, 7, 6]
+HomeTeamID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+AwayTeamID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+VenueID: INTEGER FROM 1 TO 9 like [5, 2, 1, 9, 8, 7, 6]
+GameDate: TEXT FROM 2019-10-19 TO 2021-03-20 like ['2021-03-20', '2021-02-14', '2021-01-13', '2020-12-25', '2020-12-20', '2020-11-15', '2020-10-24', '2020-10-10', '2020-08-03', '2019-10-19']
+SeasonID: INTEGER FROM 1 TO 9 like [5, 2, 1, 9, 8, 7, 6]
+Attendance: INTEGER FROM 18500 TO 74140 like [74140, 65878, 65000, 54251, 50000, 33108, 19800, 19500, 19079, 18500]

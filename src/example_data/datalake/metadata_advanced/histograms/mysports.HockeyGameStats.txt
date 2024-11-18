@@ -1,0 +1,7 @@
+File: mysports.HockeyGameStats.txt 
+HockeyGameStatID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+GameStatID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+HomeTeamShots: INTEGER FROM 27 TO 35 like [30, 35, 34, 33, 32, 31, 29, 28, 27]
+AwayTeamShots: INTEGER FROM 26 TO 35 like [29, 35, 33, 32, 31, 30, 28, 27, 26]
+HomeTeamPenaltyMinutes: INTEGER FROM 6 TO 14 like [10, 8, 12, 14, 6]
+AwayTeamPenaltyMinutes: INTEGER FROM 6 TO 16 like [12, 10, 8, 6, 16, 14]

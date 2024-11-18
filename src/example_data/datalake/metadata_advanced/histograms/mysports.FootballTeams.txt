@@ -1,0 +1,5 @@
+File: mysports.FootballTeams.txt 
+FootballTeamID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+TeamID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+Formation: TEXT FROM 3-4-2-1 TO 5-3-2 like ['5-3-2', '4-4-2', '4-3-3', '4-3-1-2', '4-2-3-1', '4-2-2-2', '4-1-4-1', '3-5-2', '3-4-3', '3-4-2-1']
+LeaguePosition: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]

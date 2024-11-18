@@ -1,0 +1,7 @@
+File: mysports.BaseballGameStats.txt 
+BaseballGameStatID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+GameStatID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+HomeTeamHits: INTEGER FROM 6 TO 13 like [10, 8, 13, 12, 11, 9, 7, 6]
+AwayTeamHits: INTEGER FROM 4 TO 11 like [9, 7, 11, 10, 8, 6, 5, 4]
+HomeTeamErrors: INTEGER FROM 0 TO 2 like [1, 2, 0]
+AwayTeamErrors: INTEGER FROM 0 TO 3 like [1, 2, 0, 3]

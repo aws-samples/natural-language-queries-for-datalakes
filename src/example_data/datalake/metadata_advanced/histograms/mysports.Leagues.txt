@@ -1,0 +1,6 @@
+File: mysports.Leagues.txt 
+LeagueID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+LeagueName: TEXT FROM ATP Tour TO World Boxing Association like ['World Boxing Association', 'Rugby World Cup', 'PGA Tour', 'National Hockey League', 'National Football League', 'National Basketball Association', 'Major League Baseball', 'Indian Premier League', 'English Premier League', 'ATP Tour']
+SportID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+Country: TEXT FROM England TO USA/Canada like ['USA', 'Global', 'USA/Canada', 'India', 'England']
+FoundedYear: INTEGER FROM 1903 TO 2008 like [2008, 1992, 1987, 1972, 1946, 1929, 1921, 1920, 1917, 1903]

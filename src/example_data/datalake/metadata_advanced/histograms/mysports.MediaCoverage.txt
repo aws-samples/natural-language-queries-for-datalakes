@@ -1,0 +1,6 @@
+File: mysports.MediaCoverage.txt 
+CoverageID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+GameID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+NetworkName: TEXT FROM ABC TO TNT like ['TNT', 'Sky Sports', 'NBC', 'Fox Sports', 'Eurosport', 'ESPN', 'CBS', 'BT Sport', 'BBC', 'ABC']
+ViewershipMillions: NUMERIC FROM 6.2 TO 18.7 like [18.7, 16.8, 15.5, 14.1, 12.3, 10.2, 9.6, 8.9, 7.5, 6.2]
+Revenue: INTEGER FROM 2000000 TO 6000000 like [6000000, 5500000, 5000000, 4500000, 4000000, 3500000, 3200000, 3000000, 2500000, 2000000]

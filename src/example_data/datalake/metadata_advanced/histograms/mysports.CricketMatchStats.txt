@@ -1,0 +1,7 @@
+File: mysports.CricketMatchStats.txt 
+CricketMatchStatID: INTEGER FROM 1 TO 10 like [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+GameStatID: INTEGER FROM 1 TO 10 like [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+HomeTeamRuns: INTEGER FROM 170 TO 420 like [420, 400, 380, 350, 310, 280, 270, 195, 180, 170]
+AwayTeamRuns: INTEGER FROM 160 TO 400 like [400, 380, 360, 290, 275, 260, 250, 180, 165, 160]
+HomeTeamWickets: INTEGER FROM 6 TO 10 like [10, 8, 6, 9, 7]
+AwayTeamWickets: INTEGER FROM 7 TO 10 like [10, 9, 8, 7]
