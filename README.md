@@ -8,26 +8,28 @@ your data lake through Amazon Athena, JDBC or other.
 ## Which version to install?
 
 Data Genie comes in two flavors:
-* a simplified version that helps beginners understand the workflow
-* a more advanced version which more features
+* a legacy version, which is a simplified version that helps beginners understand the workflow
+* the current version which more features, which contains more advanced algorithms
 
-The simplified version contains only the original workflow: 
+The legacy version contains only the original workflow: 
 * Break user question into sub-questions
-* Run vector search to find 3 tables that best match each of these sub-quesitons, plus 3 more for the original user question verbatim
+* Run vector search to find 3 tables that best match each of these sub-questions, plus 3 more for the original user question verbatim
 * Determine the database to use based on the 1 table that best matches the original user question
 * Sample 5 random rows from each of these matching tables
 * Send the metadata descriptions of the matching tables and their sample data to the LLM to form SQL the query, and execute it
 
-To run it:
+To get the legacy version:
 * Checkout the "SIMPLE_DEMO_V1" tag with the `git checkout SIMPLE_DEMO_V1`command
 
-For the more advanced version, checkout the HEAD of the main branch with the `git checkout HEAD` command.
+For the current version, checkout the HEAD of the main branch with the `git checkout HEAD` command.
 
 ## Prerequisites
 
 ### Instance
 This code has been tested on Cloud9 on an `m5.large` instance with Amazon Linux 2023.
 The disk size of the instance should be increased to 20GB.
+
+You can also run it locally. In this case, you will need to install and configure the [AWS CLI](https://aws.amazon.com/cli/).
 
 ### Bedrock
 You need to enable third-party models in your AWS account in the Amazon Bedrock service,
@@ -38,7 +40,6 @@ You can also enable other models like Anthropic Claude 3.5 Sonnet and then selec
 
 ### Python Version
 This code has been tested with Python 3.8 and Python 3.9.
-
 
 ## Install and run locally
 
@@ -58,18 +59,16 @@ source .venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
+To run locally, you will also need to install the dependencies that are in the `src` folder:
+
+```bash
+cd src
+pip3 install -r requirements.txt
+```
+
 ### Usage
 
-#### Running on an EC2 (since Cloud9 has been deprecated)
-
-1. Follow https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html to set up your EC2 instance
-
-2. Configure your new EC2's security group to allow access via port 8080 from the laptop/desktop you'll use to test the web UI: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/changing-security-group.html
-
-3: Follow the Cloud9 instrructions below, using a web browser to access the Streamlit app via https://<public ip of your ec2>:8080
-
-
-#### Running Data Genie from Cloud9 with Streamlit Locally
+#### Running Data Genie Locally
 
 1. From the `src` folder, start the Streamlit server:
 
@@ -77,16 +76,17 @@ pip3 install -r requirements.txt
 streamlit run streamlit_app.py --server.port 8080
 ```
 
-2. Click on the Preview/Preview running application button in Cloud9, and click on
+2. **This step is required only if you run in the Cloud9 IDE:**
+Click on the Preview/Preview running application button in Cloud9, and click on
 the button to Pop out the browser in a new window. If the new window does not
 display the app, you may need to configure your browser to accept cross-site
 tracking cookies.
 
-4. You can now interact with the Data Genie application through the Streamlit web interface.
+3. You can now interact with the Data Genie application through the Streamlit web interface.
 Start by pressing the **Index Business Data Catalog** button. This needs to be 
 done only once.
 
-5. Ask a question to Data Genie, for example "List 5 products and the name
+4. Ask a question to Data Genie, for example "List 5 products and the name
 of their supplier".
 
 Example questions that you can ask:
@@ -114,6 +114,48 @@ python3 run_me_to_index_catalog.py
 python3 run.py
 ```
 
+## Exploring Data Genie Workflow
+
+Let's explore how Data Genie works and how you can optimize its performance for your use case. The application offers two modes of operation: Standard and Advanced.
+
+### Understanding the Standard Mode
+In standard mode, Data Genie uses vector search to break the question into several variants, then to identify the 3 most semantically relevant tables from your data lake for each of these sub-quesitons. It then samples their data to generate SQL queries. While effective for straightforward queries, you might notice limitations with more complex questions requiring multiple joins or semantic understanding, or joining distant tables.
+
+Let's start with the simpler workflow:
+
+1. Configure Data Genie for standard mode by setting in `config.py`:
+```python
+ENABLE_ADVANCED_MODE = False
+```
+
+2. Try these example questions:
+- "List all products in the Beverages category" (works well with direct table relationships)
+- "Show me sales performance by region and category" (should crash because some required tables like `EmployeeTerritories` will not be found by the semantic search algorithm)
+
+### Exploring Advanced Mode Features
+The advanced mode introduces several enhancements:
+- Graph search helps find valid and optimal join paths between tables
+- Enhanced vector search with LLM reranking improves table selection by avoiding both artificially over-filtering the table list and leaving it unnecessarily large
+- Entity recognition helps break down complex queries
+
+Let's see how advanced mode improves query accuracy:
+
+1. Enable advanced mode and its features in `config.py`:
+```python
+ENABLE_ADVANCED_MODE = True
+USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS = True
+USE_ADVANCED_VECTOR_SEARCH_INSTEAD_OF_DEFAULT_TOP_3 = True
+```
+
+2. Try the same questions again - notice how the results improve, especially for complex queries requiring multiple joins.
+- "Show me sales performance by region and category" (this time it should work because tables like `EmployeeTerritories` will be added to the search results by the graph search algorithm)
+
+3. Test this other advanced scenario:
+- "Find customers who purchased organic products"
+
+For detailed configuration options, see the [Configuration Options](#configuration-options) section below.
+
+
 ## Deploying Data Genie
 
 This repo contains an AWS CDK template that automates the deployment of
@@ -131,7 +173,7 @@ Instructions for deployment:
 as it will be exposed to the Internet), edit `src/logic/config.py` and set
 `ENABLE_AUTH` to `True`.
 
-2. Install AWS CDK. From the root of the repo directory:
+2. If not already done, install the python AWS CDK dependency. From the root of the repo directory:
 
 ```bash
 python3 -m venv .venv
@@ -156,26 +198,6 @@ The deployment takes 5 to 10 minutes.
 
 7. Log in to the Streamlit app with the user you created, index the business data catalog
 and start asking questions!
-
-
-## Test and Evaluate Data Genie
-
-# Why Evaluate Data Genie?
-
-Data Genie is a work in progress, and its algorithms can be improved to fit the specificities of each data lake.
-By testing and evaluating Data Genie, you can identify areas for improvement and compare the performance of different algorithms or approaches.
-
-# Evaluation process
-
-To test and evaluate Data Genie, follow these steps:
-
-1. Update the corresponding JSON file in the tests/test_sets directory with your test questions and expected answers. (The tester will auto-detect files in this directory and test each one.)
-2. Navigate to the src directory.
-3. Export your temporary AWS credentials or ensure the AWS CLI is permissioned to access the Bedrock service in your AWS account.
-4. Ensure the data is indexed by running run_me_to_index_catalog.py (see the instructions above).
-5. Run the run_tests.py file. (Optionally, you can add a database name to limit testing to that database, or both a database name and question number to limit testing to that one question, i.e. run_tests.py Chinook 5)
-
-The test suite will execute the test questions and compare the results to the expected answers. This will help you evaluate the performance of Data Genie and identify areas for improvement.
 
 
 ## What sample data is included?
@@ -212,46 +234,25 @@ Alternatively, you can edit the `src/utils/database_connections.py` and
 databases, and more.
 
 
-## Exploring Data Genie Workflow
+## Test and Evaluate Data Genie
 
-Let's explore how Data Genie works and how you can optimize its performance for your use case. The application offers two modes of operation: Standard and Advanced.
+### Why Evaluate Data Genie?
 
-### Understanding the Standard Mode
-In standard mode, Data Genie uses vector search to break the question into several variants, then to identify the 3 most semantically relevant tables from your data lake for each of these sub-quesitons. It then samples their data to generate SQL queries. While effective for straightforward queries, you might notice limitations with more complex questions requiring multiple joins or semantic understanding, or joining distant tables.
+Data Genie is a work in progress, and its algorithms can be improved to fit the specificities of each data lake.
+By testing and evaluating Data Genie, you can identify areas for improvement and compare the performance of different algorithms or approaches.
 
-Let's start with the simpler workflow:
+### Evaluation process
 
-1. Configure Data Genie for standard mode by setting in `config.py`:
-```python
-ENABLE_ADVANCED_MODE = False
-```
+To test and evaluate Data Genie, follow these steps:
 
-2. Try these example questions:
-- "List all products in the Beverages category" (works well with direct table relationships)
-- "Show me sales performance by region and category" (may be less accurate due to complex joins)
+1. Update the corresponding JSON file in the tests/test_sets directory with your test questions and expected answers. (The tester will auto-detect files in this directory and test each one.)
+2. Navigate to the src directory.
+3. Export your temporary AWS credentials or ensure the AWS CLI is permissioned to access the Bedrock service in your AWS account.
+4. Ensure the data is indexed by running run_me_to_index_catalog.py (see the instructions above).
+5. Run the run_tests.py file. (Optionally, you can add a database name to limit testing to that database, or both a database name and question number to limit testing to that one question, i.e. run_tests.py Chinook 5)
 
-### Exploring Advanced Mode Features
-The advanced mode introduces several enhancements:
-- Graph search helps find valid and optimal join paths between tables
-- Enhanced vector search with LLM reranking improves table selection by avoiding both artificially over-filtering the table list and leaving it unnecessarily large
-- Entity recognition helps break down complex queries
+The test suite will execute the test questions and compare the results to the expected answers. This will help you evaluate the performance of Data Genie and identify areas for improvement.
 
-Let's see how advanced mode improves query accuracy:
-
-1. Enable advanced mode and its features in `config.py`:
-```python
-ENABLE_ADVANCED_MODE = True
-USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS = True
-USE_ADVANCED_VECTOR_SEARCH_INSTEAD_OF_DEFAULT_TOP_3 = True
-```
-
-2. Try the same questions again - notice how the results improve, especially for complex queries requiring multiple joins.
-
-3. Test these advanced scenarios:
-- "What's the revenue trend for each sales region over time?" (demonstrates graph search capabilities to connect tables via other tables the quesiton doesn't mention)
-- "Find customers who purchased organic products" (shows semantic understanding)
-
-For detailed configuration options, see the [Configuration Options](#configuration-options) section below.
 
 ## Configuration Options
 
