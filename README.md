@@ -59,13 +59,6 @@ source .venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-To run locally, you will also need to install the dependencies that are in the `src` folder:
-
-```bash
-cd src
-pip3 install -r requirements.txt
-```
-
 ### Usage
 
 #### Running Data Genie Locally
@@ -147,10 +140,10 @@ USE_GRAPH_SEARCH_TO_FIND_JOIN_PATHS = True
 USE_ADVANCED_VECTOR_SEARCH_INSTEAD_OF_DEFAULT_TOP_3 = True
 ```
 
-2. Try the same questions again - notice how the results improve, especially for complex queries requiring multiple joins.
+2. Try the same questions again - notice how the results improve.
 - "Show me sales performance by region and category" (this time it should work because tables like `EmployeeTerritories` will be added to the search results by the graph search algorithm)
 
-3. Test this other advanced scenario:
+3. Test other advanced scenarios:
 - "Find customers who purchased organic products"
 
 For detailed configuration options, see the [Configuration Options](#configuration-options) section below.
@@ -173,13 +166,18 @@ Instructions for deployment:
 as it will be exposed to the Internet), edit `src/logic/config.py` and set
 `ENABLE_AUTH` to `True`.
 
-2. If not already done, install the python AWS CDK dependency. From the root of the repo directory:
+2. Install the python AWS CDK dependency. From the root of the repo directory:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip3 install -r requirements.txt
 ```
+
+**Note:** This `requirements.txt` file is at the root of the repo directory.
+It is different from the `requirements.txt` file that is in the `src` directory.
+Therefore, you need to enter the above commands even if you already installed the
+dependencies in the `src` directory previously.
 
 3. Deploy the CDK template:
 
