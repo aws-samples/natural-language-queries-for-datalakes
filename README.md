@@ -5,6 +5,19 @@ your data lake using natural language. It leverages the power of Amazon Bedrock.
 It comes with some example data in SQLite databases, but you can connect it to
 your data lake through Amazon Athena, JDBC or other.
 
+It features a web interface in which users can ask their question in natural language:
+
+![User interface 1](img/data_genie_1.png)
+
+It uses a combination of semantic search and graph search to find which
+tables are required to answer the user question:
+
+![Graph search](img/data_genie_3.png)
+
+Then it generates and performs a SQL query to answer the user question:
+
+![User interface 2](img/data_genie_2.png)
+
 ## Which version to install?
 
 Data Genie comes in two flavors:
