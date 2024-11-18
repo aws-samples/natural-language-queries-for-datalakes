@@ -7,16 +7,16 @@ your data lake through Amazon Athena, JDBC or other.
 
 It features a web interface in which users can ask their question in natural language:
 
-![User interface 1](img/data_genie_1.png)
+<kbd>![User interface 1](img/data_genie_1.png)</kbd>
 
 It uses a combination of semantic search and graph search to find which
 tables are required to answer the user question:
 
-![Graph search](img/data_genie_3.png)
+<kbd>![Graph search](img/data_genie_3.png)</kbd>
 
 Then it generates and performs a SQL query to answer the user question:
 
-![User interface 2](img/data_genie_2.png)
+<kbd>![User interface 2](img/data_genie_2.png)</kbd>
 
 ## Which version to install?
 
