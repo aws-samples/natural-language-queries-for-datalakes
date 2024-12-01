@@ -235,7 +235,7 @@ For instance in SQLite, the column and table names should be enclosed in double 
 
             # Display SQL result
             header_2 = "\n\n### Step 2b: Result of SQL query execution\n"
-            display_text += header_2 + sql_result + "\n"
+            display_text += header_2 + "```json" + sql_result + "\n```\n"
             if message_placeholder is not None:
                 message_placeholder.markdown(display_text + "▌")
             
