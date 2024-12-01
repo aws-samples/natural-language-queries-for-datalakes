@@ -64,6 +64,12 @@ class SqlQuery():
         s = s.replace("</sql_explanation>", "\n")
         s = s.replace("<sql_result>", "\n#### Sql query result\n")
         s = s.replace("</sql_result>", "\n\n")
+        s = s.replace("<THINKING>", "\n#### Thinking\n")
+        s = s.replace("</THINKING>", "\n")
+        s = s.replace("<SQL>", "\n#### Generated SQL\n```sql\n")
+        s = s.replace("</SQL>", "\n```\n")
+        s = s.replace("<EXPLANATION>", "\n#### Explanation\n")
+        s = s.replace("</EXPLANATION>", "\n")
 
         return s
 
@@ -229,7 +235,7 @@ For instance in SQLite, the column and table names should be enclosed in double 
 
             # Display SQL result
             header_2 = "\n\n### Step 2b: Result of SQL query execution\n"
-            display_text += header_2 + sql_result + "\n"
+            display_text += header_2 + "```json" + sql_result + "\n```\n"
             if message_placeholder is not None:
                 message_placeholder.markdown(display_text + "▌")
             
