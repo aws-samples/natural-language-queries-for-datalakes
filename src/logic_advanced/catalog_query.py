@@ -145,27 +145,30 @@ class CatalogQuery():
 
     def _format_output(self, s):
         """
-        Format output to be displayed in the chat window
+        Format output to be displayed in the chat window with improved Markdown formatting
         """
         s = s.replace("<answer>", "")
         s = s.replace("</answer>", "")
-        s = s.replace("<channel>", "- Channel: ")
+        s = s.replace("<channel>", "\n### 📊 Channel\n")
         s = s.replace("</channel>", "")
-        s = s.replace("<database>", "- Database: ")
+        s = s.replace("<database>", "\n### 🗄️ Database\n")
         s = s.replace("</database>", "")
-        s = s.replace("<tables>", "- Tables: **")
-        s = s.replace("</tables>", "**")
-        s = s.replace("<DISAMBIGUATED_QUESTION>", "\n##### Disambiguated question: \n")
+        s = s.replace("<tables>", "\n### 📝 Tables\n")
+        s = s.replace("</tables>", "")
+        s = s.replace("<DISAMBIGUATED_QUESTION>", "\n#### 🔍 Disambiguated Question\n")
         s = s.replace("</DISAMBIGUATED_QUESTION>", "\n")
-        s = s.replace("<DATABASE>", "\n##### Database selected: \n")
+        s = s.replace("<DATABASE>", "\n#### 🎯 Selected Database\n")
         s = s.replace("</DATABASE>", "\n")        
-        s = s.replace("<ENTITIES>", "\n##### Entities generated: \n")
-        s = s.replace("</ENTITIES>", "\n")
-        s = s.replace("<FILTERED_TABLES>", "\n##### List after LLM filtering (tables not required removed): \n")
+        s = s.replace("<ENTITIES>", "\n#### 🔑 Generated Entities\n```json")
+        s = s.replace("</ENTITIES>", "```\n")
+        s = s.replace("<FILTERED_TABLES>", "\n#### 📋 Filtered Tables\n*Tables not required have been removed:*\n")
         s = s.replace("</FILTERED_TABLES>", "\n")          
-        s = s.replace("<THINKING>", "\n##### Thinking: \n")
-        s = s.replace("</THINKING>", "\n")                                   
+        
+        # Clean up any extra newlines and spaces
+        s = s.replace("\n\n\n", "\n\n")
         s = s.replace("\n---", "")
+        s = s.strip()
+        
         return s
 
     def _stripTag(self, text, tag):
@@ -498,7 +501,7 @@ Format this filtered table list as a JSON list of table names, without any comme
         print("**************************************************")
         print()
 
-        display_response = f"""### Step 1.a - Table search\n\n"""        
+        display_response = f"""### Step 1.a - Database search\n\nIn this version of the workflow, database search will be done at step 1.c.\n\n"""        
         if message_placeholder is not None:
             message_placeholder.markdown(display_response + "▌")                
 
