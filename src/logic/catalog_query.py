@@ -255,7 +255,7 @@ Your third question here
         
         print("\nDatabase found: ", database)
 
-        display_response = f"""### Step 1.a - Table search
+        display_response = f"""### Step 1.a - Database search
 **Database found:** \n\n```\n{database}\n```\n\n"""
         if message_placeholder is not None:
             message_placeholder.markdown(display_response + "▌")

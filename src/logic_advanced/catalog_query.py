@@ -501,7 +501,7 @@ Format this filtered table list as a JSON list of table names, without any comme
         print("**************************************************")
         print()
 
-        display_response = f"""### Step 1.a - Database search\n\nIn this version of the workflow, database search will be done at step 1.c.\n\n"""        
+        display_response = f"""### Step 1.a - Database search\n\nIn this version of the workflow, database search will be done later.\n\n"""        
         if message_placeholder is not None:
             message_placeholder.markdown(display_response + "▌")                
 

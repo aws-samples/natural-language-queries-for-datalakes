@@ -56,15 +56,7 @@ class SqlQuery():
         """
         Format output to be displayed in the chat window
         """
-        s = s.replace("<result>", "")
-        s = s.replace("</result>", "")
-        s = s.replace("<sql>", "\n#### SQL query generated\n")
-        s = s.replace("</sql>", "\n")
-        s = s.replace("<sql_explanation>", "\n#### Explanation of SQL query generation\n")
-        s = s.replace("</sql_explanation>", "\n")
-        s = s.replace("<sql_result>", "\n#### Sql query result\n")
-        s = s.replace("</sql_result>", "\n\n")
-        s = s.replace("<THINKING>", "\n#### Thinking - Which column names are needed\n")
+        s = s.replace("<THINKING>", "\n#### Thinking - Which columns are needed\n")
         s = s.replace("</THINKING>", "\n")
         s = s.replace("<SQL>", "\n#### Generated SQL\n```sql\n")
         s = s.replace("</SQL>", "\n```\n")
