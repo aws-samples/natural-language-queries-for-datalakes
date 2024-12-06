@@ -8,6 +8,13 @@ if dgConfig.ENABLE_ADVANCED_MODE:
 else:
 	from logic.datagenie import DataGenie
 
+st.set_page_config(
+    page_title="Data Genie",
+    page_icon="📊",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
 # Perform auth and stop if not authenticated
 # Also display sidebar
 if dgConfig.ENABLE_AUTH == True:
@@ -17,7 +24,34 @@ if dgConfig.ENABLE_AUTH == True:
 # Also display sidebar
 #Auth.perform_auth(st, Config.SECRETS_MANAGER_ID)
 
-st.title("DataGenie")
+# Load custom CSS
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+
+st.title("Data Genie")
+
+# Custom CSS
+st.markdown("""
+    <style>
+    .stApp {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .main {
+        padding: 2rem;
+    }
+    .stButton button {
+        background-color: #FF9900;
+        color: white;
+        border-radius: 5px;
+    }
+    .stTextInput > div > div > input {
+        border-radius: 5px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 
 # Index catalog button
 index_catalog_button = st.button("Index Business Data Catalog")

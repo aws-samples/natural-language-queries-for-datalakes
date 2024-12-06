@@ -47,8 +47,8 @@ class SqlQuery():
         """
         s = s.replace("<result>", "")
         s = s.replace("</result>", "")
-        s = s.replace("<sql>", "\n#### SQL query generated\n")
-        s = s.replace("</sql>", "\n")
+        s = s.replace("<sql>", "\n#### SQL query generated\n```sql")
+        s = s.replace("</sql>", "```\n")
         s = s.replace("<sql_explanation>", "\n#### Explanation of SQL query generation\n")
         s = s.replace("</sql_explanation>", "\n")
         s = s.replace("<sql_result>", "\n#### Sql query result\n")

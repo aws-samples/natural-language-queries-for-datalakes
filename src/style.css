@@ -1,0 +1,40 @@
+/* Custom styling for markdown headers */
+/* Custom styling for markdown headers */
+h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+h1 { color: #004d99 !important; }  /* Darkest blue */
+h2 { color: #0066cc !important; }  /* Original blue */
+h3 { color: #1a8cff !important; }  /* Slightly lighter blue */
+h4 { color: #33a1ff !important; }  /* Even lighter blue */
+h5 { color: #66b5ff !important; }  /* Light blue */
+h6 { color: #99ccff !important; }  /* Lightest blue */
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
